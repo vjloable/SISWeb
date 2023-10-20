@@ -3,9 +3,6 @@ import os
 
 from flask import g
 from dotenv import load_dotenv
-from app.models.college_model import CollegeModel 
-from app.models.course_model import CourseModel 
-from app.models.student_model import StudentModel 
 
 load_dotenv()
 
@@ -15,25 +12,27 @@ class DatabaseService:
         self.password = os.getenv('MYSQL_PASSWORD')
         self.host = os.getenv('MYSQL_HOST')
         self.database = os.getenv('MYSQL_DATABASE')
+        self.connection = None
         print("Initialize database")
     
-    def __del__(self):
-        self.close()
-        print("Deleting database instance")
+    # def __del__(self):
+    #     self.close()
+    #     print("Deleting database instance")
 
     def connect(self):
-        connection = mysql.connector.connect(
-            user = self.user,
-            password = self.password,
-            host = self.host,
-            database = self.database
-            )
-        self.create_tables()
-        print("Connecting to database")
-        return connection
-    
-    def create_tables(self):
-        print("Creating tables")
-        CollegeModel.create_table()
-        CourseModel.create_table()
-        StudentModel.create_table()
+        if self.connection is None:
+            connection = mysql.connector.connect(
+                user = self.user,
+                password = self.password,
+                host = self.host,
+                database = self.database
+                )
+            self.connection = connection
+            print("Connecting to database")
+        return self.connection
+
+    def close(self):
+        print("Closing the database")
+        if self.connection:
+            self.connection.close()
+            self.connection = None
