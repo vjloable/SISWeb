@@ -22,8 +22,8 @@ class CollegeModel:
     def create_table(cursor):
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS Colleges( 
-            code char(20) NOT NULL,
-            name char(150) NOT NULL,
-            PRIMARY KEY (code)
+            Code char(20) NOT NULL,
+            Name char(150) NOT NULL,
+            PRIMARY KEY (Code)
         );
         """)
