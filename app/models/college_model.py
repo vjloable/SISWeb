@@ -12,8 +12,7 @@ class CollegeModel:
             VALUES ("{}", "{}");
             """.format(code, name)
             )
-            response = cursor.fetchall()
-            return {'success':'true', "response":str(response)}
+            return {'success':'true', "response":"Inserted {}, {} into Colleges table successfuly".format(code, name)}
         except MySQLError as e:
             return {'success':'false', 'response':str(e)}
         finally:
