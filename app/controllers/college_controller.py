@@ -11,11 +11,9 @@ def api_get_college():
 def api_add_college():
     add_college_request = request.get_json()
     if add_college_request:
-        print("add_college_request: {}".format(add_college_request))
         code = str(add_college_request['code']) 
         name = str(add_college_request['name'])
         colleges = CollegeModel().insert(code, name)
-        print("colleges response: {}".format(colleges))
         return jsonify(response = colleges), 201
     else:
         return jsonify({'error': 'Invalid request data'}), 400
