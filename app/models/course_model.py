@@ -3,13 +3,15 @@ class CourseModel:
         self.code = code
         self.name = name
 
+    @staticmethod
     def create_table(cursor):
-        cursor.execute("""
+        cursor.execute(
+        """
         CREATE TABLE IF NOT EXISTS Courses(
-            Code char(20) NOT NULL,
-            Name char(150) NOT NULL,
-            College char(20),
-            UNIQUE KEY CODE (CODE),
-            FOREIGN KEY (College) REFERENCES Colleges(ID) ON DELETE CASCADE,
-        ) ENGINE=INNODB;
+            code char(20) NOT NULL,
+            name char(150) NOT NULL,
+            college char(20),
+            PRIMARY KEY (code),
+            FOREIGN KEY (college) REFERENCES Colleges(id) ON DELETE CASCADE
+        );
         """)
