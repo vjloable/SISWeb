@@ -15,8 +15,6 @@ class DatabaseService:
         self.password = os.getenv('MYSQL_PASSWORD')
         self.host = os.getenv('MYSQL_HOST')
         self.database = os.getenv('MYSQL_DATABASE')
-        self.connection = None
-
         print("Initialize database")
     
     def __del__(self):
@@ -31,11 +29,10 @@ class DatabaseService:
                 host = self.host,
                 database = self.database
                 )
-            cursor = connection.cursor()
-            self.create_tables(cursor)
+            self.create_tables()
             print("Connecting to database")
-            self.connection = connection
-        return self.connection
+            return connection
+        return None
     
     def close(self):
         print("Closing the database")
@@ -43,8 +40,8 @@ class DatabaseService:
             self.connection.close()
             self.connection = None
     
-    def create_tables(self, cursor):
+    def create_tables(self):
         print("Creating tables")
-        CollegeModel.create_table(cursor)
-        CourseModel.create_table(cursor)
-        StudentModel.create_table(cursor)
+        CollegeModel.create_table()
+        CourseModel.create_table()
+        StudentModel.create_table()
