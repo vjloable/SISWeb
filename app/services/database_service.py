@@ -22,17 +22,15 @@ class DatabaseService:
         print("Deleting database instance")
 
     def connect(self):
-        if self.connection is None:
-            connection = mysql.connector.connect(
-                user = self.user,
-                password = self.password,
-                host = self.host,
-                database = self.database
-                )
-            self.create_tables()
-            print("Connecting to database")
-            return connection
-        return None
+        connection = mysql.connector.connect(
+            user = self.user,
+            password = self.password,
+            host = self.host,
+            database = self.database
+            )
+        self.create_tables()
+        print("Connecting to database")
+        return connection
     
     def create_tables(self):
         print("Creating tables")
