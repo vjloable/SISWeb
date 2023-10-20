@@ -7,7 +7,8 @@ class StudentModel:
         self.gender = gender
 
     @staticmethod
-    def create_table(cursor):
+    def create_table(connection):
+        cursor = connection.cursor()
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS Students(
             ID char(9) NOT NULL,

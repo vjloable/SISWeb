@@ -4,7 +4,8 @@ class CourseModel:
         self.name = name
 
     @staticmethod
-    def create_table(cursor):
+    def create_table(connection):
+        cursor = connection.cursor()
         cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS Courses(
