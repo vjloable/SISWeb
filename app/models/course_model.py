@@ -12,6 +12,6 @@ class CourseModel:
             name char(150) NOT NULL,
             college char(20),
             PRIMARY KEY (code),
-            FOREIGN KEY (college) REFERENCES Colleges(id) ON DELETE CASCADE
+            FOREIGN KEY (college) REFERENCES Colleges(code) ON DELETE CASCADE
         );
         """)
