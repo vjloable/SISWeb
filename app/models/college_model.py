@@ -7,10 +7,8 @@ class CollegeModel:
     def create_table(cursor):
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS Colleges( 
-            id char(20) NOT NULL,
+            code char(20) NOT NULL,
             name char(150) NOT NULL,
-            PRIMARY KEY (id)
+            PRIMARY KEY (code)
         );
         """)
-
-    # def insert(cursor):
