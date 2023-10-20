@@ -37,7 +37,7 @@ class DatabaseService:
             self.connection = connection
         return self.connection
     
-    @staticmethod
+    @classmethod
     def get_connection(self):
         return self.connection
     
