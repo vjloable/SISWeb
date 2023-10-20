@@ -37,10 +37,6 @@ class DatabaseService:
             self.connection = connection
         return self.connection
     
-    @classmethod
-    def get_connection(self):
-        return self.connection
-    
     def close(self):
         print("Closing the database")
         if self.connection:
