@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-top: 100px" class="ui container">
+  <h2>Student Information System</h2> 
+  
+  <div class="ui top attached tabular menu active">
+    <a class="item active" data-tab="tabStudents">Students</a>
+    <a class="item" data-tab="tabCourses">Courses</a>
+    <a class="item" data-tab="tabColleges">Colleges</a>
+  </div>
+
+  <div class="ui bottom attached tab segment active" data-tab="tabStudents">
+    <div class="ui placeholder segment fixed-height-container">
+      <div class="ui icon header">
+        <i class="dont icon"></i>
+        No students have been added yet
+      </div>
+      <div class="ui primary button">Add Student</div>
+    </div>
+  </div>
+  
+  <div class="ui bottom attached tab segment" data-tab="tabCourses">
+    <div class="ui placeholder segment fixed-height-container">
+      <div class="ui icon header">
+        <i class="dont icon"></i>
+        No courses have been added yet
+      </div>
+      <div class="ui primary button">Add Course</div>
+    </div>
+  </div>
+
+  <div class="ui bottom attached tab segment" data-tab="tabColleges">
+    <div class="ui placeholder segment fixed-height-container">
+      <div class="ui icon header">
+        <i class="dont icon"></i>
+        No colleges have been added yet
+      </div>
+      <div class="ui primary button">Add College</div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
