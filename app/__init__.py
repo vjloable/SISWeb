@@ -1,7 +1,8 @@
 import os
 
 from flask import Flask
-from app.services.database_service import DatabaseService
+from app.controllers.college_controller import college_blueprint
+from app.controllers.test_controller import test_blueprint
 
 def create_app():
     app = Flask(__name__)
@@ -10,11 +11,8 @@ def create_app():
     app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
     app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
     app.config['MYSQL_DATABASE'] = os.getenv('MYSQL_DATABASE')
-    
-    database_service = DatabaseService()
-    app.teardown_appcontext(database_service.close)
-    
-    # from app.controllers import <module>
-    # app.register_blueprint(<module>)
+
+    app.register_blueprint(test_blueprint)
+    app.register_blueprint(college_blueprint)
 
     return app
