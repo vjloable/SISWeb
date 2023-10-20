@@ -35,8 +35,11 @@ class DatabaseService:
             self.create_tables(cursor)
             print("Connecting to database")
             self.connection = connection
-        return connection
-        
+        return self.connection
+    
+    @staticmethod
+    def get_connection(self):
+        return self.connection
     
     def close(self):
         print("Closing the database")
