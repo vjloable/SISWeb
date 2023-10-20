@@ -8,10 +8,10 @@ class CourseModel:
         cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS Courses(
-            code char(20) NOT NULL,
-            name char(150) NOT NULL,
-            college char(20),
-            PRIMARY KEY (code),
-            FOREIGN KEY (college) REFERENCES Colleges(code) ON DELETE CASCADE
+            Code char(20) NOT NULL,
+            Name char(150) NOT NULL,
+            College char(20),
+            PRIMARY KEY (Code),
+            FOREIGN KEY (College) REFERENCES Colleges(Code) ON DELETE CASCADE
         );
         """)
