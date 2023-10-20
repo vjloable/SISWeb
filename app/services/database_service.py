@@ -34,12 +34,6 @@ class DatabaseService:
             return connection
         return None
     
-    def close(self):
-        print("Closing the database")
-        if self.connection:
-            self.connection.close()
-            self.connection = None
-    
     def create_tables(self):
         print("Creating tables")
         CollegeModel.create_table()
