@@ -22,8 +22,7 @@ def create_app(connection):
 
         return app
 
-def load_schema(connection):
-    cursor = connection.cursor()    
-    CollegeModel.create_table(cursor)
-    CourseModel.create_table(cursor)
-    StudentModel.create_table(cursor)
+def load_schema(connection):  
+    CollegeModel.create_table(connection)
+    CourseModel.create_table(connection)
+    StudentModel.create_table(connection)
