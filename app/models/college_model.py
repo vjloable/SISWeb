@@ -12,3 +12,5 @@ class CollegeModel:
             PRIMARY KEY (id)
         );
         """)
+
+    # def insert(cursor):
