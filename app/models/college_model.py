@@ -3,6 +3,21 @@ class CollegeModel:
         self.code = code
         self.name = name
 
+    @classmethod
+    def insert(self, cursor):
+        cursor.execute("""
+        INSERT INTO Colleges
+        VALUES ({}, {});
+        """.format(self.code, self.name)
+        )
+    
+    @classmethod
+    def list_all(self, cursor):
+        response = cursor.execute("""
+        SELECT * FROM Colleges;
+        """)
+        return response
+
     @staticmethod
     def create_table(cursor):
         cursor.execute("""
