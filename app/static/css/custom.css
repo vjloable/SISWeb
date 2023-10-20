@@ -1,0 +1,4 @@
+.fixed-height-container {
+    height: 500px;
+    overflow-y: auto;
+}
