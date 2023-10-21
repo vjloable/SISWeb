@@ -8,7 +8,9 @@ def display_tab_college():
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         response = CollegeModel().count_rows()
         if response['response'] > 0:
-            data = {'content': render_template('content/colleges_hasdata.html')}
+            colleges = CollegeModel().list_all()
+            headers = ["Code", "College"]
+            data = {'content': render_template('content/colleges_hasdata.html', headers=headers, colleges=colleges['response'])}
             return jsonify(data)
         else:
             data = {'content': render_template('content/colleges_nodata.html')}
