@@ -1,20 +1,20 @@
-<div style="max-height: 500px; overflow-y: scroll;">
-    <table class="ui single line table">
+<div style="min-height: 480px; max-height: 480px;">
+    <table class="ui single line celled table unstackable">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Registration Date</th>
-                <th>E-mail address</th>
-                <th>Premium Plan</th>
+                {% for head in headers %}
+                    <th>{{head}}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>John Lilki</td>
-                <td>September 14, 2013</td>
-                <td>jhlilk22@yahoo.com</td>
-                <td>No</td>
-            </tr>
+            {% for row in colleges %}
+                <tr>
+                    {% for data in row %}
+                        <td>{{data}}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
