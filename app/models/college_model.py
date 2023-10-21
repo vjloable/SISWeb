@@ -30,11 +30,8 @@ class CollegeModel:
             cursor.execute("""
             SELECT * FROM Colleges;
             """)
-            response = []
-            row = cursor.fetchall()
+            response = cursor.fetchall()
             connection.commit()
-            for data in row:
-                response.append({"code":str(data[0]), "name":str(data[1])})
             return {'success':'true', "response":response}
         except MySQLError as e:
             return {'success':'false', 'response':str(e)}
