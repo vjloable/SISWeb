@@ -2,14 +2,16 @@
     <table class="ui single line celled table unstackable">
         <thead>
             <tr>
+                <th>#</th>
                 {% for head in headers %}
                     <th>{{head}}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for row in colleges %}
+            {% for row in rows %}
                 <tr>
+                    <td>{{loop.index}}</td>
                     {% for data in row %}
                         <td>{{data}}</td>
                     {% endfor %}
