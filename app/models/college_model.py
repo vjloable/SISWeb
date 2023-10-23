@@ -6,7 +6,7 @@ class CollegeModel:
 
     #Create
     @staticmethod
-    def insert(self, code, name):
+    def insert(code, name):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
@@ -25,13 +25,13 @@ class CollegeModel:
     
     #Read
     @staticmethod
-    def read(self, code):
+    def read(code):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             SELECT * FROM Colleges 
-            WHERE code = '{}';
+            WHERE Code = '{}';
             """.format(str(code))
             )
             response = []
@@ -49,12 +49,12 @@ class CollegeModel:
 
     #Update
     @staticmethod
-    def update(self, code, name, new_code, new_name):
+    def update(code, name, new_code, new_name):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            UPDATE Colleges SET code = '{}', name = '{}' WHERE code = '{}';
+            UPDATE Colleges SET Code = '{}', Name = '{}' WHERE Code = '{}';
             """.format(new_code, new_name, code)
             )
             connection.commit()
@@ -67,12 +67,12 @@ class CollegeModel:
     
     #Delete
     @staticmethod
-    def delete(self, code):
+    def delete(code):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            DELETE FROM Colleges WHERE code = '{}';
+            DELETE FROM Colleges WHERE Code = '{}';
             """.format(code)
             )
             connection.commit()
@@ -85,7 +85,7 @@ class CollegeModel:
 
     #List
     @staticmethod
-    def list_all(self):
+    def list_all():
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
@@ -103,7 +103,7 @@ class CollegeModel:
 
     #Count
     @staticmethod
-    def count_rows(self):
+    def count_rows():
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
@@ -118,7 +118,6 @@ class CollegeModel:
         finally:
             cursor.close()
             connection.close()
-
 
     @staticmethod
     def create_table(connection):
