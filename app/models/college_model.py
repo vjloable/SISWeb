@@ -5,6 +5,7 @@ from mysql.connector import Error as MySQLError
 class CollegeModel:
 
     #Create
+    @staticmethod
     def insert(self, code, name):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
@@ -15,14 +16,15 @@ class CollegeModel:
             """.format(code, name)
             )
             connection.commit()
-            return {'success':'true', "response":"Inserted {}, {} into Colleges table successfuly".format(code, name)}
+            return {'success':True, 'response':"Inserted {}, {} into Colleges table successfuly".format(code, name)}
         except MySQLError as e:
-            return {'success':'false', 'response':str(e)}
+            return {'success':False, 'response':str(e)}
         finally:
             cursor.close()
             connection.close()
     
     #Read
+    @staticmethod
     def read(self, code):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
@@ -35,16 +37,18 @@ class CollegeModel:
             response = []
             data = cursor.fetchone()
             if data is not None:
+                
                 response = data
             connection.commit()
-            return {'success':'true', "response":response}
+            return {'success':True, 'response':response}
         except MySQLError as e:
-            return {'success':'false', 'response':str(e)}
+            return {'success':False, 'response':str(e)}
         finally:
             cursor.close()
             connection.close()
 
     #Update
+    @staticmethod
     def update(self, code, name, new_code, new_name):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
@@ -54,14 +58,15 @@ class CollegeModel:
             """.format(new_code, new_name, code)
             )
             connection.commit()
-            return {'success':'true', "response":"Updated {}, {} with {}, {} into Colleges table successfuly".format(code, name, new_code, new_name)}
+            return {'success':True, 'response':"Updated {}, {} with {}, {} into Colleges table successfuly".format(code, name, new_code, new_name)}
         except MySQLError as e:
-            return {'success':'false', 'response':str(e)}
+            return {'success':False, 'response':str(e)}
         finally:
             cursor.close()
             connection.close()
     
     #Delete
+    @staticmethod
     def delete(self, code):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
@@ -71,14 +76,15 @@ class CollegeModel:
             """.format(code)
             )
             connection.commit()
-            return {'success':'true', "response":"Deleted {} from Colleges table successfuly".format(code)}
+            return {'success':True, 'response':"Deleted {} from Colleges table successfuly".format(code)}
         except MySQLError as e:
-            return {'success':'false', 'response':str(e)}
+            return {'success':False, 'response':str(e)}
         finally:
             cursor.close()
             connection.close()
 
     #List
+    @staticmethod
     def list_all(self):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
@@ -88,14 +94,15 @@ class CollegeModel:
             """)
             response = cursor.fetchall()
             connection.commit()
-            return {'success':'true', "response":response}
+            return {'success':True, 'response':response}
         except MySQLError as e:
-            return {'success':'false', 'response':str(e)}
+            return {'success':False, 'response':str(e)}
         finally:
             cursor.close()
             connection.close()
 
     #Count
+    @staticmethod
     def count_rows(self):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
@@ -105,9 +112,9 @@ class CollegeModel:
             """)
             response = cursor.fetchone()[0]
             connection.commit()
-            return {'success':'true', "response":int(response)}
+            return {'success':True, 'response':int(response)}
         except MySQLError as e:
-            return {'success':'false', 'response':str(e)}
+            return {'success':False, 'response':str(e)}
         finally:
             cursor.close()
             connection.close()
