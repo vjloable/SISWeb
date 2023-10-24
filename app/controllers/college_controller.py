@@ -37,10 +37,9 @@ def api_update_college():
     request_body = request.get_json()
     if request_body:
         code = str(request_body['code']) 
-        name = str(request_body['name'])
         new_code = str(request_body['new_code'])
         new_name = str(request_body['new_name'])
-        model_response = CollegeModel.update(code, name, new_code, new_name)
+        model_response = CollegeModel.update(code, new_code, new_name)
         return CollegeView.setPayloadToJSON(201, payload=model_response)
     else:
         return CollegeView.setPayloadToJSON(400)
