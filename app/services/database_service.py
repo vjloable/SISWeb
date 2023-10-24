@@ -15,10 +15,6 @@ class DatabaseService:
         self.connection = None
         print("Initialize database")
     
-    # def __del__(self):
-    #     self.close()
-    #     print("Deleting database instance")
-
     def connect(self):
         if self.connection is None:
             connection = mysql.connector.connect(
