@@ -1,8 +1,10 @@
 import os
 
 from flask import Flask
-from app.controllers.college_controller import college_blueprint
 from app.controllers.index_controller import index_blueprint
+from app.controllers.college_controller import college_blueprint
+from app.controllers.course_controller import course_blueprint
+from app.controllers.student_controller import student_blueprint
 from app.models.college_model import CollegeModel 
 from app.models.course_model import CourseModel 
 from app.models.student_model import StudentModel
@@ -19,6 +21,8 @@ def create_app(connection):
 
         app.register_blueprint(index_blueprint)
         app.register_blueprint(college_blueprint)
+        app.register_blueprint(course_blueprint)
+        app.register_blueprint(student_blueprint)
 
         return app
 
