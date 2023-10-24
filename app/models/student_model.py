@@ -6,17 +6,17 @@ class StudentModel:
 
     #Create
     @staticmethod
-    def insert(id, firstname, lastname, course_id, year, gender):
+    def insert(student_id, firstname, lastname, course_id, year, gender):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             INSERT INTO Students
             VALUES ("{}", "{}", "{}", "{}", "{}", "{}");
-            """.format(id, firstname, lastname, course_id, year, gender)
+            """.format(student_id, firstname, lastname, course_id, year, gender)
             )
             connection.commit()
-            return {'success':True, 'response':"Inserted {}, {}, {}, {}, {}, {} into Students table successfuly".format(id, firstname, lastname, course_id, year, gender)}
+            return {'success':True, 'response':"Inserted {}, {}, {}, {}, {}, {} into Students table successfuly".format(student_id, firstname, lastname, course_id, year, gender)}
         except MySQLError as e:
             return {'success':False, 'response':str(e)}
         finally:
@@ -25,14 +25,14 @@ class StudentModel:
     
     #Read
     @staticmethod
-    def read(id):
+    def read(student_id):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             SELECT * FROM Students 
             WHERE ID = '{}';
-            """.format(str(id))
+            """.format(str(student_id))
             )
             response = []
             data = cursor.fetchone()
@@ -49,22 +49,16 @@ class StudentModel:
 
     #Update
     @staticmethod
-    def update(id, firstname, lastname, course_id, year, gender, new_id, new_firstname, new_lastname, new_course_id, new_year, new_gender):
+    def update(student_id, new_student_id, new_firstname, new_lastname, new_course_id, new_year, new_gender):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            # ID
-            # Firstname
-            # Lastname
-            # Course
-            # Year
-            # Gender
             cursor.execute("""
             UPDATE Students SET ID = '{}', Firstname = '{}', Lastname = '{}', Course = '{}', Year = '{}', Gender = '{}' WHERE ID = '{}';
-            """.format(new_id, new_firstname, new_lastname, new_course_id, new_year, new_gender, id)
+            """.format(new_student_id, new_firstname, new_lastname, new_course_id, new_year, new_gender, id)
             )
             connection.commit()
-            return {'success':True, 'response':"Updated {}, {}, {}, {}, {}, {} with {}, {}, {},  into Students table successfuly".format(id, firstname, lastname, course_id, year, gender, new_id, new_firstname, new_lastname, new_course_id, new_year, new_gender)}
+            return {'success':True, 'response':"Updated {} into Students table successfuly".format(student_id)}
         except MySQLError as e:
             return {'success':False, 'response':str(e)}
         finally:
@@ -73,13 +67,13 @@ class StudentModel:
     
     #Delete
     @staticmethod
-    def delete(id):
+    def delete(student_id):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             DELETE FROM Students WHERE ID = '{}';
-            """.format(id)
+            """.format(student_id)
             )
             connection.commit()
             return {'success':True, 'response':"Deleted {} from Students table successfuly".format(id)}

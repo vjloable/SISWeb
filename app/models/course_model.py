@@ -12,7 +12,7 @@ class CourseModel:
         try:
             cursor.execute("""
             INSERT INTO Courses
-            VALUES ("{}", "{}");
+            VALUES ("{}", "{}", "{}");
             """.format(code, name, college_code)
             )
             connection.commit()
@@ -49,7 +49,7 @@ class CourseModel:
 
     #Update
     @staticmethod
-    def update(code, name, college_code, new_code, new_name, new_college_code):
+    def update(code, new_code, new_name, new_college_code):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
@@ -58,7 +58,7 @@ class CourseModel:
             """.format(new_code, new_name, new_college_code, code)
             )
             connection.commit()
-            return {'success':True, 'response':"Updated {}, {}, {} with {}, {}, {} into Courses table successfuly".format(code, name, college_code, new_code, new_name, new_college_code)}
+            return {'success':True, 'response':"Updated {} into Courses table successfuly".format(code)}
         except MySQLError as e:
             return {'success':False, 'response':str(e)}
         finally:
