@@ -7,3 +7,7 @@
 body {
     height: 88%;
 }
+
+.column {
+    max-width: 450px;
+}
