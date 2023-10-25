@@ -16,6 +16,10 @@ def api_display_tab_student():
     else:
         return StudentView.setPayloadToJSON(403)
 
+@student_blueprint.route('/student/create', methods=['GET'])
+def create_student():
+    return StudentView.renderCreateFormAsView()
+
 @student_blueprint.route('/api/student/create', methods=['POST'])
 def api_create_student():
     request_body = request.get_json()
