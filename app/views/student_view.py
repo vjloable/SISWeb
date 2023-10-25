@@ -3,14 +3,24 @@ from flask import render_template, jsonify, make_response
 class StudentView:
 
     @staticmethod
+    def renderCreateFormAsView():
+        rendered_view = render_template('tab_contents/form_template.html', form_content="Student")
+        return rendered_view
+
+    @staticmethod
     def renderTableAsJSON(model_response):
         headers = ["ID", "First Name", "Last Name", "Course", "Year", "Gender"]
-        data = {'content': render_template('content/table_template.html', headers=headers, rows=model_response['response'])}
+        content = render_template('tab_contents/table_template.html', headers=headers, rows=model_response['response'])
+        form = render_template('tab_contents/form_template.html', form_content="Student")
+        data = {'content': content, 'form': form}
         return jsonify(data)
     
     @staticmethod
     def renderNoDataAsJSON():
-        data = {'content': render_template('content/nodata_template.html', description="students", button_text="Student")}
+        content = render_template('tab_contents/nodata_template.html', description="students", button_text="Student")
+        form = render_template('tab_contents/form_template.html', form_content="College")
+        data = {'content': content, 'form': form}
+        return jsonify(data)
         return jsonify(data)
     
     @staticmethod
