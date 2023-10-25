@@ -16,6 +16,10 @@ def api_display_tab_course():
     else:
         return CourseView.setPayloadToJSON(403)
 
+@course_blueprint.route('/course/create', methods=['GET'])
+def create_course():
+    return CourseView.renderCreateFormAsView()
+
 @course_blueprint.route('/api/course/create', methods=['POST'])
 def api_create_course():
     request_body = request.get_json()
