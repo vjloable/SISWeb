@@ -1,0 +1,50 @@
+<form class="ui large form" id="addStudentForm">
+    <div class="ui stacked segment">
+        <h3 class="ui header">
+        Add Student Form
+        </h3>
+        <div class="field">
+            <input type="text" name="student_id" placeholder="Student ID">
+        </div>
+        <div class="field">
+            <input type="text" name="firstname" placeholder="First Name">
+        </div>
+        <div class="field">
+            <input type="text" name="lastname" placeholder="Last Name">
+        </div>
+        <div class="field">
+            <input type="text" name="course_id" placeholder="Course ID">
+        </div>
+        <div class="field">
+            <div class="ui fluid selection dropdown">
+                <input type="hidden" name="year">
+                <i class="dropdown icon"></i>
+                <div class="default text">Year Level</div>
+                <div class="menu">
+                    <div class="item" data-value="1st">1st</div>
+                    <div class="item" data-value="2nd">2nd</div>
+                    <div class="item" data-value="3rd">3rd</div>
+                    <div class="item" data-value="4th">4th</div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui fluid selection dropdown">
+                <input type="hidden" name="gender">
+                <i class="dropdown icon"></i>
+                <div class="default text">Gender</div>
+                <div class="menu">
+                    <div class="item" data-value="Man">Man</div>
+                    <div class="item" data-value="Woman">Woman</div>
+                    <div class="item" data-value="Transgender">Transgender</div>
+                    <div class="item" data-value="Non-binary/Non-conforming">Non-binary/Non-conforming</div>
+                    <div class="item" data-value="Prefer not to respond">Prefer not to respond</div>
+                </div>
+            </div>
+        </div>
+        <div class="ui fluid large submit green button">Add</div>
+        <div class="ui divider"></div>
+        <div class="ui fluid large cancel-button button">Cancel</div>
+        <div class="ui error message"></div>
+    </div>
+</form>
