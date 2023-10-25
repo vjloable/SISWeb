@@ -18,7 +18,7 @@ def api_display_tab_college():
 
 @college_blueprint.route('/college/create', methods=['GET'])
 def create_college():
-    return CollegeView.viewCreateForm()
+    return CollegeView.renderCreateFormAsView()
 
 @college_blueprint.route('/api/college/create', methods=['POST'])
 def api_create_college():
