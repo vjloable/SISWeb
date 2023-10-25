@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-top: 100px;" class="ui container"></div>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      {% if form_content == "College" %}
+        {% include "./form_contents/add_student.html" %}
+      {% elif form_content == "Course" %}
+        {% include "./form_contents/add_student.html" %}
+      {% elif form_content == "Student" %}
+        {% include "./form_contents/add_student.html" %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
