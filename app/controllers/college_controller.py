@@ -16,6 +16,10 @@ def api_display_tab_college():
     else:
         return CollegeView.setPayloadToJSON(403)
 
+@college_blueprint.route('/college/create', methods=['GET'])
+def create_college():
+    return CollegeView.viewCreateForm()
+
 @college_blueprint.route('/api/college/create', methods=['POST'])
 def api_create_college():
     request_body = request.get_json()
