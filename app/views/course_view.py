@@ -11,7 +11,8 @@ class CourseView:
     def renderTableAsJSON(render_model):
         headers = ["Code", "Name", "College"]
         content = render_template('tab_contents/table_template.html', headers=headers, rows=render_model)
-        data = {'content': content}
+        buttons = render_template('tab_contents/button_controls_template.html', button_id='Course')
+        data = {'content': content, 'buttons': buttons}
         return jsonify(data)
     
     @staticmethod
