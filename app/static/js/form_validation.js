@@ -121,8 +121,8 @@ $('#addStudentForm').form({
         }
       ]
     },
-    course_id: {
-      identifier: 'course_id',
+    course: {
+      identifier: 'course',
       rules: [
         {
           type   : 'empty',
@@ -152,13 +152,13 @@ $('#addStudentForm').form({
   onSuccess: function () {
     var allFields = $('#addStudentForm').form('get values');
     var data = {
-        "student_id": allFields['student_id'], 
+        "student_id": (allFields['student_id']), 
         "firstname": allFields['firstname'],
         "lastname": allFields['lastname'],
-        "course_id": allFields['course_id'], 
+        "course": allFields['course'], 
         "year": allFields['year'],
-        "gender": allFields['gender'],
-      }
+        "gender": allFields['gender']
+      };
     $.ajax({
       url: "/api/student/create",
       type: "POST",
