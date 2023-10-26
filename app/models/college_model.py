@@ -85,18 +85,29 @@ class CollegeModel:
 
     #List
     @staticmethod
-    def list_all(formatted=false):
+    def list_all(query=None):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            cursor.execute("""
-            SELECT * FROM Colleges;
-            """)
-            results = list(cursor.fetchall())
-            connection.commit()
-            # if formatted:
-            #     results = 
-            return {'success':True, 'results':results}
+            if query is None:
+                cursor.execute("""
+                SELECT * FROM Colleges;
+                """)
+                results = list(cursor.fetchall())
+                connection.commit()
+                return {'success':True, 'results':results}
+            else:
+                cursor.execute("""
+                SELECT * FROM Colleges 
+                WHERE Code LIKE '%{}%' OR Name LIKE '%{}%';
+                """.format(query, query))
+                results_raw = list(cursor.fetchall())
+                results = []
+                for result in results_raw:
+                    results.append({"name"  : str(result[1]), "value" : str(result[0])})
+                success = len(results) > 0
+                connection.commit()
+                return {'success':success, 'results':results}
         except MySQLError as e:
             return {'success':False, 'results':str(e)}
         finally:
