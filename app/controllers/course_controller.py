@@ -64,7 +64,16 @@ def api_delete_course():
     else:
         return CourseView.setPayloadToJSON(400)
 
-@course_blueprint.route('/api/course/list', methods=['GET'])
+@course_blueprint.route('/api/course/list', methods=['GET','POST'])
 def api_get_courses():
-    model_response = CourseModel.list_all()
-    return CourseView.setPayloadToJSON(201, payload=model_response)
+    if request.method == 'POST':
+        request_body = request.get_json()
+        if request_body:
+            query = str(request_body['query'])
+            model_response = CourseModel.list_all(query)
+            return CourseView.setPayloadToJSON(201, payload=model_response)
+        else:
+            return CourseView.setPayloadToJSON(400)
+    else:
+        model_response = CourseModel.list_all()
+        return CourseView.setPayloadToJSON(201, payload=model_response)
