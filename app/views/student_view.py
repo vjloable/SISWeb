@@ -18,9 +18,7 @@ class StudentView:
     @staticmethod
     def renderNoDataAsJSON():
         content = render_template('tab_contents/nodata_template.html', description="students", button_text="Student")
-        form = render_template('tab_contents/form_template.html', form_content="College")
-        data = {'content': content, 'form': form}
-        return jsonify(data)
+        data = {'content': content}
         return jsonify(data)
     
     @staticmethod
