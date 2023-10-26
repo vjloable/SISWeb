@@ -92,7 +92,7 @@ class CollegeModel:
             cursor.execute("""
             SELECT * FROM Colleges;
             """)
-            response = cursor.fetchall()
+            response = list(cursor.fetchall())
             connection.commit()
             return {'success':True, 'response':response}
         except MySQLError as e:
