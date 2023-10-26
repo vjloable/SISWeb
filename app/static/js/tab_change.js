@@ -8,6 +8,7 @@ $(document).ready(function () {
     },
     success: function (response) {
       $('#'+activeTabName).html(response.content);
+      $('#'+activeTabName+'Controls').html(response.buttons);
     },
     error: function (error) {
       console.log('Error:', error);
@@ -29,6 +30,7 @@ $('.menu .item').tab({
       },
       success: function (response) {
         $('#'+activeTabName).html(response.content);
+        $('#'+activeTabName+'Controls').html(response.buttons);
       },
       error: function (error) {
         console.log('Error:', error);
