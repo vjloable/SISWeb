@@ -1,3 +1,45 @@
+$('#addCollegeForm').form({
+  fields: {
+    code: {
+      identifier: 'code',
+      rules: [
+        {
+          type: 'empty',
+          prompt: 'Please enter the college code'
+        }
+      ]
+    },
+    name: {
+      identifier: 'name',
+      rules: [
+        {
+          type   : 'empty',
+          prompt : 'Please enter a college name'
+        }
+      ]
+    },
+  },
+  onSuccess: function () {
+    var allFields = $('#addCollegeForm').form('get values');
+    var data = {
+        "code": allFields['code'], 
+        "name": allFields['name']
+      }
+    $.ajax({
+      url: "/api/college/create",
+      type: "POST",
+      data: JSON.stringify(data),
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+      success: function(){
+        window.location.href = '/';
+      }
+    })
+
+    return false;
+  }
+});
+
 // Form Validator Script
 $('#addStudentForm').form({
   fields: {
@@ -57,8 +99,7 @@ $('#addStudentForm').form({
     },
   },
   onSuccess: function () {
-    // Handle form submission if the input is valid.
-    $(this).closest('.ui.modal').modal('hide');
+    window.location.href = '/';
     return false;
   }
 });
