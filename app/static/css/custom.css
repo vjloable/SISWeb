@@ -4,6 +4,10 @@
     overflow-y: auto;
 }
 
+.fixed-small-container {
+    height: 40px;
+}
+
 body {
     height: 88%;
 }
