@@ -1,12 +1,12 @@
-$(document).on('click', '#showAddCollegeModal', function() {
+$(document).on('click', '#gotoAddCollege', function() {
   window.location.href = '/college/create';
 });
 
-$(document).on('click', '#showAddCourseModal', function() {
+$(document).on('click', '#gotoAddCourse', function() {
   window.location.href = '/course/create';
 });
 
-$(document).on('click', '#showAddStudentModal', function() {
+$(document).on('click', '#gotoAddStudent', function() {
   window.location.href = '/student/create';
 });
 
