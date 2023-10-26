@@ -16,9 +16,9 @@ class CollegeModel:
             """.format(code, name)
             )
             connection.commit()
-            return {'success':True, 'response':"Inserted ({}, {}) into Colleges table successfuly".format(code, name)}
+            return {'success':True, 'results':"Inserted ({}, {}) into Colleges table successfuly".format(code, name)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -34,15 +34,15 @@ class CollegeModel:
             WHERE Code = '{}';
             """.format(str(code))
             )
-            response = []
+            results = []
             data = cursor.fetchone()
             if data is not None:
                 
-                response = data
+                results = data
             connection.commit()
-            return {'success':True, 'response':response}
+            return {'success':True, 'results':results}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -58,9 +58,9 @@ class CollegeModel:
             """.format(new_code, new_name, code)
             )
             connection.commit()
-            return {'success':True, 'response':"Updated {} into Colleges table successfuly".format(code)}
+            return {'success':True, 'results':"Updated {} into Colleges table successfuly".format(code)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -76,27 +76,29 @@ class CollegeModel:
             """.format(code)
             )
             connection.commit()
-            return {'success':True, 'response':"Deleted {} from Colleges table successfuly".format(code)}
+            return {'success':True, 'results':"Deleted {} from Colleges table successfuly".format(code)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
 
     #List
     @staticmethod
-    def list_all():
+    def list_all(formatted=false):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             SELECT * FROM Colleges;
             """)
-            response = list(cursor.fetchall())
+            results = list(cursor.fetchall())
             connection.commit()
-            return {'success':True, 'response':response}
+            # if formatted:
+            #     results = 
+            return {'success':True, 'results':results}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -110,11 +112,11 @@ class CollegeModel:
             cursor.execute("""
             SELECT COUNT(*) FROM Colleges;
             """)
-            response = cursor.fetchone()[0]
+            results = cursor.fetchone()[0]
             connection.commit()
-            return {'success':True, 'response':int(response)}
+            return {'success':True, 'results':int(results)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()

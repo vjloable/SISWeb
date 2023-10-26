@@ -7,10 +7,10 @@ student_blueprint = Blueprint('student', __name__)
 @student_blueprint.route('/api/tabStudents', methods=['GET'])
 def api_display_tab_student():
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        response = StudentModel.count_rows()
-        if response['response'] > 0:
+        results = StudentModel.count_rows()
+        if results['results'] > 0:
             model_response = StudentModel.list_all()
-            render_model = model_response['response']
+            render_model = model_response['results']
             return StudentView.renderTableAsJSON(render_model)
         else:
             return StudentView.renderNoDataAsJSON()

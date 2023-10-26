@@ -16,9 +16,9 @@ class StudentModel:
             """.format(student_id, firstname, lastname, course_id, year, gender)
             )
             connection.commit()
-            return {'success':True, 'response':"Inserted {}, {}, {}, {}, {}, {} into Students table successfuly".format(student_id, firstname, lastname, course_id, year, gender)}
+            return {'success':True, 'results':"Inserted {}, {}, {}, {}, {}, {} into Students table successfuly".format(student_id, firstname, lastname, course_id, year, gender)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -34,15 +34,15 @@ class StudentModel:
             WHERE ID = '{}';
             """.format(str(student_id))
             )
-            response = []
+            results = []
             data = cursor.fetchone()
             if data is not None:
                 
-                response = data
+                results = data
             connection.commit()
-            return {'success':True, 'response':response}
+            return {'success':True, 'results':results}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -58,9 +58,9 @@ class StudentModel:
             """.format(new_student_id, new_firstname, new_lastname, new_course_id, new_year, new_gender, id)
             )
             connection.commit()
-            return {'success':True, 'response':"Updated {} into Students table successfuly".format(student_id)}
+            return {'success':True, 'results':"Updated {} into Students table successfuly".format(student_id)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -76,9 +76,9 @@ class StudentModel:
             """.format(student_id)
             )
             connection.commit()
-            return {'success':True, 'response':"Deleted {} from Students table successfuly".format(id)}
+            return {'success':True, 'results':"Deleted {} from Students table successfuly".format(id)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -92,11 +92,11 @@ class StudentModel:
             cursor.execute("""
             SELECT * FROM Students;
             """)
-            response = list(cursor.fetchall())
+            results = list(cursor.fetchall())
             connection.commit()
-            return {'success':True, 'response':response}
+            return {'success':True, 'results':results}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -110,11 +110,11 @@ class StudentModel:
             cursor.execute("""
             SELECT COUNT(*) FROM Students;
             """)
-            response = cursor.fetchone()[0]
+            results = cursor.fetchone()[0]
             connection.commit()
-            return {'success':True, 'response':int(response)}
+            return {'success':True, 'results':int(results)}
         except MySQLError as e:
-            return {'success':False, 'response':str(e)}
+            return {'success':False, 'results':str(e)}
         finally:
             cursor.close()
             connection.close()

@@ -7,10 +7,10 @@ college_blueprint = Blueprint('college', __name__)
 @college_blueprint.route('/api/tabColleges', methods=['GET'])
 def api_display_tab_college():
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        response = CollegeModel.count_rows()
-        if response['response'] > 0:
+        results = CollegeModel.count_rows()
+        if results['results'] > 0:
             model_response = CollegeModel.list_all()
-            render_model = model_response['response']
+            render_model = model_response['results']
             return CollegeView.renderTableAsJSON(render_model)
         else:
             return CollegeView.renderNoDataAsJSON()
@@ -63,7 +63,11 @@ def api_delete_college():
     else:
         return CollegeView.setPayloadToJSON(400)
 
-@college_blueprint.route('/api/college/list', methods=['GET'])
+@college_blueprint.route('/api/college/list', methods=['GET', 'POST'])
 def api_get_colleges():
-    model_response = CollegeModel.list_all()
-    return CollegeView.setPayloadToJSON(201, payload=model_response)
+    if flask.request.method == 'POST':
+        model_response = CollegeModel.list_all()
+        return CollegeView.setPayloadToJSON(201, payload=model_response)
+    else:
+        model_response = CollegeModel.list_all()
+        return CollegeView.setPayloadToJSON(201, payload=model_response)

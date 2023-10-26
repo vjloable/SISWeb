@@ -7,10 +7,10 @@ course_blueprint = Blueprint('course', __name__)
 @course_blueprint.route('/api/tabCourses', methods=['GET'])
 def api_display_tab_course():
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        response = CourseModel.count_rows()
-        if response['response'] > 0:
+        results = CourseModel.count_rows()
+        if results['results'] > 0:
             model_response = CourseModel.list_all()
-            render_model = model_response['response']
+            render_model = model_response['results']
             return CourseView.renderTableAsJSON(render_model)
         else:
             return CourseView.renderNoDataAsJSON()

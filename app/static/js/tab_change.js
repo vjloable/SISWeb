@@ -6,9 +6,9 @@ $(document).ready(function () {
     beforeSend: function() {
       $('#'+activeTabName).html('<div class="ui indeterminate text loader">Fetching data</div>');
     },
-    success: function (response) {
-      $('#'+activeTabName).html(response.content);
-      $('#'+activeTabName+'Controls').html(response.buttons);
+    success: function (results) {
+      $('#'+activeTabName).html(results.content);
+      $('#'+activeTabName+'Controls').html(results.buttons);
     },
     error: function (error) {
       console.log('Error:', error);
@@ -28,9 +28,9 @@ $('.menu .item').tab({
       beforeSend: function() {
         $('#'+activeTabName).html('<div class="ui indeterminate text loader">Fetching data</div>');
       },
-      success: function (response) {
-        $('#'+activeTabName).html(response.content);
-        $('#'+activeTabName+'Controls').html(response.buttons);
+      success: function (results) {
+        $('#'+activeTabName).html(results.content);
+        $('#'+activeTabName+'Controls').html(results.buttons);
       },
       error: function (error) {
         console.log('Error:', error);
