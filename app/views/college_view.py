@@ -20,7 +20,7 @@ class CollegeView:
         content = render_template('tab_contents/nodata_template.html', description="colleges", button_text="College")
         data = {'content': content}
         return jsonify(data)
-    
+
     @staticmethod
     def setPayloadToJSON(status_code, payload={}):
         final_payload = payload
