@@ -40,7 +40,58 @@ $('#addCollegeForm').form({
   }
 });
 
-// Form Validator Script
+$('#addCourseForm').form({
+  fields: {
+    code: {
+      identifier: 'code',
+      rules: [
+        {
+          type: 'empty',
+          prompt: 'Please enter the course code'
+        }
+      ]
+    },
+    name: {
+      identifier: 'name',
+      rules: [
+        {
+          type   : 'empty',
+          prompt : 'Please enter a course name'
+        }
+      ]
+    },
+    college: {
+      identifier: 'college',
+      rules: [
+        {
+          type   : 'empty',
+          prompt : 'Please enter the college for this course'
+        }
+      ]
+    },
+  },
+  onSuccess: function () {
+    var allFields = $('#addCourseForm').form('get values');
+    var data = {
+        "code": allFields['code'], 
+        "name": allFields['name'],
+        "college": allFields['college'],
+      }
+    $.ajax({
+      url: "/api/course/create",
+      type: "POST",
+      data: JSON.stringify(data),
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+      success: function(){
+        window.location.href = '/';
+      }
+    })
+
+    return false;
+  }
+});
+
 $('#addStudentForm').form({
   fields: {
     student_id: {
@@ -99,7 +150,26 @@ $('#addStudentForm').form({
     },
   },
   onSuccess: function () {
-    window.location.href = '/';
+    var allFields = $('#addStudentForm').form('get values');
+    var data = {
+        "student_id": allFields['student_id'], 
+        "firstname": allFields['firstname'],
+        "lastname": allFields['lastname'],
+        "course_id": allFields['course_id'], 
+        "year": allFields['year'],
+        "gender": allFields['gender'],
+      }
+    $.ajax({
+      url: "/api/student/create",
+      type: "POST",
+      data: JSON.stringify(data),
+      contentType:"application/json; charset=utf-8",
+      dataType:"json",
+      success: function(){
+        window.location.href = '/';
+      }
+    })
+
     return false;
   }
 });
