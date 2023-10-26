@@ -23,15 +23,18 @@ def create_course():
 
 @course_blueprint.route('/api/course/create', methods=['POST'])
 def api_create_course():
-    request_body = request.get_json()
-    if request_body:
-        code = str(request_body['code']) 
-        name = str(request_body['name'])
-        college = str(request_body['college'])
-        model_response = CourseModel.insert(code, name, college)
-        return CourseView.setPayloadToJSON(201, payload=model_response)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        request_body = request.get_json()
+        if request_body:
+            code = str(request_body['code']) 
+            name = str(request_body['name'])
+            college = str(request_body['college'])
+            model_response = CourseModel.insert(code, name, college)
+            return CourseView.setPayloadToJSON(201, payload=model_response)
+        else:
+            return CourseView.setPayloadToJSON(400)
     else:
-        return CourseView.setPayloadToJSON(400)
+        return CollegeView.setPayloadToJSON(403)
 
 @course_blueprint.route('/api/course/read/<code>', methods=['GET'])
 def api_read_course(code):

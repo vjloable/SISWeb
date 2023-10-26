@@ -23,18 +23,21 @@ def create_student():
 
 @student_blueprint.route('/api/student/create', methods=['POST'])
 def api_create_student():
-    request_body = request.get_json()
-    if request_body:
-        student_id = str(request_body['student_id'])
-        firstname = str(request_body['firstname'])
-        lastname = str(request_body['lastname'])
-        course_id = str(request_body['course_id'])
-        year = str(request_body['year'])
-        gender = str(request_body['gender'])
-        model_response = StudentModel.insert(id, firstname, lastname, course_id, year, gender)
-        return StudentView.setPayloadToJSON(201, payload=model_response)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':    
+        request_body = request.get_json()
+        if request_body:
+            student_id = str(request_body['student_id'])
+            firstname = str(request_body['firstname'])
+            lastname = str(request_body['lastname'])
+            course_id = str(request_body['course_id'])
+            year = str(request_body['year'])
+            gender = str(request_body['gender'])
+            model_response = StudentModel.insert(id, firstname, lastname, course_id, year, gender)
+            return StudentView.setPayloadToJSON(201, payload=model_response)
+        else:
+            return StudentView.setPayloadToJSON(400)
     else:
-        return StudentView.setPayloadToJSON(400)
+        return CollegeView.setPayloadToJSON(403)
 
 @student_blueprint.route('/api/student/read/<code>', methods=['GET'])
 def api_read_student(code):

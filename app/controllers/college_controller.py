@@ -23,14 +23,18 @@ def create_college():
 
 @college_blueprint.route('/api/college/create', methods=['POST'])
 def api_create_college():
-    request_body = request.get_json()
-    if request_body:
-        code = str(request_body['code']) 
-        name = str(request_body['name'])
-        model_response = CollegeModel.insert(code, name)
-        return CollegeView.setPayloadToJSON(201, payload=model_response)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        request_body = request.get_json()
+        if request_body:
+            code = str(request_body['code']) 
+            name = str(request_body['name'])
+            model_response = CollegeModel.insert(code, name)
+            return CollegeView.setPayloadToJSON(201, payload=model_response)
+        else:
+            return CollegeView.setPayloadToJSON(400)
     else:
-        return CollegeView.setPayloadToJSON(400)
+        return CollegeView.setPayloadToJSON(403)
+    
 
 @college_blueprint.route('/api/college/read/<code>', methods=['GET'])
 def api_read_college(code):
