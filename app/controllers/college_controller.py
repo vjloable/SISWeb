@@ -10,7 +10,8 @@ def api_display_tab_college():
         response = CollegeModel.count_rows()
         if response['response'] > 0:
             model_response = CollegeModel.list_all()
-            return CollegeView.renderTableAsJSON(**model_response)
+            render_model = model_response['response']
+            return CollegeView.renderTableAsJSON(render_model)
         else:
             return CollegeView.renderNoDataAsJSON()
     else:

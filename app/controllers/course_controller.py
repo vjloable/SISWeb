@@ -10,7 +10,8 @@ def api_display_tab_course():
         response = CourseModel.count_rows()
         if response['response'] > 0:
             model_response = CourseModel.list_all()
-            return CourseView.renderTableAsJSON(**model_response)
+            render_model = model_response['response']
+            return CourseView.renderTableAsJSON(render_model)
         else:
             return CourseView.renderNoDataAsJSON()
     else:
