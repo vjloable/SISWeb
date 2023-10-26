@@ -8,9 +8,9 @@ class CollegeView:
         return rendered_view
 
     @staticmethod
-    def renderTableAsJSON(model_response):
+    def renderTableAsJSON(render_model):
         headers = ["Code", "College"]
-        content = render_template('tab_contents/table_template.html', headers=headers, rows=model_response['response'])
+        content = render_template('tab_contents/table_template.html', headers=headers, rows=render_model)
         data = {'content': content}
         return jsonify(data)
     

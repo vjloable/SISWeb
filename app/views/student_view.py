@@ -8,9 +8,9 @@ class StudentView:
         return rendered_view
 
     @staticmethod
-    def renderTableAsJSON(model_response):
+    def renderTableAsJSON(render_model):
         headers = ["ID", "First Name", "Last Name", "Course", "Year", "Gender"]
-        content = render_template('tab_contents/table_template.html', headers=headers, rows=model_response['response'])
+        content = render_template('tab_contents/table_template.html', headers=headers, rows=render_model)
         form = render_template('tab_contents/form_template.html', form_content="Student")
         data = {'content': content, 'form': form}
         return jsonify(data)
