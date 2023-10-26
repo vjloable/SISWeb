@@ -1,4 +1,4 @@
-<form class="ui large form" id="addCourseForm">
+<form class="ui large form" id="addCourseForm" autocomplete="off">
     <div class="ui stacked segment">
         <h3 class="ui header">
         Add Course Form
@@ -10,7 +10,11 @@
             <input type="text" name="name" placeholder="Course Name">
         </div>
         <div class="field">
-            <input type="text" name="college" placeholder="College">
+            <div class="ui fluid search selection dropdown" id="dropdownMenuCollege">
+                <input type="hidden" name="college">
+                <i class="dropdown icon"></i>
+                <div class="default text">College</div>
+            </div>
         </div>
         <div class="ui fluid large submit green button">Add</div>
         <div class="ui divider"></div>
