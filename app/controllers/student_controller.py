@@ -29,10 +29,10 @@ def api_create_student():
             student_id = str(request_body['student_id'])
             firstname = str(request_body['firstname'])
             lastname = str(request_body['lastname'])
-            course_id = str(request_body['course_id'])
+            course = str(request_body['course'])
             year = str(request_body['year'])
             gender = str(request_body['gender'])
-            model_response = StudentModel.insert(id, firstname, lastname, course_id, year, gender)
+            model_response = StudentModel.insert(student_id, firstname, lastname, course, year, gender)
             return StudentView.setPayloadToJSON(201, payload=model_response)
         else:
             return StudentView.setPayloadToJSON(400)
