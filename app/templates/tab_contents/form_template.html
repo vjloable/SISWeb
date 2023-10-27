@@ -3,7 +3,7 @@
 {% block content %}
 <div style="margin-top: 100px;" class="ui container"></div>
   <div class="ui middle aligned center aligned grid">
-    <div class="column">
+    <div class="column" style="max-width: 450px;">
       {% if form_content == "College" %}
         {% include "./form_contents/add_college.html" %}
       {% elif form_content == "Course" %}
