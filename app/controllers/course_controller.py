@@ -60,7 +60,7 @@ def api_delete_course():
     if request_body:
         code = str(request_body['code'])
         model_response = CourseModel.delete(code)
-        return jsonify(**model_response), 201
+        return CourseView.setPayloadToJSON(201, payload=model_response)
     else:
         return CourseView.setPayloadToJSON(400)
 
