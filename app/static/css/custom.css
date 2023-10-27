@@ -1,17 +1,3 @@
-.fixed-container {
-    height: 500px;
-    max-width: 900px;
-    overflow-y: auto;
-}
-
-.fixed-small-container {
-    height: 40px;
-}
-
 body {
     height: 88%;
-}
-
-.column {
-    max-width: 450px;
 }
