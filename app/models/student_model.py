@@ -31,7 +31,7 @@ class StudentModel:
         try:
             cursor.execute("""
             SELECT * FROM Students 
-            WHERE ID = '{}';
+            WHERE StudentId = '{}';
             """.format(str(student_id))
             )
             results = []
@@ -54,8 +54,8 @@ class StudentModel:
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            UPDATE Students SET ID = '{}', Firstname = '{}', Lastname = '{}', Course = '{}', Year = '{}', Gender = '{}' WHERE ID = '{}';
-            """.format(new_student_id, new_firstname, new_lastname, new_course_id, new_year, new_gender, id)
+            UPDATE Students SET StudentId = '{}', Firstname = '{}', Lastname = '{}', Course = '{}', Year = '{}', Gender = '{}' WHERE StudentId = '{}';
+            """.format(new_student_id, new_firstname, new_lastname, new_course_id, new_year, new_gender, student_id)
             )
             connection.commit()
             return {'success':True, 'results':"Updated {} into Students table successfuly".format(student_id)}
@@ -72,11 +72,11 @@ class StudentModel:
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            DELETE FROM Students WHERE ID = '{}';
+            DELETE FROM Students WHERE StudentId = '{}';
             """.format(student_id)
             )
             connection.commit()
-            return {'success':True, 'results':"Deleted {} from Students table successfuly".format(id)}
+            return {'success':True, 'results':"Deleted {} from Students table successfuly".format(student_id)}
         except MySQLError as e:
             return {'success':False, 'results':str(e)}
         finally:
@@ -124,13 +124,13 @@ class StudentModel:
         cursor = connection.cursor()
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS Students(
-            ID varchar(100) NOT NULL,
+            StudentId char(9) NOT NULL,
             Firstname char(150) NOT NULL,
             Lastname char(150) NOT NULL, 
             Course char(20),
             Year enum('1st','2nd','3rd','4th') NOT NULL,
             Gender enum('Woman','Man','Transgender','Non-binary/Non-conforming','Prefer not to respond') NOT NULL,              
-            PRIMARY KEY (ID),
+            PRIMARY KEY (StudentId),
             FOREIGN KEY (Course) REFERENCES Courses(Code) ON DELETE CASCADE
         );
         """)
