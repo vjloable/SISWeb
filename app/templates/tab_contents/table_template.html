@@ -17,8 +17,8 @@
                         <td>{{data}}</td>
                     {% endfor %}
                     <td class="collapsing center aligned">
-                        <button class="ui inverted red button" id="gotoDelete{{button_id}}" value="{{rows[0][0]}}">DELETE</button>
-                        <button class="ui inverted violet button" id="gotoEdit{{button_id}}" value="{{rows[0][0]}}">EDIT</button>
+                        <button class="ui inverted red button" id="gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">DELETE</button>
+                        <button class="ui inverted violet button" id="gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">EDIT</button>
                     </td>
                 </tr>
             {% endfor %}
