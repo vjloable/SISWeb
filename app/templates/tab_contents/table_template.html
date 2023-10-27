@@ -1,4 +1,4 @@
-<div style="min-height: 480px; max-height: 480px;">
+<div class="ui textcontainer" style="overflow-y: scroll;">
     <table class="ui single line celled table unstackable">
         <thead>
             <tr>
@@ -6,6 +6,7 @@
                 {% for head in headers %}
                     <th>{{head}}</th>
                 {% endfor %}
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,10 @@
                     {% for data in row %}
                         <td>{{data}}</td>
                     {% endfor %}
+                    <td class="collapsing center aligned">
+                        <button class="ui inverted red button" id="gotoDelete{{button_id}}" value="{{rows[0][0]}}">DELETE</button>
+                        <button class="ui inverted violet button" id="gotoEdit{{button_id}}" value="{{rows[0][0]}}">EDIT</button>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
