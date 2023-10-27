@@ -131,6 +131,6 @@ class StudentModel:
             Year enum('1st','2nd','3rd','4th') NOT NULL,
             Gender enum('Woman','Man','Transgender','Non-binary/Non-conforming','Prefer not to respond') NOT NULL,              
             PRIMARY KEY (StudentId),
-            FOREIGN KEY (Course) REFERENCES Courses(Code) ON DELETE CASCADE
+            FOREIGN KEY (Course) REFERENCES Courses(Code) ON DELETE SET NULL
         );
         """)
