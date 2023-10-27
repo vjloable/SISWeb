@@ -10,7 +10,7 @@ class StudentView:
     @staticmethod
     def renderTableAsJSON(render_model):
         headers = ["ID", "First Name", "Last Name", "Course", "Year", "Gender"]
-        content = render_template('tab_contents/table_template.html', headers=headers, rows=render_model)
+        content = render_template('tab_contents/table_template.html', button_id='Student', headers=headers, rows=render_model)
         buttons = render_template('tab_contents/button_controls_template.html', button_id='Student')
         data = {'content': content, 'buttons': buttons}
         return jsonify(data)
