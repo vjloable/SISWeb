@@ -66,7 +66,7 @@ def api_delete_student():
     if request_body:
         student_id = str(request_body['student_id'])
         model_response = StudentModel.delete(student_id)
-        return jsonify(**model_response), 201
+        return StudentView.setPayloadToJSON(201, payload=model_response)
     else:
         return StudentView.setPayloadToJSON(400)
 
