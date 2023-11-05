@@ -140,5 +140,5 @@ class CollegeModel:
             Code char(20) NOT NULL,
             Name char(150) NOT NULL,
             PRIMARY KEY (Code)
-        );
+        ) ENGINE=INNODB;
         """)

@@ -141,6 +141,6 @@ class CourseModel:
             Name char(150) NOT NULL,
             College char(20),
             PRIMARY KEY (Code),
-            FOREIGN KEY (College) REFERENCES Colleges(Code) ON DELETE CASCADE
-        );
+            FOREIGN KEY (College) REFERENCES Colleges(Code) ON UPDATE CASCADE ON DELETE SET NULL
+        ) ENGINE=INNODB;
         """)
