@@ -19,7 +19,18 @@ def api_display_tab_course():
 
 @course_blueprint.route('/course/create', methods=['GET'])
 def create_course():
-    return CourseView.renderCreateFormAsView()
+    return CourseView.renderCreateFormAsView("add")
+
+@course_blueprint.route('/course/update', methods=['GET','POST'])
+def update_course():
+    code = request.args.get('code', None)
+    if code is not None:
+        data = {
+            "code": code
+        }
+        return CourseView.renderCreateFormAsView("edit", **data)
+    else:
+        return CourseView.setPayloadToJSON(404)
 
 @course_blueprint.route('/api/course/create', methods=['POST'])
 def api_create_course():
@@ -36,8 +47,9 @@ def api_create_course():
     else:
         return CollegeView.setPayloadToJSON(403)
 
-@course_blueprint.route('/api/course/read/<code>', methods=['GET'])
-def api_read_course(code):
+@course_blueprint.route('/api/course/read', methods=['GET'])
+def api_read_course():
+    code = request.args.get('code', None)
     model_response = CourseModel.read(code)
     return CourseView.setPayloadToJSON(201, payload=model_response)
 
