@@ -19,7 +19,18 @@ def api_display_tab_college():
 
 @college_blueprint.route('/college/create', methods=['GET'])
 def create_college():
-    return CollegeView.renderCreateFormAsView()
+    return CollegeView.renderCreateFormAsView("add")
+
+@college_blueprint.route('/college/update', methods=['GET'])
+def update_college():
+    code = request.args.get('code', None)
+    if code is not None:
+        data = {
+            "code": code
+        }
+        return CollegeView.renderCreateFormAsView("edit", **data)
+    else:
+        return CollegeView.setPayloadToJSON(404)
 
 @college_blueprint.route('/api/college/create', methods=['POST'])
 def api_create_college():
@@ -36,14 +47,16 @@ def api_create_college():
         return CollegeView.setPayloadToJSON(403)
     
 
-@college_blueprint.route('/api/college/read/<code>', methods=['GET'])
-def api_read_college(code):
+@college_blueprint.route('/api/college/read', methods=['GET'])
+def api_read_college():
+    code = request.args.get('code', None)
     model_response = CollegeModel.read(code)
     return CollegeView.setPayloadToJSON(201, payload=model_response)
 
 @college_blueprint.route('/api/college/update', methods=['POST'])
 def api_update_college():
     request_body = request.get_json()
+    print(request_body)
     if request_body:
         code = str(request_body['code']) 
         new_code = str(request_body['new_code'])
