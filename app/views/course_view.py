@@ -3,8 +3,8 @@ from flask import render_template, jsonify, make_response
 class CourseView:
 
     @staticmethod
-    def renderCreateFormAsView():
-        rendered_view = render_template('tab_contents/form_template.html', form_content="Course")
+    def renderCreateFormAsView(action, **data):
+        rendered_view = render_template('tab_contents/form_template.html', form_content="Course", action=action, **data)
         return rendered_view
 
     @staticmethod
