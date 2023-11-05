@@ -19,7 +19,18 @@ def api_display_tab_student():
 
 @student_blueprint.route('/student/create', methods=['GET'])
 def create_student():
-    return StudentView.renderCreateFormAsView()
+    return StudentView.renderCreateFormAsView("add")
+
+@student_blueprint.route('/student/update', methods=['GET','POST'])
+def update_student():
+    student_id = request.args.get('student_id', None)
+    if student_id is not None:
+        data = {
+            "student_id": student_id
+        }
+        return StudentView.renderCreateFormAsView("edit", **data)
+    else:
+        return StudentView.setPayloadToJSON(404)
 
 @student_blueprint.route('/api/student/create', methods=['POST'])
 def api_create_student():
@@ -39,9 +50,10 @@ def api_create_student():
     else:
         return CollegeView.setPayloadToJSON(403)
 
-@student_blueprint.route('/api/student/read/<code>', methods=['GET'])
-def api_read_student(code):
-    model_response = StudentModel.read(code)
+@student_blueprint.route('/api/student/read/', methods=['GET'])
+def api_read_student():
+    student_id = request.args.get('student_id', None)
+    model_response = StudentModel.read(student_id)
     return StudentView.setPayloadToJSON(201, payload=model_response)
 
 @student_blueprint.route('/api/student/update', methods=['POST'])
