@@ -1,22 +1,21 @@
-<form class="ui large form" id="addCourseForm" autocomplete="off">
+<form class="ui large form" id="editCourseForm" autocomplete="off">
     <div class="ui stacked segment">
-        <h3 class="ui header">
-        Edit Course Form
-        </h3>
+        <h3 class="ui header">Edit Course Form</h3>
+        <h5 class="ui left aligned header">Currently editing: {{code}}</h5>
         <div class="field">
-            <input type="text" name="code" placeholder="Course Code">
+            <input type="text" name="code" placeholder="New Course Code">
         </div>
         <div class="field">
-            <input type="text" name="name" placeholder="Course Name">
+            <input type="text" name="name" placeholder="New Course Name">
         </div>
         <div class="field">
             <div class="ui fluid search selection dropdown" id="dropdownMenuCollege">
                 <input type="hidden" name="college">
                 <i class="dropdown icon"></i>
-                <div class="default text">College</div>
+                <div class="default text">Choose College</div>
             </div>
         </div>
-        <div class="ui fluid large submit green button">Add</div>
+        <div class="ui fluid large submit green button">Edit</div>
         <div class="ui divider"></div>
         <div class="ui fluid large cancel-button button">Cancel</div>
         <div class="ui error message"></div>
