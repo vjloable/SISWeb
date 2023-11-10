@@ -61,13 +61,13 @@ def api_update_student():
     request_body = request.get_json()
     if request_body:
         student_id = str(request_body['student_id'])
-        new_id = str(request_body['new_student_id'])
+        new_student_id = str(request_body['new_student_id'])
         new_firstname = str(request_body['new_firstname'])
         new_lastname = str(request_body['new_lastname'])
-        new_course_id = str(request_body['new_course_id'])
+        new_course = str(request_body['new_course'])
         new_year = str(request_body['new_year'])
         new_gender = str(request_body['new_gender'])
-        model_response = StudentModel.update(student_id, new_id, new_firstname, new_lastname, new_course_id, new_year, new_gender)
+        model_response = StudentModel.update(student_id, new_student_id, new_firstname, new_lastname, new_course, new_year, new_gender)
         return StudentView.setPayloadToJSON(201, payload=model_response)
     else:
         return StudentView.setPayloadToJSON(400)
