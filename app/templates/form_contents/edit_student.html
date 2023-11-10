@@ -1,29 +1,28 @@
-<form class="ui large form" id="addStudentForm">
+<form class="ui large form" id="editStudentForm" autocomplete="off">
     <div class="ui stacked segment">
-        <h3 class="ui header">
-        Edit Student Form
-        </h3>
+        <h3 class="ui header">Edit Student Form</h3>
+        <h5 class="ui left aligned header">Currently editing: {{student_id}}</h5>
         <div class="field">
-            <input type="text" name="student_id" placeholder="Student ID">
+            <input type="text" name="student_id" placeholder="New Student ID">
         </div>
         <div class="field">
-            <input type="text" name="firstname" placeholder="First Name">
+            <input type="text" name="firstname" placeholder="New First Name">
         </div>
         <div class="field">
-            <input type="text" name="lastname" placeholder="Last Name">
+            <input type="text" name="lastname" placeholder="New Last Name">
         </div>
         <div class="field">
             <div class="ui fluid search selection dropdown" id="dropdownMenuCourse">
                 <input type="hidden" name="course">
                 <i class="dropdown icon"></i>
-                <div class="default text">Course</div>
+                <div class="default text">Choose Course</div>
             </div>
         </div>
         <div class="field">
             <div class="ui fluid selection dropdown">
                 <input type="hidden" name="year">
                 <i class="dropdown icon"></i>
-                <div class="default text">Year Level</div>
+                <div class="default text">Choose Year Level</div>
                 <div class="menu">
                     <div class="item" data-value="1st">1st</div>
                     <div class="item" data-value="2nd">2nd</div>
@@ -36,7 +35,7 @@
             <div class="ui fluid selection dropdown">
                 <input type="hidden" name="gender">
                 <i class="dropdown icon"></i>
-                <div class="default text">Gender</div>
+                <div class="default text">Choose Gender</div>
                 <div class="menu">
                     <div class="item" data-value="Man">Man</div>
                     <div class="item" data-value="Woman">Woman</div>
@@ -46,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="ui fluid large submit green button">Add</div>
+        <div class="ui fluid large submit green button">Edit</div>
         <div class="ui divider"></div>
         <div class="ui fluid large cancel-button button">Cancel</div>
         <div class="ui error message"></div>
