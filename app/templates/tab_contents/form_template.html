@@ -4,12 +4,22 @@
 <div style="margin-top: 100px;" class="ui container"></div>
   <div class="ui middle aligned center aligned grid">
     <div class="column" style="max-width: 450px;">
-      {% if form_content == "College" %}
-        {% include "./form_contents/add_college.html" %}
-      {% elif form_content == "Course" %}
-        {% include "./form_contents/add_course.html" %}
-      {% elif form_content == "Student" %}
-        {% include "./form_contents/add_student.html" %}
+      {% if action == "add" %}
+        {% if form_content == "College" %}
+          {% include "./form_contents/add_college.html" %}
+        {% elif form_content == "Course" %}
+          {% include "./form_contents/add_course.html" %}
+        {% elif form_content == "Student" %}
+          {% include "./form_contents/add_student.html" %}
+        {% endif %}
+      {% elif action == "edit" %}
+        {% if form_content == "College" %}
+          {% include "./form_contents/edit_college.html" %}
+        {% elif form_content == "Course" %}
+          {% include "./form_contents/edit_course.html" %}
+        {% elif form_content == "Student" %}
+          {% include "./form_contents/edit_student.html" %}
+        {% endif %}
       {% endif %}
     </div>
   </div>
