@@ -37,7 +37,6 @@ class StudentModel:
             results = []
             data = cursor.fetchone()
             if data is not None:
-                
                 results = data
             connection.commit()
             return {'success':True, 'results':results}
