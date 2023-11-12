@@ -29,4 +29,4 @@ class CourseView:
                 final_payload = {'results': 'Invalid request data', 'success': False}
             elif status_code == 403:
                 final_payload = {'results': 'Forbidden', 'success': False}
-        return make_response(jsonify(**final_payload), status_code)
+        return make_response(jsonify(final_payload), status_code)
