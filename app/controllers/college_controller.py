@@ -56,7 +56,6 @@ def api_read_college():
 @college_blueprint.route('/api/college/update', methods=['POST'])
 def api_update_college():
     request_body = request.get_json()
-    print(request_body)
     if request_body:
         code = str(request_body['code']) 
         new_code = str(request_body['new_code'])
