@@ -17,10 +17,10 @@
                         <td>{{data}}</td>
                     {% endfor %}
                     <td class="collapsing center aligned">
-                        <button class="ui icon inverted red button" id="gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
                             <i class="trash icon"></i>
                         </button>
-                        <button class="ui icon inverted violet button" id="gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
                             <i class="pencil alternate icon"></i>
                         </button>
                     </td>
