@@ -10,13 +10,13 @@ $(document).on('click', '#gotoAddStudent', function() {
   window.location.href = '/student/create';
 });
 
-$(document).on('click', '#gotoDeleteCollege', function() {
-   $('#deleteConfirmationModal')
+$(document).on('click', '.gotoDeleteCollege', function() {
+  var buttonValue = $(this).val();
+  $('#deleteConfirmationModal')
   .modal({
     closable  : false,
     onDeny    : function(){},
     onApprove : function() {
-      var buttonValue = $(gotoDeleteCollege).attr('value');          
       var data = {
         'code': buttonValue
       };
@@ -35,13 +35,13 @@ $(document).on('click', '#gotoDeleteCollege', function() {
   .modal('show');
 });
 
-$(document).on('click', '#gotoDeleteCourse', function() {
+$(document).on('click', '.gotoDeleteCourse', function() {
+  var buttonValue = $(this).val();     
   $('#deleteConfirmationModal')
   .modal({
     closable  : false,
     onDeny    : function(){},
     onApprove : function() {
-      var buttonValue = $(gotoDeleteCourse).attr('value');          
       var data = {
         'code': buttonValue
       };
@@ -60,13 +60,13 @@ $(document).on('click', '#gotoDeleteCourse', function() {
   .modal('show');
 });
 
-$(document).on('click', '#gotoDeleteStudent', function() {
+$(document).on('click', '.gotoDeleteStudent', function() {
+  var buttonValue = $(this).val();
   $('#deleteConfirmationModal')
   .modal({
     closable  : false,
     onDeny    : function(){},
     onApprove : function() {
-      var buttonValue = $(gotoDeleteStudent).attr('value');
       var data = {
         'student_id': buttonValue
       };
@@ -85,8 +85,8 @@ $(document).on('click', '#gotoDeleteStudent', function() {
   .modal('show');
 });
 
-$(document).on('click', '#gotoEditCollege', function() {
-  var buttonValue = $(gotoEditCollege).attr('value');
+$(document).on('click', '.gotoEditCollege', function() {
+  var buttonValue = $(this).val();
   var data = {
     'code': buttonValue
   };
@@ -105,8 +105,8 @@ $(document).on('click', '#gotoEditCollege', function() {
   });
 });
 
-$(document).on('click', '#gotoEditCourse', function() {
-  var buttonValue = $(gotoEditCourse).attr('value');
+$(document).on('click', '.gotoEditCourse', function() {
+  var buttonValue = $(this).val();
   var data = {
     'code': buttonValue
   };
@@ -127,7 +127,7 @@ $(document).on('click', '#gotoEditCourse', function() {
 });
 
 $(document).on('click', '#gotoEditStudent', function() {
-  var buttonValue = $(gotoEditStudent).attr('value');
+  var buttonValue = $(this).val();
   var data = {
     'student_id': buttonValue
   };
