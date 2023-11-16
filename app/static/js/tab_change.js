@@ -1,41 +1,40 @@
 $(document).ready(function () {
-  var activeTabName = 'tabColleges';
   $.ajax({
     type: 'GET',
-    url: '/api/'+activeTabName,
+    url: '/api/college/list',
     beforeSend: function() {
-      $('#'+activeTabName).html('<div class="ui indeterminate text loader">Fetching data</div>');
+      $('#collegeTab').html('<div class="ui indeterminate text loader">Fetching data</div>');
     },
     success: function (results) {
-      $('#'+activeTabName).html(results.content);
-      $('#'+activeTabName+'Controls').html(results.buttons);
+      $('#collegeTab').html(results.content);
+      $('#collegeTabControls').html(results.buttons);
     },
     error: function (error) {
       console.log('Error:', error);
     }
   });
-
+  
 });
 
-$('.menu .item').tab({
 
+$('.menu .item').tab({
   onVisible: function() {
     var activeTab = $('.tab.segment.active');
     var activeTabName = activeTab.attr('data-tab');
+    
     $.ajax({
       type: 'GET',
-      url: '/api/'+activeTabName,
+      url: '/api/'+activeTabName+'/list',
       beforeSend: function() {
-        $('#'+activeTabName).html('<div class="ui indeterminate text loader">Fetching data</div>');
+        $('#'+activeTabName+'Tab').html('<div class="ui indeterminate text loader">Fetching data</div>');
       },
       success: function (results) {
-        $('#'+activeTabName).html(results.content);
-        $('#'+activeTabName+'Controls').html(results.buttons);
+        $('#'+activeTabName+'Tab').html(results.content);
+        $('#'+activeTabName+'TabControls').html(results.buttons);
       },
       error: function (error) {
         console.log('Error:', error);
       }
     });
   },
-
 });
