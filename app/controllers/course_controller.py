@@ -4,19 +4,6 @@ from app.views.course_view import CourseView
 
 course_blueprint = Blueprint('course', __name__)
 
-@course_blueprint.route('/api/tabCourses', methods=['GET'])
-def api_display_tab_course():
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        results = CourseModel.count_rows()
-        if results['results'] > 0:
-            model_response = CourseModel.list_all()
-            render_model = model_response['results']
-            return CourseView.renderTableAsJSON(render_model)
-        else:
-            return CourseView.renderNoDataAsJSON()
-    else:
-        return CourseView.setPayloadToJSON(403)
-
 @course_blueprint.route('/course/create', methods=['GET'])
 def create_course():
     return CourseView.renderCreateFormAsView("add")
@@ -78,14 +65,23 @@ def api_delete_course():
 
 @course_blueprint.route('/api/course/list', methods=['GET','POST'])
 def api_get_courses():
-    if request.method == 'POST':
-        request_body = request.get_json()
-        if request_body:
-            query = str(request_body['query'])
-            model_response = CourseModel.list_all(query)
-            return CourseView.setPayloadToJSON(201, payload=model_response)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            request_body = request.get_json()
+            if request_body:
+                query = str(request_body['query']).strip()
+                model_response = CourseModel.list_all(query)
+                render_model = model_response['results']
+                return CourseView.renderTableAsJSON(render_model)
+            else:
+                return CourseView.setPayloadToJSON(400)
         else:
-            return CourseView.setPayloadToJSON(400)
+            results = CourseModel.count_rows()
+            if results['results'] > 0:
+                model_response = CourseModel.list_all()
+                render_model = model_response['results']
+                return CourseView.renderTableAsJSON(render_model)
+            else:
+                return CourseView.renderNoDataAsJSON()
     else:
-        model_response = CourseModel.list_all()
-        return CourseView.setPayloadToJSON(201, payload=model_response)
+        return CourseView.setPayloadToJSON(403)
