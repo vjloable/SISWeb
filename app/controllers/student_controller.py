@@ -82,7 +82,25 @@ def api_delete_student():
     else:
         return StudentView.setPayloadToJSON(400)
 
-@student_blueprint.route('/api/student/list', methods=['GET'])
+@student_blueprint.route('/api/student/list', methods=['GET', 'POST'])
 def api_get_students():
-    model_response = StudentModel.list_all()
-    return StudentView.setPayloadToJSON(201, payload=model_response)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            request_body = request.get_json()
+            if request_body:
+                query = str(request_body['query']).strip()
+                model_response = StudentModel.list_all(query)
+                render_model = model_response['results']
+                return StudentView.renderTableAsJSON(render_model)
+            else:
+                return StudentView.setPayloadToJSON(400)
+        else:
+            results = StudentModel.count_rows()
+            if results['results'] > 0:
+                model_response = StudentModel.list_all()
+                render_model = model_response['results']
+                return StudentView.renderTableAsJSON(render_model)
+            else:
+                return StudentView.renderNoDataAsJSON()
+    else:
+        return StudentView.setPayloadToJSON(403)
