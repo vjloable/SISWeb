@@ -1,4 +1,5 @@
 import os
+import cloudinary
 
 from flask import Flask
 from app.controllers.index_controller import index_blueprint
@@ -12,6 +13,7 @@ from app.models.student_model import StudentModel
 def create_app(connection):
     app = Flask(__name__)
     load_schema(connection)
+    load_cloudinary()
     with app.app_context():
         app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
         app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
@@ -30,3 +32,10 @@ def load_schema(connection):
     CollegeModel.create_table(connection)
     CourseModel.create_table(connection)
     StudentModel.create_table(connection)
+
+def load_cloudinary():
+    cloudinary.config(
+        cloud_name = os.getenv('CLOUD_NAME'),
+        api_key = os.getenv('CLOUD_KEY'),
+        api_secret = os.getenv('CLOUD_SECRET')
+    )
