@@ -12,6 +12,7 @@
 
     </head>
     <body>
+        {% include "./messages/info_message.html" %}
         {% include "./modals/delete_confirmation.html" %}
         {% block content %}{% endblock %}
         
@@ -21,5 +22,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/dropdowns.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/button_redirect.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/search.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/message.js') }}"></script>
     </body>
 </html>
