@@ -32,6 +32,7 @@ $('#addCollegeForm').form({
       contentType:"application/json; charset=utf-8",
       dataType:"json",
       success: function(){
+        // window.setTimeout($("#messageInfo").toggleClass("hidden"), 3000);
         window.location.href = '/';
       }
     })
