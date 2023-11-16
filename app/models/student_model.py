@@ -82,20 +82,35 @@ class StudentModel:
             cursor.close()
             connection.close()
 
-    #List
+    # List
     @staticmethod
-    def list_all():
+    def list_all(query=None):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            cursor.execute("""
-            SELECT * FROM Students;
-            """)
-            results = list(cursor.fetchall())
-            connection.commit()
-            return {'success':True, 'results':results}
+            if query is None or query == "":
+                cursor.execute("""
+                SELECT * FROM Students;
+                """)
+                results = list(cursor.fetchall())
+                connection.commit()
+                return {'success': True, 'results': results}
+            else:
+                cursor.execute("""
+                SELECT * FROM Students 
+                WHERE StudentId LIKE '%{}%' 
+                OR Firstname LIKE '%{}%' 
+                OR Lastname LIKE '%{}%'
+                OR Course LIKE '%{}%' 
+                OR Year LIKE '%{}%' 
+                OR Gender LIKE '%{}%';
+                """.format(query, query, query, query, query, query))
+                results = list(cursor.fetchall())
+                success = len(results) > 0
+                connection.commit()
+                return {'success': success, 'results': results}
         except MySQLError as e:
-            return {'success':False, 'results':str(e)}
+            return {'success': False, 'results': str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -117,6 +132,27 @@ class StudentModel:
         finally:
             cursor.close()
             connection.close()
+
+    # # GetName
+    # @staticmethod
+    # def get_name(student_id):
+    #     connection = DatabaseService().connect()
+    #     cursor = connection.cursor()
+    #     try:
+    #         cursor.execute("""
+    #         SELECT Firstname, Lastname FROM Students WHERE StudentId = '{}';
+    #         """).format(str(student_id))
+    #         result = ""
+    #         data = cursor.fetchone()[0]
+    #         if data == "":
+    #             result = data
+    #         connection.commit()
+    #         return {'success': True, 'results': result}
+    #     except MySQLError as e:
+    #         return {'success': False, 'results': str(e)}
+    #     finally:
+    #         cursor.close()
+    #         connection.close()
 
     @staticmethod
     def create_table(connection):

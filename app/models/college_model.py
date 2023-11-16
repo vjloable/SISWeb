@@ -37,7 +37,6 @@ class CollegeModel:
             results = []
             data = cursor.fetchone()
             if data is not None:
-                
                 results = data
             connection.commit()
             return {'success':True, 'results':results}
@@ -83,33 +82,30 @@ class CollegeModel:
             cursor.close()
             connection.close()
 
-    #List
+    # List
     @staticmethod
     def list_all(query=None):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            if query is None:
+            if query is None or query == "":
                 cursor.execute("""
                 SELECT * FROM Colleges;
                 """)
                 results = list(cursor.fetchall())
                 connection.commit()
-                return {'success':True, 'results':results}
+                return {'success': True, 'results': results}
             else:
                 cursor.execute("""
-                SELECT * FROM Colleges 
+                SELECT * FROM Colleges
                 WHERE Code LIKE '%{}%' OR Name LIKE '%{}%';
-                """.format(query, query))
-                results_raw = list(cursor.fetchall())
-                results = []
-                for result in results_raw:
-                    results.append({"name"  : str(result[1]), "value" : str(result[0])})
+                """.format(query, query, query))
+                results = list(cursor.fetchall())
                 success = len(results) > 0
                 connection.commit()
-                return {'success':success, 'results':results}
+                return {'success': success, 'results': results}
         except MySQLError as e:
-            return {'success':False, 'results':str(e)}
+            return {'success': False, 'results': str(e)}
         finally:
             cursor.close()
             connection.close()
@@ -132,6 +128,27 @@ class CollegeModel:
             cursor.close()
             connection.close()
 
+    # # GetName
+    # @staticmethod
+    # def get_name(code):
+    #     connection = DatabaseService().connect()
+    #     cursor = connection.cursor()
+    #     try:
+    #         cursor.execute("""
+    #         SELECT Name FROM Colleges WHERE Code = '{}';
+    #         """).format(str(code))
+    #         result = ""
+    #         data = cursor.fetchone()[0]
+    #         if data == "":
+    #             result = data
+    #         connection.commit()
+    #         return {'success': True, 'results': result}
+    #     except MySQLError as e:
+    #         return {'success': False, 'results': str(e)}
+    #     finally:
+    #         cursor.close()
+    #         connection.close()
+    
     @staticmethod
     def create_table(connection):
         cursor = connection.cursor()

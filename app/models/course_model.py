@@ -89,7 +89,7 @@ class CourseModel:
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            if query is None:
+            if query is None or query == "":
                 cursor.execute("""
                 SELECT * FROM Courses;
                 """)
@@ -101,10 +101,7 @@ class CourseModel:
                 SELECT * FROM Courses 
                 WHERE Code LIKE '%{}%' OR Name LIKE '%{}%' OR College LIKE '%{}%';
                 """.format(query, query, query))
-                results_raw = list(cursor.fetchall())
-                results = []
-                for result in results_raw:
-                    results.append({"name"  : str(result[1]), "value" : str(result[0])})
+                results = list(cursor.fetchall())
                 success = len(results) > 0
                 connection.commit()
                 return {'success':success, 'results':results}
@@ -131,6 +128,27 @@ class CourseModel:
         finally:
             cursor.close()
             connection.close()
+
+    # # GetName
+    # @staticmethod
+    # def get_name(code):
+    #     connection = DatabaseService().connect()
+    #     cursor = connection.cursor()
+    #     try:
+    #         cursor.execute("""
+    #         SELECT Name FROM Courses WHERE Code = '{}';
+    #         """).format(str(code))
+    #         result = ""
+    #         data = cursor.fetchone()[0]
+    #         if data == "":
+    #             result = data
+    #         connection.commit()
+    #         return {'success': True, 'results': result}
+    #     except MySQLError as e:
+    #         return {'success': False, 'results': str(e)}
+    #     finally:
+    #         cursor.close()
+    #         connection.close()
 
     @staticmethod
     def create_table(connection):
