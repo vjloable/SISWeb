@@ -27,7 +27,8 @@ $(document).on('click', '.gotoDeleteCollege', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          window.location.reload();
+          $('#row'+buttonValue).remove();
+          // window.location.reload();
         },
       });
     }
@@ -52,7 +53,7 @@ $(document).on('click', '.gotoDeleteCourse', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          window.location.reload();
+          // window.location.reload();
         },
       });
     }
@@ -77,7 +78,8 @@ $(document).on('click', '.gotoDeleteStudent', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          window.location.reload();
+          $('#row'+buttonValue).remove();
+          // window.location.reload();
         },
       });
     }
@@ -126,7 +128,7 @@ $(document).on('click', '.gotoEditCourse', function() {
   });
 });
 
-$(document).on('click', '#gotoEditStudent', function() {
+$(document).on('click', '.gotoEditStudent', function() {
   var buttonValue = $(this).val();
   var data = {
     'student_id': buttonValue
@@ -153,3 +155,4 @@ $(document).on('click', '#gotoEditStudent', function() {
 $(document).on('click', '.cancel-button', function() {
   window.location.href = '/';
 });
+
