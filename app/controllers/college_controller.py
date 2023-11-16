@@ -4,19 +4,6 @@ from app.views.college_view import CollegeView
 
 college_blueprint = Blueprint('college', __name__)
 
-@college_blueprint.route('/api/tabColleges', methods=['GET'])
-def api_display_tab_college():
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        results = CollegeModel.count_rows()
-        if results['results'] > 0:
-            model_response = CollegeModel.list_all()
-            render_model = model_response['results']
-            return CollegeView.renderTableAsJSON(render_model)
-        else:
-            return CollegeView.renderNoDataAsJSON()
-    else:
-        return CollegeView.setPayloadToJSON(403)
-
 @college_blueprint.route('/college/create', methods=['GET'])
 def create_college():
     return CollegeView.renderCreateFormAsView("add")
@@ -75,16 +62,26 @@ def api_delete_college():
     else:
         return CollegeView.setPayloadToJSON(400)
 
-@college_blueprint.route('/api/college/list', methods=['GET','POST'])
+
+@college_blueprint.route('/api/college/list', methods=['GET', 'POST'])
 def api_get_colleges():
-    if request.method == 'POST':
-        request_body = request.get_json()
-        if request_body:
-            query = str(request_body['query'])
-            model_response = CollegeModel.list_all(query)
-            return CollegeView.setPayloadToJSON(201, payload=model_response)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            request_body = request.get_json()
+            if request_body:
+                query = str(request_body['query']).strip()
+                model_response = CollegeModel.list_all(query)
+                render_model = model_response['results']
+                return CollegeView.renderTableAsJSON(render_model)
+            else:
+                return CollegeView.setPayloadToJSON(400)
         else:
-            return CollegeView.setPayloadToJSON(400)
+            results = CollegeModel.count_rows()
+            if results['results'] > 0:
+                model_response = CollegeModel.list_all()
+                render_model = model_response['results']
+                return CollegeView.renderTableAsJSON(render_model)
+            else:
+                return CollegeView.renderNoDataAsJSON()
     else:
-        model_response = CollegeModel.list_all()
-        return CollegeView.setPayloadToJSON(201, payload=model_response)
+        return CollegeView.setPayloadToJSON(403)
