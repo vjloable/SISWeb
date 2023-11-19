@@ -16,7 +16,14 @@ $('#dropdownMenuCollege').dropdown({
             return settings;
         },
         onResponse: function(response) {
-            return { success: response.success, results: response.results};
+            var raw_response = []
+            for (let i = 0; i < (response.raw).length; i++) {
+                raw_response.push({
+                    "name": (response.raw)[i][1],
+                    "value": (response.raw)[i][0]
+                });
+            }
+            return { success: response.success, results: raw_response};
         },
         onFailure: function (response) {
             console.log("fail");
@@ -41,7 +48,14 @@ $('#dropdownMenuCourse').dropdown({
             return settings;
         },
         onResponse: function(response) {
-            return { success: response.success, results: response.results};
+            var raw_response = []
+            for (let i = 0; i < (response.raw).length; i++) {
+                raw_response.push({
+                    "name": (response.raw)[i][1],
+                    "value": (response.raw)[i][0]
+                });
+            }
+            return { success: response.success, results: raw_response};
         },
         onFailure: function (response) {
             console.log("fail");
