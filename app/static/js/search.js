@@ -36,10 +36,8 @@ $('#courseSearch').search({
     beforeSend: function(settings) {
       var query = $("#courseInputSearch").val();
       if(query.length > 0){
-        console.log(">0");
         settings.data = JSON.stringify({ query: query });
       }else{
-        console.log("==0");
         settings.data = JSON.stringify({ query: "" });
       }
       settings.contentType = 'application/json';
@@ -65,10 +63,8 @@ $('#studentSearch').search({
     beforeSend: function(settings) {
       var query = $("#studentInputSearch").val();
       if(query.length > 0){
-        console.log(">0");
         settings.data = JSON.stringify({ query: query });
       }else{
-        console.log("==0");
         settings.data = JSON.stringify({ query: "" });
       }
       settings.contentType = 'application/json';
