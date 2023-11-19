@@ -1,31 +1,40 @@
-<div class="ui textcontainer" style="overflow-y: scroll;">
-    <table class="ui single line celled small table unstackable">
-        <thead>
-            <tr>
-                <th>#</th>
-                {% for head in headers %}
-                    <th>{{head}}</th>
-                {% endfor %}
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in rows %}
-                <tr id="row{{rows[loop.index - 1][0]}}">
-                    <td>{{loop.index}}</td>
-                    {% for data in row %}
-                        <td>{{data}}</td>
-                    {% endfor %}
-                    <td class="collapsing center aligned">
-                        <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
-                            <i class="trash icon"></i>
-                        </button>
-                        <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
-                            <i class="pencil alternate icon"></i>
-                        </button>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="ui link four stackable cards" style="overflow-y: scroll;">
+    <div class="card button" id="gotoAdd{{button_id}}" style="background-color: darkgrey; padding: 2em;">
+        <div class="image">
+            <img src="../static/images/add.png">
+        </div>
+        <div class="content" style="border-top: 1px solid rgba(0,0,0,0)">
+            <div class="header center aligned" style="color: lightgray">
+                Click to add {{button_id}}
+            </div>
+        </div>
+    </div>
+    {% for row in rows %}
+        <div class="card" id="row{{rows[loop.index - 1][0]}}">
+            <div class="image">
+                <div class="ui fluid placeholder">
+                    <div class="square image"></div>
+                </div>
+                <!-- <img src="../static/images/user.png"> -->
+            </div>
+            <div class="content">
+                <div class="meta">
+                    <a>{{row[0]}}</a>
+                </div>
+                <div class="description">
+                    {{row[1]}}
+                </div>
+            </div>
+            <div class="extra content">
+                <span class="right floated">
+                    <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <i class="trash icon"></i>
+                    </button>
+                    <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <i class="pencil alternate icon"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    {% endfor %}
 </div>
