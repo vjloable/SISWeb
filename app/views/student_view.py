@@ -12,7 +12,7 @@ class StudentView:
         headers = ["ID", "First Name", "Last Name", "Course", "Year", "Gender"]
         content = render_template('tab_contents/table_template.html', button_id='Student', headers=headers, rows=render_model)
         buttons = render_template('tab_contents/button_controls_template.html', button_id='Student')
-        data = {'content': content, 'buttons': buttons}
+        data = {'content': content, 'buttons': buttons, 'raw': render_model}
         return jsonify(data)
     
     @staticmethod
