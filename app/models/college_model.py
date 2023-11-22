@@ -127,6 +127,24 @@ class CollegeModel:
         finally:
             cursor.close()
             connection.close()
+    
+    # Upload Image
+    @staticmethod
+    def upload_image_url(code, url=""):
+        connection = DatabaseService().connect()
+        cursor = connection.cursor()
+        try:
+            cursor.execute("""
+            UPDATE Colleges SET ImgURL = '{}' WHERE Code = '{}';
+            """.format(url, code)
+            )
+            connection.commit()
+            return {'success': True, 'results': "Uploaded the image url {} of {} into Colleges table successfuly".format(url, code)}
+        except MySQLError as e:
+            return {'success': False, 'results': str(e)}
+        finally:
+            cursor.close()
+            connection.close()
 
     # # GetName
     # @staticmethod
@@ -156,6 +174,7 @@ class CollegeModel:
         CREATE TABLE IF NOT EXISTS Colleges(
             Code char(20) NOT NULL,
             Name char(150) NOT NULL,
+            ImgURL varchar(1000) NOT NULL,
             PRIMARY KEY (Code)
         ) ENGINE=INNODB;
         """)

@@ -133,6 +133,24 @@ class StudentModel:
             cursor.close()
             connection.close()
 
+    #Upload Image
+    @staticmethod
+    def upload_image_url(student_id, url=""):
+        connection = DatabaseService().connect()
+        cursor = connection.cursor()
+        try:
+            cursor.execute("""
+            UPDATE Students SET ImgURL = '{}' WHERE StudentId = '{}';
+            """.format(url, student_id)
+            )
+            connection.commit()
+            return {'success': True, 'results': "Uploaded the image url {} of {} into Students table successfuly".format(url, student_id)}
+        except MySQLError as e:
+            return {'success':False, 'results':str(e)}
+        finally:
+            cursor.close()
+            connection.close()
+    
     # # GetName
     # @staticmethod
     # def get_name(student_id):
@@ -164,7 +182,8 @@ class StudentModel:
             Lastname char(150) NOT NULL, 
             Course char(20),
             Year enum('1st','2nd','3rd','4th') NOT NULL,
-            Gender enum('Woman','Man','Transgender','Non-binary/Non-conforming','Prefer not to respond') NOT NULL,              
+            Gender enum('Woman','Man','Transgender','Non-binary/Non-conforming','Prefer not to respond') NOT NULL,             
+            ImgURL varchar(1000) NOT NULL,
             PRIMARY KEY (StudentId),
             FOREIGN KEY (Course) REFERENCES Courses(Code) ON UPDATE CASCADE ON DELETE SET NULL
         ) ENGINE=INNODB;
