@@ -12,7 +12,11 @@ $(document).on('click', '#gotoAddStudent', function() {
 
 $(document).on('click', '.gotoDeleteCollege', function() {
   var buttonValue = $(this).val();
-  $('#deleteConfirmationModal')
+  let action = 'delete';
+  $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+buttonValue+'?');
+  $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
+  $('#iconConfirmationModal').toggleClass('trash alternative');
+  $('#confirmationModal')
   .modal({
     closable  : false,
     onDeny    : function(){},
@@ -27,8 +31,8 @@ $(document).on('click', '.gotoDeleteCollege', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          $('#row'+buttonValue).remove();
-          // window.location.reload();
+          // $('#row'+buttonValue).remove();
+          window.location.reload();
         },
       });
     }
@@ -37,8 +41,12 @@ $(document).on('click', '.gotoDeleteCollege', function() {
 });
 
 $(document).on('click', '.gotoDeleteCourse', function() {
-  var buttonValue = $(this).val();     
-  $('#deleteConfirmationModal')
+  var buttonValue = $(this).val();
+  let action = 'delete';
+  $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a course code of '+buttonValue+'?');
+  $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
+  $('#confirmationModal')
+  $('#confirmationModal')
   .modal({
     closable  : false,
     onDeny    : function(){},
@@ -53,7 +61,8 @@ $(document).on('click', '.gotoDeleteCourse', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          // window.location.reload();
+          // $('#row'+buttonValue).remove();
+          window.location.reload();
         },
       });
     }
@@ -63,13 +72,17 @@ $(document).on('click', '.gotoDeleteCourse', function() {
 
 $(document).on('click', '.gotoDeleteStudent', function() {
   var buttonValue = $(this).val();
-  $('#deleteConfirmationModal')
+  let action = 'delete';
+  $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a student id of '+buttonValue+'?');
+  $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
+  $('#iconConfirmationModal').toggleClass('trash alternative');
+  $('#confirmationModal')
   .modal({
     closable  : false,
     onDeny    : function(){},
     onApprove : function() {
       var data = {
-        'student_id': buttonValue
+        'code': buttonValue
       };
       $.ajax({
         type: 'POST',
@@ -78,8 +91,8 @@ $(document).on('click', '.gotoDeleteStudent', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          $('#row'+buttonValue).remove();
-          // window.location.reload();
+          // $('#row'+buttonValue).remove();
+          window.location.reload();
         },
       });
     }
