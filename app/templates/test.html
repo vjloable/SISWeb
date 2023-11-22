@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-top: 100px;" class="ui container"></div>
+<div class="ui middle aligned center aligned grid">
+    <div class="column" style="max-width: 450px;">
+        <p id="loadingText"></p>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" />
+            <button type="button" onclick="uploadImage()">Upload</button>
+        </form>
+        <!-- <div style="width: 300px; height: 300px; background-color: rgba(192, 192, 192, 0.973);">
+            <img id='myImg' src="#" alt="image" style="width: 300px; height: 300px; object-fit: contain; border: 1px solid grey;">
+        </div>
+        <br>
+        <input type='file' /> -->
+    </div>
+</div>
+{% endblock %}
