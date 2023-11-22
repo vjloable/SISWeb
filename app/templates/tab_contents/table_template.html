@@ -3,7 +3,7 @@
         <div class="image">
             <img src="../static/images/add.png">
         </div>
-        <div class="content" style="border-top: 1px solid rgba(0,0,0,0)">
+        <div class="content" style="border-top: 1px solid rgba(0,0,0,0); height: 140px;">
             <div class="header center aligned" style="color: lightgray">
                 Click to add {{button_id}}
             </div>
@@ -22,7 +22,10 @@
                     <a>{{row[0]}}</a>
                 </div>
                 <div class="description">
-                    {{row[1]}}
+                    {{row[1]}} 
+                    {% if button_id == "Student" %}
+                        {{row[2]}}
+                    {% endif %}
                 </div>
             </div>
             <div class="extra content">
