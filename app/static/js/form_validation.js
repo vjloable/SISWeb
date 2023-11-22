@@ -581,3 +581,25 @@ $('#editStudentForm').form({
     return false;
   }
 });
+
+function uploadImage() {
+  var formData = new FormData($('#uploadForm')[0]);
+
+  $.ajax({
+    url: '/upload',
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    beforeSend: function() {
+      $("#loadingText").text("Loading");
+    },
+    success: function(response) {
+      $("#loadingText").text("Succes");
+      alert(response);
+    },
+    error: function(error) {
+      console.error('Error uploading image:', error);
+    }
+  });
+}
