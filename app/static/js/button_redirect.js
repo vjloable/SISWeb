@@ -46,12 +46,12 @@ $(document).on('click', '.gotoDeleteCollege', function() {
           $('#statusAlertModal').text(status);
           $('#contentAlertModal').text(content);
           $("#iconAlertModal").toggleClass(icon);
+          $('#row'+buttonValue).remove();
           $('#alertModal')
           .modal({
             closable  : false,
             onDeny    : function(){},
             onApprove : function() {
-              $('#row'+buttonValue).remove();
               var count = $(".cards .card").length;
               console.log(count);
               if(count <= 1){
@@ -103,12 +103,12 @@ $(document).on('click', '.gotoDeleteCourse', function() {
           $('#statusAlertModal').text(status);
           $('#contentAlertModal').text(content);
           $("#iconAlertModal").toggleClass(icon);
+          $('#row'+buttonValue).remove();
           $('#alertModal')
           .modal({
             closable  : false,
             onDeny    : function(){},
             onApprove : function() {
-              $('#row'+buttonValue).remove();
               var count = $(".cards .card").length;
               console.log(count);
               if(count <= 1){
@@ -160,12 +160,12 @@ $(document).on('click', '.gotoDeleteStudent', function() {
           $('#statusAlertModal').text(status);
           $('#contentAlertModal').text(content);
           $("#iconAlertModal").toggleClass(icon);
+          $('#row'+buttonValue).remove();
           $('#alertModal')
           .modal({
             closable  : false,
             onDeny    : function(){},
             onApprove : function() {
-              $('#row'+buttonValue).remove();
               var count = $(".cards .card").length;
               console.log(count);
               if(count <= 1){
