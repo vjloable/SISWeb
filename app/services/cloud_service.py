@@ -21,7 +21,7 @@ class CloudService:
             cloud_name = self.cloud_name,
             api_key = self.api_key,
             api_secret = self.api_secret,
-               secure=True
+            secure = True
         )
         print("Configuring cloud")
         print("Credentials: ", config.cloud_name, config.api_key, "\n")
@@ -31,11 +31,11 @@ class CloudService:
         result = cloudinary.uploader.upload(
             image,
             public_id = "{}/{}".format(category, uid),
-            folder="sisweb",
-            resource_type="image",
-            type="upload",
-            overwrite=True,
-            phash=True,
+            folder = "sisweb",
+            resource_type = "image",
+            type = "upload",
+            overwrite = True,
+            phash = True,
             eager = [{"width": 500, "height": 500, "crop": "fill"}]
         )
         srcURL = cloudinary.CloudinaryImage("{}/{}".format(category, uid)).build_url()
