@@ -1,4 +1,3 @@
-from flask import g
 from app.services.database_service import DatabaseService
 from mysql.connector import Error as MySQLError
 
