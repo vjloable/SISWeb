@@ -32,7 +32,7 @@ $('#addCollegeForm').form({
       "name": allFields['name']
     }
     let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+'name a record with a college code of '+data['code']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+data['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -118,7 +118,7 @@ $('#addCourseForm').form({
       "college": allFields['college'],
     }
     let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+'name a record with a college code of '+data['code']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a course code of '+data['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -141,7 +141,7 @@ $('#addCourseForm').form({
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
-              content = "Successfully created a College named "+data["name"]+".";
+              content = "Successfully "+action+"ed a Course named "+data["name"]+".";
               status = 'Success!';
               icon = 'check circle outline green'
             }
@@ -234,7 +234,7 @@ $('#addStudentForm').form({
       "gender": allFields['gender']
     };
     let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+'name a record with a college code of '+data['student_id']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a student id of '+data['student_id']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -257,7 +257,7 @@ $('#addStudentForm').form({
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
-              content = "Successfully created a College named "+data["name"]+".";
+              content = "Successfully "+action+"ed a Student named "+data["name"]+".";
               status = 'Success!';
               icon = 'check circle outline green'
             }
@@ -316,7 +316,7 @@ $('#editCollegeForm').form({
       "new_name": allFields['name']
     }
     let action = 'edit';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+'name a record with a college code of '+data['code']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+data['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -339,7 +339,7 @@ $('#editCollegeForm').form({
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
-              content = "Successfully created a College named "+data["name"]+".";
+              content = "Successfully "+action+"ed a College named "+data["name"]+".";
               status = 'Success!';
               icon = 'check circle outline green'
             }
@@ -408,7 +408,7 @@ $('#editCourseForm').form({
       "new_college": allFields['college'],
     }
     let action = 'edit';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+'name a record with a college code of '+data["new_code"]+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a course code of '+data["new_code"]+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -533,8 +533,8 @@ $('#editStudentForm').form({
       "new_year": allFields['year'],
       "new_gender": allFields['gender']
     };
-    let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+'name a record with a college code of '+data['student_id']+'?');
+    let action = 'edit';
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a student id of '+data['student_id']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -557,7 +557,7 @@ $('#editStudentForm').form({
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
-              content = "Successfully created a College named "+data["name"]+".";
+              content = "Successfully "+action+"ed a Student named "+data["name"]+".";
               status = 'Success!';
               icon = 'check circle outline green'
             }
