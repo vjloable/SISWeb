@@ -51,7 +51,11 @@ $('#addCollegeForm').form({
             let status = '';
             let icon = '';
             if(response.success === false){
-              content = response.results;
+              var results = response.results;
+              content = "There is something wrong with the input data in the form.";
+              if (results.indexOf("Duplicate") !== -1) {
+                content = "The college code '"+data['code']+"' is already taken. \nTry another college code again.";
+              }
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
@@ -137,7 +141,11 @@ $('#addCourseForm').form({
             let status = '';
             let icon = '';
             if(response.success === false){
-              content = response.results;
+              var results = response.results;
+              content = "There is something wrong with the input data in the form.";
+              if (results.indexOf("Duplicate") !== -1) {
+                content = "The course code '"+data['code']+"' is already taken. \nTry another course code again.";
+              }
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
@@ -253,7 +261,11 @@ $('#addStudentForm').form({
             let status = '';
             let icon = '';
             if(response.success === false){
-              content = response.results;
+              var results = response.results;
+              content = "There is something wrong with the input data in the form.";
+              if (results.indexOf("Duplicate") !== -1) {
+                content = "The student id '"+data['student_id']+"' is already taken. \nTry another student id again.";
+              }
               status = 'Error!';
               icon = 'times circle outline error red'
             }else{
