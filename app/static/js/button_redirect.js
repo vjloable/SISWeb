@@ -31,8 +31,35 @@ $(document).on('click', '.gotoDeleteCollege', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          // $('#row'+buttonValue).remove();
-          window.location.reload();
+          let content = '';
+          let status = '';
+          let icon = '';
+          if(response.success === false){
+            content = response.results;
+            status = 'Error!';
+            icon = 'times circle outline error red'
+          }else{
+            content = "Successfully "+action+"d a College named "+buttonValue+".";
+            status = 'Success!';
+            icon = 'check circle outline green'
+          }
+          $('#statusAlertModal').text(status);
+          $('#contentAlertModal').text(content);
+          $("#iconAlertModal").toggleClass(icon);
+          $('#alertModal')
+          .modal({
+            closable  : false,
+            onDeny    : function(){},
+            onApprove : function() {
+              $('#row'+buttonValue).remove();
+              var count = $(".cards .card").length;
+              console.log(count);
+              if(count <= 1){
+                window.location.reload();
+              }
+            }
+          })
+          .modal('show');
         },
       });
     }
@@ -61,8 +88,35 @@ $(document).on('click', '.gotoDeleteCourse', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          // $('#row'+buttonValue).remove();
-          window.location.reload();
+          let content = '';
+          let status = '';
+          let icon = '';
+          if(response.success === false){
+            content = response.results;
+            status = 'Error!';
+            icon = 'times circle outline error red'
+          }else{
+            content = "Successfully "+action+"d a Course named "+buttonValue+".";
+            status = 'Success!';
+            icon = 'check circle outline green'
+          }
+          $('#statusAlertModal').text(status);
+          $('#contentAlertModal').text(content);
+          $("#iconAlertModal").toggleClass(icon);
+          $('#alertModal')
+          .modal({
+            closable  : false,
+            onDeny    : function(){},
+            onApprove : function() {
+              $('#row'+buttonValue).remove();
+              var count = $(".cards .card").length;
+              console.log(count);
+              if(count <= 1){
+                window.location.reload();
+              }
+            }
+          })
+          .modal('show');
         },
       });
     }
@@ -82,7 +136,7 @@ $(document).on('click', '.gotoDeleteStudent', function() {
     onDeny    : function(){},
     onApprove : function() {
       var data = {
-        'code': buttonValue
+        'student_id': buttonValue
       };
       $.ajax({
         type: 'POST',
@@ -91,8 +145,35 @@ $(document).on('click', '.gotoDeleteStudent', function() {
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(response) {
-          // $('#row'+buttonValue).remove();
-          window.location.reload();
+          let content = '';
+          let status = '';
+          let icon = '';
+          if(response.success === false){
+            content = response.results;
+            status = 'Error!';
+            icon = 'times circle outline error red'
+          }else{
+            content = "Successfully "+action+"d a Student named "+buttonValue+".";
+            status = 'Success!';
+            icon = 'check circle outline green'
+          }
+          $('#statusAlertModal').text(status);
+          $('#contentAlertModal').text(content);
+          $("#iconAlertModal").toggleClass(icon);
+          $('#alertModal')
+          .modal({
+            closable  : false,
+            onDeny    : function(){},
+            onApprove : function() {
+              $('#row'+buttonValue).remove();
+              var count = $(".cards .card").length;
+              console.log(count);
+              if(count <= 1){
+                window.location.reload();
+              }
+            }
+          })
+          .modal('show');
         },
       });
     }
