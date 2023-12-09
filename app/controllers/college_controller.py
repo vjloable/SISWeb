@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from app.models.college_model import CollegeModel
 from app.views.college_view import CollegeView
+from app.services.cloud_service import CloudService
 
 college_blueprint = Blueprint('college', __name__)
 
@@ -26,7 +27,8 @@ def api_create_college():
         if request_body:
             code = str(request_body['code']) 
             name = str(request_body['name'])
-            model_response = CollegeModel.insert(code, name)
+            img_url = str(request_body['img_url'])
+            model_response = CollegeModel.insert(code, name, img_url)
             return CollegeView.setPayloadToJSON(201, payload=model_response)
         else:
             return CollegeView.setPayloadToJSON(400)
@@ -85,3 +87,19 @@ def api_get_colleges():
                 return CollegeView.renderNoDataAsJSON()
     else:
         return CollegeView.setPayloadToJSON(403)
+
+@college_blueprint.route('/api/college/upload', methods=['POST'])
+def api_upload_colleges():
+    request_file = request.files
+    request_body = request.form
+
+    if request_body:
+        code = str(request_body['code'])    
+        if 'image' in request_file:
+            image = request_file['image']
+            url = CloudService.upload(image,code,"college")
+            return CollegeView.setPayloadToJSON(201, payload=url)
+        else:
+            return 'No image provided', 400
+    else:
+        return CollegeView.setPayloadToJSON(400)
