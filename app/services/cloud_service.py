@@ -38,7 +38,4 @@ class CloudService:
             phash = True,
             eager = [{"width": 500, "height": 500, "crop": "fill"}]
         )
-        srcURL = cloudinary.CloudinaryImage("{}/{}".format(category, uid)).build_url()
-        print(result)
-        print("Delivery URL: ", srcURL, "\n")
-        return srcURL
+        return {"url": result["url"]}
