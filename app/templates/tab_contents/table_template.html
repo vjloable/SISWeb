@@ -11,12 +11,15 @@
     </div>
     {% for row in rows %}
         <div class="card" id="row{{rows[loop.index - 1][0]}}">
-            <div class="image" id="{{rows[loop.index - 1][0]}}Image">
-                <div class="ui fluid placeholder">
-                    <div class="square image"></div>
+            {% if row[2] != "" %}
+                <div class="square image">
+                    <img class="ui image" src="{{row[2]}}" style="height: 250px; width: 250px; object-fit: cover;"/>
                 </div>
-                <!-- <img src="../static/images/user.png"> -->
-            </div>
+            {% else %}
+                <div class="square image">
+                    <div class="ui placeholder" style="height: 250px; width: 250px;"></div>
+                </div>
+            {% endif %}
             <div class="content">
                 <div class="meta">
                     <a>{{row[0]}}</a>
@@ -24,7 +27,7 @@
                 <div class="description">
                     {{row[1]}}
                     {% if button_id == "Student" %}
-                    {{row[2]}}
+                        {{row[2]}}
                     {% endif %}
                 </div>
             </div>
