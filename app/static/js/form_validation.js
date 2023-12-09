@@ -599,12 +599,8 @@ $('#editStudentForm').form({
   }
 });
 
-// $(document).on('click', '#testFileButton', function () {
-//   $('#testFileButton>input').trigger('click');
-// });
-
-$('#testFileButton').on('click', function () {
-  $('#testInputButton').trigger('click');
+$('#mockFileButton').on('click', function () {
+  $('#realInputButton').trigger('click');
 });
 
 function previewImage(event) {
