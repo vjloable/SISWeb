@@ -26,60 +26,65 @@ $('#addCollegeForm').form({
     },
   },
   onSuccess: function () {
-    var allFields = $('#addCollegeForm').form('get values');
-    var data = {
-      "code": allFields['code'], 
-      "name": allFields['name']
-    }
     let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+data['code']+'?');
-    $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
+    var allFields = $('#addCollegeForm').form('get values');
+    $('#headerConfirmationModal').text('Are you sure you want to ' + action + ' a record with a college code of ' + allFields['code'] + '?');
+    $('#contentConfirmationModal').text('By confirming to ' + action + ', any changes made are permanent and irreversible. Hit Yes if you are sure to ' + action + ' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
-    .modal({
-      closable  : false,
-      onDeny    : function(){},
-      onApprove : function() {
-        $.ajax({
-          url: "/api/college/create",
-          type: "POST",
-          data: JSON.stringify(data),
-          contentType:"application/json; charset=utf-8",
-          dataType:"json",
-          success: function(response){
-            let content = '';
-            let status = '';
-            let icon = '';
-            if(response.success === false){
-              var results = response.results;
-              content = "There is something wrong with the input data in the form.";
-              if (results.indexOf("Duplicate") !== -1) {
-                content = "The college code '"+data['code']+"' is already taken. \nTry another college code again.";
-              }
-              status = 'Error!';
-              icon = 'times circle outline error red'
-            }else{
-              content = "Successfully created a College named "+data["name"]+".";
-              status = 'Success!';
-              icon = 'check circle outline green'
+      .modal({
+        closable: false,
+        onDeny: function () { },
+        onApprove: function () {
+          let url = uploadImage(action, "College");
+          if (url) {
+            var data = {
+              "code": allFields['code'],
+              "name": allFields['name'],
+              "img_url": url.responseJSON.url
             }
-            $('#statusAlertModal').text(status);
-            $('#contentAlertModal').text(content);
-            $("#iconAlertModal").toggleClass(icon);
-            $('#alertModal')
-            .modal({
-              closable  : false,
-              onDeny    : function(){},
-              onApprove : function() {
-                window.location.href = '/';
+            $.ajax({
+              url: "/api/college/create",
+              type: "POST",
+              data: JSON.stringify(data),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (response) {
+                let content = '';
+                let status = '';
+                let icon = '';
+                if (response.success === false) {
+                  var results = response.results;
+                  content = "There is something wrong with the input data in the form.";
+                  if (results.indexOf("Duplicate") !== -1) {
+                    content = "The college code '" + data['code'] + "' is already taken. \nTry another college code again.";
+                  }
+                  status = 'Error!';
+                  icon = 'times circle outline error red'
+                } else {
+                  content = "Successfully created a College named " + data["name"] + ".";
+                  status = 'Success!';
+                  icon = 'check circle outline green'
+                }
+                $('#statusAlertModal').text(status);
+                $('#contentAlertModal').text(content);
+                $("#iconAlertModal").toggleClass(icon);
+                $('#alertModal')
+                  .modal({
+                    closable: false,
+                    onDeny: function () { },
+                    onApprove: function () {
+                      window.location.href = '/';
+                    }
+                  })
+                  .modal('show');
               }
             })
-            .modal('show');
           }
-        })
-      }
-    })
-    .modal('show');
+        }
+      })
+      .modal('show');
+    
     return false;
   }
 });
@@ -594,24 +599,62 @@ $('#editStudentForm').form({
   }
 });
 
-function uploadImage() {
-  var formData = new FormData($('#uploadForm')[0]);
+// $(document).on('click', '#testFileButton', function () {
+//   $('#testFileButton>input').trigger('click');
+// });
 
-  $.ajax({
-    url: '/upload',
-    type: 'POST',
-    data: formData,
-    contentType: false,
-    processData: false,
-    beforeSend: function() {
-      $("#loadingText").text("Loading");
-    },
-    success: function(response) {
-      $("#loadingText").text("Succes");
-      alert(response);
-    },
-    error: function(error) {
-      console.error('Error uploading image:', error);
+$('#testFileButton').on('click', function () {
+  $('#testInputButton').trigger('click');
+});
+
+function previewImage(event) {
+  var output = document.getElementById('imagePreview');
+  try {
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+      URL.revokeObjectURL(output.src);
+      $('#imagePreview').removeClass('hidden');
     }
-  });
+  }
+  catch (err) {
+    console.log("No image selected.");
+  }
+  
+};
+
+function uploadImage(action, category) {
+  var formData = new FormData($('#'+action+category+'Form')[0]);
+  var imageFile = formData.get("image");
+  if (imageFile.name != '') {
+    return $.ajax({
+      url: '../api/' + String(category).toLowerCase() +'/upload',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      async: false,
+      processData: false,
+      beforeSend: function () {
+        $("#submitAddCollege").toggleClass("loading");
+        $("#submitAddCollege").toggleClass("disabled");
+        $("#cancelAddCollege").toggleClass("disabled");
+      },
+      success: function (response) {
+        $("#submitAddCollege").toggleClass("loading");
+        $("#submitAddCollege").toggleClass("disabled");
+        $("#cancelAddCollege").toggleClass("disabled");
+        return response;
+      },
+      error: function (error) {
+        console.error('Error uploading image:', error);
+      } 
+    });
+  } else {
+    return {'responseJSON': {'url':''}};
+  }
 }
+
+// $(document).ready(function () {
+//   if ($('#imagePreview').attr('src') == '#') {
+//     $('#imagePreview').toggleClass('hidden');
+//   }
+// });
