@@ -1,7 +1,17 @@
-<form class="ui large form" id="addStudentForm">
-    <div class="ui stacked segment">
+<form class="ui large form vertical segments" id="addStudentForm" enctype="multipart/form-data" style="padding: 0;" autocomplete="off">
+    <div class="ui segment" style="position: relative;">
+        <div class="ui placeholder" style="height: 180px; border-radius: 3px;">
+            <img class="ui image hidden" id="imagePreview" src="#" />
+        </div>
+        <div style="margin: auto; z-index: 1; position: absolute; top: 20px; right: 20px;">
+            <div class="ui inverted green mini button" id="mockFileButton">Upload</div>
+            <input id="realInputButton" type="file" name="image" accept="image/*" onchange="previewImage(event)" />
+        </div>
+        <p id="loadingText" style="position: absolute; top: 40px;"></p>
+    </div>
+    <div class="ui segment">
         <h3 class="ui header">
-        Add Student Form
+            Add Student Form
         </h3>
         <div class="field">
             <input type="text" name="student_id" placeholder="Student ID">
