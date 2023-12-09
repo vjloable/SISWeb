@@ -11,8 +11,8 @@ class CourseModel:
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            INSERT INTO Courses
-            VALUES ("{}", "{}", "{}");
+            INSERT INTO Courses (Code, Name, College, ImgURL)
+            VALUES ("{}", "{}", "{}", "");
             """.format(code, name, college_code)
             )
             connection.commit()
