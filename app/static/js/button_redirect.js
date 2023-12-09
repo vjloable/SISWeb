@@ -249,4 +249,3 @@ $(document).on('click', '.gotoEditStudent', function() {
 $(document).on('click', '.cancel-button', function() {
   window.location.href = '/';
 });
-
