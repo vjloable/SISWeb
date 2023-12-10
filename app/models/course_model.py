@@ -6,14 +6,14 @@ class CourseModel:
 
     #Create
     @staticmethod
-    def insert(code, name, college_code):
+    def insert(code, name, college_code, img_url=""):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             INSERT INTO Courses (Code, Name, College, ImgURL)
-            VALUES ("{}", "{}", "{}", "");
-            """.format(code, name, college_code)
+            VALUES ("{}", "{}", "{}", "{}");
+            """.format(code, name, college_code, img_url)
             )
             connection.commit()
             return {'success':True, 'results':"Inserted {}, {}, {} into Courses table successfuly".format(code, name, college_code)}
