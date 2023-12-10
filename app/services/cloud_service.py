@@ -28,14 +28,20 @@ class CloudService:
 
     @staticmethod
     def upload(image, uid, category):
-        result = cloudinary.uploader.upload(
-            image,
-            public_id = "{}/{}".format(category, uid),
-            folder = "sisweb",
-            resource_type = "image",
-            type = "upload",
-            overwrite = True,
-            phash = True,
-            eager = [{"width": 500, "height": 500, "crop": "fill"}]
-        )
-        return {"url": result["url"]}
+        response = {}
+        try:
+            result = cloudinary.uploader.upload(
+                image,
+                public_id = "{}/{}".format(category, uid),
+                folder = "sisweb",
+                resource_type = "image",
+                type = "upload",
+                overwrite = True,
+                phash = True,
+                eager = [{"width": 500, "height": 500, "crop": "fill"}]
+            )
+            response = {'success': True, 'results': {"url": result["url"]}}
+        except:
+            response = {'success': False, 'results': {"url": ""}}
+        finally:
+            return response
