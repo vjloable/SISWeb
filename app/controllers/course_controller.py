@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from app.models.course_model import CourseModel
 from app.views.course_view import CourseView
+from app.services.cloud_service import CloudService
 
 course_blueprint = Blueprint('course', __name__)
 
@@ -27,12 +28,13 @@ def api_create_course():
             code = str(request_body['code']) 
             name = str(request_body['name'])
             college = str(request_body['college'])
-            model_response = CourseModel.insert(code, name, college)
+            img_url = str(request_body['img_url'])
+            model_response = CourseModel.insert(code, name, college, img_url)
             return CourseView.setPayloadToJSON(201, payload=model_response)
         else:
             return CourseView.setPayloadToJSON(400)
     else:
-        return CollegeView.setPayloadToJSON(403)
+        return CourseView.setPayloadToJSON(403)
 
 @course_blueprint.route('/api/course/read', methods=['GET'])
 def api_read_course():
@@ -85,3 +87,20 @@ def api_get_courses():
                 return CourseView.renderNoDataAsJSON()
     else:
         return CourseView.setPayloadToJSON(403)
+
+
+@course_blueprint.route('/api/course/upload', methods=['POST'])
+def api_upload_courses():
+    request_file = request.files
+    request_body = request.form
+    if request_body:
+        code = str(request_body['code'])
+        if 'image' in request_file:
+            image = request_file['image']
+            cloudResponse = CloudService.upload(image, code, "course")
+            results = cloudResponse["results"]
+            return CourseView.setPayloadToJSON(201, payload=results)
+        else:
+            return 'No image provided', 400
+    else:
+        return CourseView.setPayloadToJSON(400)
