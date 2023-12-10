@@ -6,17 +6,17 @@ class StudentModel:
 
     #Create
     @staticmethod
-    def insert(student_id, firstname, lastname, course, year, gender):
+    def insert(student_id, firstname, lastname, course, year, gender, img_url=""):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            INSERT INTO Students
-            VALUES ("{}", "{}", "{}", "{}", "{}", "{}");
-            """.format(student_id, firstname, lastname, course, year, gender)
+            INSERT INTO Students (StudentId, Firstname, Lastname, Course, Year, Gender, ImgURL)
+            VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "{}");
+            """.format(student_id, firstname, lastname, course, year, gender, img_url)
             )
             connection.commit()
-            return {'success':True, 'results':"Inserted {}, {}, {}, {}, {}, {} into Students table successfuly".format(student_id, firstname, lastname, course, year, gender)}
+            return {'success':True, 'results':"Inserted {}, {}, {}, {}, {}, {}. into Students table successfuly".format(student_id, firstname, lastname, course, year, gender)}
         except MySQLError as e:
             return {'success':False, 'results':str(e)}
         finally:
