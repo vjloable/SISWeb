@@ -92,13 +92,13 @@ def api_get_colleges():
 def api_upload_colleges():
     request_file = request.files
     request_body = request.form
-
     if request_body:
-        code = str(request_body['code'])    
+        code = str(request_body['code'])
         if 'image' in request_file:
             image = request_file['image']
-            url = CloudService.upload(image,code,"college")
-            return CollegeView.setPayloadToJSON(201, payload=url)
+            cloudResponse = CloudService.upload(image, code, "college")
+            results = cloudResponse["results"]
+            return CollegeView.setPayloadToJSON(201, payload=results)
         else:
             return 'No image provided', 400
     else:
