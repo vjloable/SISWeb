@@ -4,6 +4,46 @@ $('.coupled.modal')
   })
 ;
 
+
+function previewImage(event, category) {
+  var output = document.getElementById('imagePreview' + category);
+  try {
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function () {
+      URL.revokeObjectURL(output.src);
+      $('#imagePreview' + category).removeClass('hidden');
+    }
+  }
+  catch (err) {
+    console.log("No image selected.");
+  }
+
+};
+
+function uploadImage(action, category) {
+  var formData = new FormData($('#' + action + category + 'Form')[0]);
+  // var imageFile = formData.get("image");
+  return $.ajax({
+    url: '../api/' + String(category).toLowerCase() + '/upload',
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    beforeSend: function () {
+      $("#yesConfirmButton").toggleClass("loading disabled");
+      $("#noConfirmButton").toggleClass("disabled");
+    },
+    success: function (response) {
+      console.log("success");
+      return { "loading": false, "url": response.url };
+    },
+    complete: function () {
+      $("#yesConfirmButton").toggleClass("loading disabled");
+      $("#noConfirmButton").toggleClass("disabled");
+    }
+  });
+}
+
 $('#addCollegeForm').form({
   fields: {
     code: {
@@ -32,17 +72,18 @@ $('#addCollegeForm').form({
     $('#contentConfirmationModal').text('By confirming to ' + action + ', any changes made are permanent and irreversible. Hit Yes if you are sure to ' + action + ' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
-      .modal({
-        closable: false,
-        onDeny: function () { },
-        onApprove: function () {
-          let url = uploadImage(action, "College");
-          if (url) {
-            var data = {
-              "code": allFields['code'],
-              "name": allFields['name'],
-              "img_url": url.responseJSON.url
-            }
+    .modal({
+      closable: false,
+      onDeny: function () { },
+      onApprove: function () {
+        var data = {
+          "code": allFields['code'],
+          "name": allFields['name'],
+          "img_url": ""
+        }
+        uploadImage(action, "College")
+          .then((uploadResponse) => {
+            data.img_url = uploadResponse.url;
             $.ajax({
               url: "/api/college/create",
               type: "POST",
@@ -79,12 +120,12 @@ $('#addCollegeForm').form({
                   })
                   .modal('show');
               }
-            })
-          }
-        }
-      })
-      .modal('show');
-    
+            })    
+          });
+        return false;
+      }
+    })
+    .modal('show');
     return false;
   }
 });
@@ -120,14 +161,9 @@ $('#addCourseForm').form({
     },
   },
   onSuccess: function () {
-    var allFields = $('#addCourseForm').form('get values');
-    var data = {
-      "code": allFields['code'], 
-      "name": allFields['name'],
-      "college": allFields['college'],
-    }
     let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a course code of '+data['code']+'?');
+    var allFields = $('#addCourseForm').form('get values'); 
+    $('#headerConfirmationModal').text('Are you sure you want to ' + action + ' a record with a course code of ' + allFields['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -135,43 +171,54 @@ $('#addCourseForm').form({
       closable  : false,
       onDeny    : function(){},
       onApprove : function() {
-        $.ajax({
-          url: "/api/course/create",
-          type: "POST",
-          data: JSON.stringify(data),
-          contentType:"application/json; charset=utf-8",
-          dataType:"json",
-          success: function(response){
-            let content = '';
-            let status = '';
-            let icon = '';
-            if(response.success === false){
-              var results = response.results;
-              content = "There is something wrong with the input data in the form.";
-              if (results.indexOf("Duplicate") !== -1) {
-                content = "The course code '"+data['code']+"' is already taken. \nTry another course code again.";
-              }
-              status = 'Error!';
-              icon = 'times circle outline error red'
-            }else{
-              content = "Successfully "+action+"ed a Course named "+data["name"]+".";
-              status = 'Success!';
-              icon = 'check circle outline green'
-            }
-            $('#statusAlertModal').text(status);
-            $('#contentAlertModal').text(content);
-            $("#iconAlertModal").toggleClass(icon);
-            $('#alertModal')
-            .modal({
-              closable  : false,
-              onDeny    : function(){},
-              onApprove : function() {
-                window.location.href = '/';
+        var data = {
+          "code": allFields['code'],
+          "name": allFields['name'],
+          "college": allFields['college'],
+          "img_url": ""
+        }
+        uploadImage(action, "Course")
+          .then((uploadResponse) => {
+            data.img_url = uploadResponse.url;
+            $.ajax({
+              url: "/api/course/create",
+              type: "POST",
+              data: JSON.stringify(data),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (response) {
+                let content = '';
+                let status = '';
+                let icon = '';
+                if (response.success === false) {
+                  var results = response.results;
+                  content = "There is something wrong with the input data in the form.";
+                  if (results.indexOf("Duplicate") !== -1) {
+                    content = "The course code '" + data['code'] + "' is already taken. \nTry another course code again.";
+                  }
+                  status = 'Error!';
+                  icon = 'times circle outline error red'
+                } else {
+                  content = "Successfully " + action + "ed a Course named " + data["name"] + ".";
+                  status = 'Success!';
+                  icon = 'check circle outline green'
+                }
+                $('#statusAlertModal').text(status);
+                $('#contentAlertModal').text(content);
+                $("#iconAlertModal").toggleClass(icon);
+                $('#alertModal')
+                  .modal({
+                    closable: false,
+                    onDeny: function () { },
+                    onApprove: function () {
+                      window.location.href = '/';
+                    }
+                  })
+                  .modal('show');
               }
             })
-            .modal('show');
-          }
-        })
+          });
+        return false;
       }
     })
     .modal('show');
@@ -237,61 +284,67 @@ $('#addStudentForm').form({
     },
   },
   onSuccess: function () {
-    var allFields = $('#addStudentForm').form('get values');
-    var data = {
-      "student_id": (allFields['student_id']), 
-      "firstname": allFields['firstname'],
-      "lastname": allFields['lastname'],
-      "course": allFields['course'], 
-      "year": allFields['year'],
-      "gender": allFields['gender']
-    };
     let action = 'add';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a student id of '+data['student_id']+'?');
+    var allFields = $('#addStudentForm').form('get values');
+    $('#headerConfirmationModal').text('Are you sure you want to ' + action + ' a record with a student id of ' + allFields['student_id']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
     .modal({
       closable  : false,
       onDeny    : function(){},
-      onApprove : function() {
-        $.ajax({
-          url: "/api/student/create",
-          type: "POST",
-          data: JSON.stringify(data),
-          contentType:"application/json; charset=utf-8",
-          dataType:"json",
-          success: function(response){
-            let content = '';
-            let status = '';
-            let icon = '';
-            if(response.success === false){
-              var results = response.results;
-              content = "There is something wrong with the input data in the form.";
-              if (results.indexOf("Duplicate") !== -1) {
-                content = "The student id '"+data['student_id']+"' is already taken. \nTry another student id again.";
-              }
-              status = 'Error!';
-              icon = 'times circle outline error red'
-            }else{
-              content = "Successfully "+action+"ed a Student named "+data["name"]+".";
-              status = 'Success!';
-              icon = 'check circle outline green'
-            }
-            $('#statusAlertModal').text(status);
-            $('#contentAlertModal').text(content);
-            $("#iconAlertModal").toggleClass(icon);
-            $('#alertModal')
-            .modal({
-              closable  : false,
-              onDeny    : function(){},
-              onApprove : function() {
-                window.location.href = '/';
+      onApprove: function () {
+        var data = {
+          "student_id": (allFields['student_id']),
+          "firstname": allFields['firstname'],
+          "lastname": allFields['lastname'],
+          "course": allFields['course'],
+          "year": allFields['year'],
+          "gender": allFields['gender'],
+          "img_url": ""
+        };
+        uploadImage(action, "Student")
+          .then((uploadResponse) => {
+            data.img_url = uploadResponse.url;
+            $.ajax({
+              url: "/api/student/create",
+              type: "POST",
+              data: JSON.stringify(data),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (response) {
+                let content = '';
+                let status = '';
+                let icon = '';
+                if (response.success === false) {
+                  var results = response.results;
+                  content = "There is something wrong with the input data in the form.";
+                  if (results.indexOf("Duplicate") !== -1) {
+                    content = "The student id '" + data['student_id'] + "' is already taken. \nTry another student id again.";
+                  }
+                  status = 'Error!';
+                  icon = 'times circle outline error red'
+                } else {
+                  content = "Successfully " + action + "ed a Student with an ID " + data["student_id"] + ".";
+                  status = 'Success!';
+                  icon = 'check circle outline green'
+                }
+                $('#statusAlertModal').text(status);
+                $('#contentAlertModal').text(content);
+                $("#iconAlertModal").toggleClass(icon);
+                $('#alertModal')
+                  .modal({
+                    closable: false,
+                    onDeny: function () { },
+                    onApprove: function () {
+                      window.location.href = '/';
+                    }
+                  })
+                  .modal('show');
               }
             })
-            .modal('show');
-          }
-        })
+          });
+        return false;
       }
     })
     .modal('show');
@@ -599,55 +652,17 @@ $('#editStudentForm').form({
   }
 });
 
-$('#mockFileButton').on('click', function () {
-  $('#realInputButton').trigger('click');
+$('#mockFileCollegeButton').on('click', function () {
+  $('#realInputCollegeButton').trigger('click');
 });
 
-function previewImage(event) {
-  var output = document.getElementById('imagePreview');
-  try {
-    output.src = URL.createObjectURL(event.target.files[0]);
-    output.onload = function () {
-      URL.revokeObjectURL(output.src);
-      $('#imagePreview').removeClass('hidden');
-    }
-  }
-  catch (err) {
-    console.log("No image selected.");
-  }
-  
-};
+$('#mockFileCourseButton').on('click', function () {
+  $('#realInputCourseButton').trigger('click');
+});
 
-function uploadImage(action, category) {
-  var formData = new FormData($('#'+action+category+'Form')[0]);
-  var imageFile = formData.get("image");
-  if (imageFile.name != '') {
-    return $.ajax({
-      url: '../api/' + String(category).toLowerCase() +'/upload',
-      type: 'POST',
-      data: formData,
-      contentType: false,
-      async: false,
-      processData: false,
-      beforeSend: function () {
-        $("#submitAddCollege").toggleClass("loading");
-        $("#submitAddCollege").toggleClass("disabled");
-        $("#cancelAddCollege").toggleClass("disabled");
-      },
-      success: function (response) {
-        $("#submitAddCollege").toggleClass("loading");
-        $("#submitAddCollege").toggleClass("disabled");
-        $("#cancelAddCollege").toggleClass("disabled");
-        return response;
-      },
-      error: function (error) {
-        console.error('Error uploading image:', error);
-      } 
-    });
-  } else {
-    return {'responseJSON': {'url':''}};
-  }
-}
+$('#mockFileStudentButton').on('click', function () {
+  $('#realInputStudentButton').trigger('click');
+});
 
 // $(document).ready(function () {
 //   if ($('#imagePreview').attr('src') == '#') {
