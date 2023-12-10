@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from app.models.student_model import StudentModel
 from app.views.student_view import StudentView
+from app.services.cloud_service import CloudService
 
 student_blueprint = Blueprint('student', __name__)
 
@@ -43,7 +44,8 @@ def api_create_student():
             course = str(request_body['course'])
             year = str(request_body['year'])
             gender = str(request_body['gender'])
-            model_response = StudentModel.insert(student_id, firstname, lastname, course, year, gender)
+            img_url = str(request_body['img_url'])
+            model_response = StudentModel.insert(student_id, firstname, lastname, course, year, gender, img_url)
             return StudentView.setPayloadToJSON(201, payload=model_response)
         else:
             return StudentView.setPayloadToJSON(400)
@@ -104,3 +106,20 @@ def api_get_students():
                 return StudentView.renderNoDataAsJSON()
     else:
         return StudentView.setPayloadToJSON(403)
+
+
+@student_blueprint.route('/api/student/upload', methods=['POST'])
+def api_upload_students():
+    request_file = request.files
+    request_body = request.form
+    if request_body:
+        student_id = str(request_body['student_id'])
+        if 'image' in request_file:
+            image = request_file['image']
+            cloudResponse = CloudService.upload(image, student_id, "student")
+            results = cloudResponse["results"]
+            return StudentView.setPayloadToJSON(201, payload=results)
+        else:
+            return 'No image provided', 400
+    else:
+        return StudentView.setPayloadToJSON(400)
