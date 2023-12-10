@@ -11,9 +11,17 @@
     </div>
     {% for row in rows %}
         <div class="card" id="row{{rows[loop.index - 1][0]}}">
-            {% if row[2] != "" %}
+            {% if button_id == "College" %}
+                {% set img_url = row[2] %}
+            {% elif button_id == "Course" %}
+                {% set img_url = row[3] %}
+            {% elif button_id == "Student" %}
+                {% set img_url = row[6] %}
+            {% endif %}
+
+            {% if img_url != "" %}
                 <div class="square image">
-                    <img class="ui image" src="{{row[2]}}" style="height: 250px; width: 250px; object-fit: cover;"/>
+                    <img class="ui image" src="{{img_url}}" style="height: 250px; width: 250px; object-fit: cover;"/>
                 </div>
             {% else %}
                 <div class="ui placeholder ">
