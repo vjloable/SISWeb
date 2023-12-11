@@ -24,7 +24,7 @@ function uploadImage(action, category) {
   var formData = new FormData($('#' + action + category + 'Form')[0]);
   // var imageFile = formData.get("image");
   return $.ajax({
-    url: '../api/' + String(category).toLowerCase() + '/upload',
+    url: '../api/' + String(category).toLowerCase() + '/image_upload',
     type: 'POST',
     data: formData,
     contentType: false,
