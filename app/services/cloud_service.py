@@ -45,3 +45,14 @@ class CloudService:
             response = {'success': False, 'results': {"url": ""}}
         finally:
             return response
+
+    @staticmethod
+    def delete(uid, category):
+        response = {}
+        try:
+            result = cloudinary.uploader.destroy(f"sisweb/{category}/{uid}")
+            response = {'success': True, 'results': result}
+        except:
+            response = {'success': False, 'results': "No file deleted"}
+        finally:
+            return response
