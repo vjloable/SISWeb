@@ -1,9 +1,102 @@
-<div class="ui link four stackable cards" style="overflow-y: scroll;">
+{% if session.viewmode == "list" %}
+    <table class="ui basic padded structured definition selectable table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    {{button_id}}
+                </th>
+                {% if button_id == "Course" %}
+                <th>
+                    College Code
+                </th>
+                {% elif button_id == "Student" %}
+                <th>
+                    Course Code
+                </th>
+                <th>
+                    Year Level
+                </th>
+                <th>
+                    Gender
+                </th>
+                {% endif %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+                {% if button_id == "College" %}
+                    {% set img_url = row[2] %}
+                {% elif button_id == "Course" %}
+                    {% set img_url = row[3] %}
+                {% elif button_id == "Student" %}
+                    {% set img_url = row[6] %}
+                {% endif %}
+                <tr>
+                    <td class="collapsing">
+                        {{loop.index}}
+                    </td>
+                    <td>
+                        <h4 class="ui image header">
+                            <img src="{{img_url}}" class="ui rounded image" style="height: 2vw; width: 2vw; object-fit: cover;">
+                            <div class="content">
+                                {{row[1]}}
+                                {% if button_id == "Student" %}
+                                {{row[2]}}
+                                {% endif %}
+                                <div class="sub header">
+                                    {% if button_id != "Student" %}
+                                        {{button_id}} Code: {{row[0]}}
+                                    {% else %}
+                                        {{button_id}} ID: {{row[0]}}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </h4>
+                    </td>
+                    {% if button_id == "Course" %}
+                    <td>
+                        {{row[2]}}
+                    </td>
+                    {% elif button_id == "Student" %}
+                    <td>
+                        {{row[3]}}
+                    </td>
+                    <td>
+                        {{row[4]}} Year
+                    </td>
+                    <td>
+                        {{row[5]}}
+                    </td>
+                    {% endif %}
+                    <td class="collapsing">
+                        <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                            <i class="trash icon"></i>
+                        </button>
+                        <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                            <i class="pencil alternate icon"></i>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr id="gotoAdd{{button_id}}">
+                <td colspan="6" style="text-align: center;">
+                    Click to add {{button_id}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+{% elif session.viewmode == "cards" %}
+    <div class="ui link four stackable cards" style="overflow-y: scroll;">
     <div class="card button" id="gotoAdd{{button_id}}" style="background-color: darkgrey; padding: 2em;">
         <div class="image">
             <img src="../static/images/add.png">
         </div>
-        <div class="content" style="border-top: 1px solid rgba(0,0,0,0); height: 140px;">
+        <div class="content" style="border-top: 1px solid rgba(0,0,0,0); height: 12vw;">
             <div class="header center aligned" style="color: lightgray">
                 Click to add {{button_id}}
             </div>
@@ -21,11 +114,11 @@
 
             {% if img_url != "" %}
                 <div class="square image">
-                    <img class="ui image" src="{{img_url}}" style="height: 250px; width: 250px; object-fit: cover;"/>
+                    <img class="ui image" src="{{img_url}}" style="height: 12vw; width: 18vw; object-fit: cover; margin: auto;"/>
                 </div>
             {% else %}
                 <div class="ui placeholder ">
-                    <div class="ui container" style="height: 250px; width: 250px;"></div>
+                    <div class="ui container" style="height: 12vw; width: 18vw;"></div>
                 </div>
             {% endif %}
             <div class="content">
@@ -50,5 +143,98 @@
                 </span>
             </div>
         </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
+{% else %}
+    <table class="ui basic padded structured definition selectable table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    {{button_id}}
+                </th>
+                {% if button_id == "Course" %}
+                <th>
+                    College Code
+                </th>
+                {% elif button_id == "Student" %}
+                <th>
+                    Course Code
+                </th>
+                <th>
+                    Year Level
+                </th>
+                <th>
+                    Gender
+                </th>
+                {% endif %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            {% if button_id == "College" %}
+            {% set img_url = row[2] %}
+            {% elif button_id == "Course" %}
+            {% set img_url = row[3] %}
+            {% elif button_id == "Student" %}
+            {% set img_url = row[6] %}
+            {% endif %}
+            <tr>
+                <td class="collapsing">
+                    {{loop.index}}
+                </td>
+                <td>
+                    <h4 class="ui image header">
+                        <img src="{{img_url}}" class="ui rounded image" style="height: 2vw; width: 2vw; object-fit: cover;">
+                        <div class="content">
+                            {{row[1]}}
+                            {% if button_id == "Student" %}
+                            {{row[2]}}
+                            {% endif %}
+                            <div class="sub header">
+                                {% if button_id != "Student" %}
+                                {{button_id}} Code: {{row[0]}}
+                                {% else %}
+                                {{button_id}} ID: {{row[0]}}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </h4>
+                </td>
+                {% if button_id == "Course" %}
+                <td>
+                    {{row[2]}}
+                </td>
+                {% elif button_id == "Student" %}
+                <td>
+                    {{row[3]}}
+                </td>
+                <td>
+                    {{row[4]}} Year
+                </td>
+                <td>
+                    {{row[5]}}
+                </td>
+                {% endif %}
+                <td class="collapsing">
+                    <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <i class="trash icon"></i>
+                    </button>
+                    <button class="ui icon inverted violet button gotoEdit{{button_id}}"
+                        value="{{rows[loop.index - 1][0]}}">
+                        <i class="pencil alternate icon"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr id="gotoAdd{{button_id}}">
+                <td colspan="6" style="text-align: center;">
+                    Click to add {{button_id}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
