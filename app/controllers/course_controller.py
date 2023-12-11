@@ -1,4 +1,5 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
+from flask_session import Session
 from app.models.course_model import CourseModel
 from app.views.course_view import CourseView
 from app.services.cloud_service import CloudService
@@ -78,6 +79,7 @@ def api_get_courses():
             else:
                 return CourseView.setPayloadToJSON(400)
         else:
+            session['lastTab'] = "Course"  # SESSION
             results = CourseModel.count_rows()
             if results['results'] > 0:
                 model_response = CourseModel.list_all()
@@ -89,7 +91,7 @@ def api_get_courses():
         return CourseView.setPayloadToJSON(403)
 
 
-@course_blueprint.route('/api/course/upload', methods=['POST'])
+@course_blueprint.route('/api/course/image_upload', methods=['POST'])
 def api_upload_courses():
     request_file = request.files
     request_body = request.form

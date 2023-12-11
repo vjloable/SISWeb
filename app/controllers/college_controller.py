@@ -1,4 +1,5 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
+from flask_session import Session
 from app.models.college_model import CollegeModel
 from app.views.college_view import CollegeView
 from app.services.cloud_service import CloudService
@@ -35,7 +36,6 @@ def api_create_college():
     else:
         return CollegeView.setPayloadToJSON(403)
     
-
 @college_blueprint.route('/api/college/read', methods=['GET'])
 def api_read_college():
     code = request.args.get('code', None)
@@ -64,7 +64,6 @@ def api_delete_college():
     else:
         return CollegeView.setPayloadToJSON(400)
 
-
 @college_blueprint.route('/api/college/list', methods=['GET', 'POST'])
 def api_get_colleges():
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -78,6 +77,7 @@ def api_get_colleges():
             else:
                 return CollegeView.setPayloadToJSON(400)
         else:
+            session['lastTab'] = "College" #SESSION
             results = CollegeModel.count_rows()
             if results['results'] > 0:
                 model_response = CollegeModel.list_all()
@@ -88,8 +88,8 @@ def api_get_colleges():
     else:
         return CollegeView.setPayloadToJSON(403)
 
-@college_blueprint.route('/api/college/upload', methods=['POST'])
-def api_upload_colleges():
+@college_blueprint.route('/api/college/image_upload', methods=['POST'])
+def api_image_upload_colleges():
     request_file = request.files
     request_body = request.form
     if request_body:
@@ -103,3 +103,14 @@ def api_upload_colleges():
             return 'No image provided', 400
     else:
         return CollegeView.setPayloadToJSON(400)
+
+# @college_blueprint.route('/api/college/image_destroy', methods=['POST'])
+# def api_image_destroy_colleges():
+#     request_body = request.form
+#     if request_body:
+#         code = str(request_body['code'])
+#         cloudResponse = CloudService.delete(code, "college")
+#         results = cloudResponse["results"]
+#         return CollegeView.setPayloadToJSON(201, payload=results)
+#     else:
+#         return CollegeView.setPayloadToJSON(400)

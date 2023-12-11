@@ -1,4 +1,5 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, session
+from flask_session import Session
 from app.models.student_model import StudentModel
 from app.views.student_view import StudentView
 from app.services.cloud_service import CloudService
@@ -97,6 +98,7 @@ def api_get_students():
             else:
                 return StudentView.setPayloadToJSON(400)
         else:
+            session['lastTab'] = "Student"  # SESSION
             results = StudentModel.count_rows()
             if results['results'] > 0:
                 model_response = StudentModel.list_all()
@@ -108,7 +110,7 @@ def api_get_students():
         return StudentView.setPayloadToJSON(403)
 
 
-@student_blueprint.route('/api/student/upload', methods=['POST'])
+@student_blueprint.route('/api/student/image_upload', methods=['POST'])
 def api_upload_students():
     request_file = request.files
     request_body = request.form
