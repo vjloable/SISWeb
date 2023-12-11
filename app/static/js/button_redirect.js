@@ -1,3 +1,35 @@
+$(document).on('click', '#buttonShowAsList', function () {
+  var data = {
+    'viewmode': 'list'
+  };
+  $.ajax({
+    type: 'POST',
+    url: "/viewmode",
+    data: JSON.stringify(data),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    complete: function () {
+      window.location.href = '/';
+    }
+  });
+});
+
+$(document).on('click', '#buttonShowAsCards', function () {
+  var data = {
+    'viewmode': 'cards'
+  };
+  $.ajax({
+    type: 'POST',
+    url: "/viewmode",
+    data: JSON.stringify(data),
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    complete: function () {
+      window.location.href = '/';
+    }
+  });
+});
+
 $(document).on('click', '#gotoAddCollege', function() {
   window.location.href = '/college/create';
 });
@@ -30,37 +62,53 @@ $(document).on('click', '.gotoDeleteCollege', function() {
         data: JSON.stringify(data),
         contentType:"application/json; charset=utf-8",
         dataType:"json",
-        success: function(response) {
-          let content = '';
-          let status = '';
-          let icon = '';
-          if(response.success === false){
-            content = response.results;
-            status = 'Error!';
-            icon = 'times circle outline error red'
-          }else{
-            content = "Successfully "+action+"d a College named "+buttonValue+".";
-            status = 'Success!';
-            icon = 'check circle outline green'
-          }
-          $('#statusAlertModal').text(status);
-          $('#contentAlertModal').text(content);
-          $("#iconAlertModal").toggleClass(icon);
-          $('#row'+buttonValue).remove();
-          $('#alertModal')
-          .modal({
-            closable  : false,
-            onDeny    : function(){},
-            onApprove : function() {
-              var count = $(".cards .card").length;
-              console.log(count);
-              if(count <= 1){
-                window.location.reload();
-              }
-            }
-          })
-          .modal('show');
+        beforeSend: function () {
+          $("#yesConfirmButton").toggleClass("loading disabled");
+          $("#noConfirmButton").toggleClass("disabled");
         },
+      }).done(() => {
+        $.ajax({
+          type: 'POST',
+          url: "/api/college/image_destroy",
+          data: JSON.stringify(data),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (response) {
+            let content = '';
+            let status = '';
+            let icon = '';
+            if (response.success === false) {
+              content = response.results;
+              status = 'Error!';
+              icon = 'times circle outline error red'
+            } else {
+              content = "Successfully " + action + "d a College named " + buttonValue + ".";
+              status = 'Success!';
+              icon = 'check circle outline green'
+            }
+            $('#statusAlertModal').text(status);
+            $('#contentAlertModal').text(content);
+            $("#iconAlertModal").toggleClass(icon);
+            $('#row' + buttonValue).remove();
+            $('#alertModal')
+              .modal({
+                closable: false,
+                onDeny: function () { },
+                onApprove: function () {
+                  var count = $(".cards .card").length;
+                  console.log(count);
+                  if (count <= 1) {
+                    window.location.reload();
+                  }
+                }
+              })
+              .modal('show');
+          },
+          complete: function () {
+            $("#yesConfirmButton").toggleClass("loading disabled");
+            $("#noConfirmButton").toggleClass("disabled");
+          }
+        })
       });
     }
   })
