@@ -3,21 +3,64 @@
 {% block content %}
 <div style="margin-top: 50px;" class="ui container">
   <h2>Student Information System</h2> 
-  
-  <div class="ui top attached tabular menu active">
-    <a class="item active" data-tab="college">Colleges</a>
-    <a class="item" data-tab="course">Courses</a>
-    <a class="item" data-tab="student">Students</a>
+
+  <div class="ui icon right floated buttons">
+    {% if session.viewmode == "list" %}
+      <button class="ui button disabled" id="buttonShowAsList">  
+        <i class="th list icon"></i>
+      </button>
+      <button class="ui button" id="buttonShowAsCards">
+        <i class="th icon"></i>
+      </button>
+    {% elif session.viewmode == "cards" %}
+      <button class="ui button" id="buttonShowAsList">  
+        <i class="th list icon"></i>
+      </button>
+      <button class="ui button disabled" id="buttonShowAsCards">
+        <i class="th icon"></i>
+      </button>  
+    {% else %}
+      <button class="ui button disabled" id="buttonShowAsList">  
+        <i class="th list icon"></i>
+      </button>
+      <button class="ui button" id="buttonShowAsCards">
+        <i class="th icon"></i>
+      </button>
+    {% endif %}
+
   </div>
+
+  <div class="ui top attached tabular menu active">
+    {% if session.lastTab == "College" %}
+      <a class="item active" data-tab="college">Colleges</a>
+      <a class="item" data-tab="course">Courses</a>
+      <a class="item" data-tab="student">Students</a>
+    {% elif session.lastTab == "Course" %}
+      <a class="item" data-tab="college">Colleges</a>
+      <a class="item active" data-tab="course">Courses</a>
+      <a class="item" data-tab="student">Students</a>
+    {% elif session.lastTab == "Student" %}
+      <a class="item" data-tab="college">Colleges</a>
+      <a class="item" data-tab="course">Courses</a>
+      <a class="item active" data-tab="student">Students</a>
+    {% else %}
+      <a class="item active" data-tab="college">Colleges</a>
+      <a class="item" data-tab="course">Courses</a>
+      <a class="item" data-tab="student">Students</a>
+    {% endif %}
+  </div>
+  
   
   <div class="ui bottom attached tab segment active" data-tab="college">
     <div class="ui grid padded">
       <div class="ui column">
         <div class="ui row">
-          <div class="ui fluid search" id="collegeSearch">
-            <div class="ui fluid icon input">
-              <input class="prompt" id="collegeInputSearch" type="text" placeholder="Search from colleges...">
-              <i class="search icon"></i>
+          <div class="ui fluid container">
+            <div class="ui fluid search" id="collegeSearch">
+              <div class="ui fluid icon input">
+                <input class="prompt" id="collegeInputSearch" type="text" placeholder="Search from colleges...">
+                <i class="search icon"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -33,15 +76,17 @@
       </div>
     </div>
   </div>
-
+  
   <div class="ui bottom attached tab segment" data-tab="course">
     <div class="ui grid padded">
       <div class="ui column">
         <div class="ui row">
-          <div class="ui fluid search" id="courseSearch">
-            <div class="ui fluid icon input">
-              <input class="prompt" id="courseInputSearch" type="text" placeholder="Search from courses...">
-              <i class="search icon"></i>
+          <div class="ui fluid container">
+            <div class="ui fluid search" id="courseSearch">
+              <div class="ui fluid icon input">
+                <input class="prompt" id="courseInputSearch" type="text" placeholder="Search from courses...">
+                <i class="search icon"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -62,10 +107,12 @@
     <div class="ui grid padded">
       <div class="ui column">
         <div class="ui row">
-          <div class="ui fluid search" id="studentSearch">
-            <div class="ui fluid icon input">
-              <input class="prompt" id="studentInputSearch" type="text" placeholder="Search from students...">
-              <i class="search icon"></i>
+          <div class="ui fluid container">
+            <div class="ui fluid search" id="studentSearch">
+              <div class="ui fluid icon input">
+                <input class="prompt" id="studentInputSearch" type="text" placeholder="Search from students...">
+                <i class="search icon"></i>
+              </div>
             </div>
           </div>
         </div>
