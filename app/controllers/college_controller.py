@@ -104,13 +104,13 @@ def api_image_upload_colleges():
     else:
         return CollegeView.setPayloadToJSON(400)
 
-# @college_blueprint.route('/api/college/image_destroy', methods=['POST'])
-# def api_image_destroy_colleges():
-#     request_body = request.form
-#     if request_body:
-#         code = str(request_body['code'])
-#         cloudResponse = CloudService.delete(code, "college")
-#         results = cloudResponse["results"]
-#         return CollegeView.setPayloadToJSON(201, payload=results)
-#     else:
-#         return CollegeView.setPayloadToJSON(400)
+@college_blueprint.route('/api/college/image_destroy', methods=['POST'])
+def api_image_destroy_colleges():
+    request_body = request.json
+    if request_body:
+        code = str(request_body['code'])
+        cloudResponse = CloudService.delete(code, "college")
+        results = cloudResponse["results"]
+        return CollegeView.setPayloadToJSON(201, payload=results)
+    else:
+        return CollegeView.setPayloadToJSON(400)
