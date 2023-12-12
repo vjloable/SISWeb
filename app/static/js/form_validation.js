@@ -354,7 +354,8 @@ $('#addStudentForm').form({
 
 $('#editCollegeForm').form('set values', {
   code: new URL(window.location.href).searchParams.get("code"),
-  name: new URL(window.location.href).searchParams.get("name")
+  name: new URL(window.location.href).searchParams.get("name"),
+  // img_url: new URL(window.location.href).searchParams.get("img_url"),  
 })
 
 $('#editCollegeForm').form({
@@ -437,6 +438,7 @@ $('#editCollegeForm').form({
 $('#editCourseForm').form('set values', {
   code: new URL(window.location.href).searchParams.get("code"),
   name: new URL(window.location.href).searchParams.get("name"),
+  // img_url: new URL(window.location.href).searchParams.get("img_url")
 })
 
 $('#editCourseForm').form({
@@ -533,6 +535,7 @@ $('#editStudentForm').form('set values', {
   course: new URL(window.location.href).searchParams.get("course"),
   year: new URL(window.location.href).searchParams.get("year"),
   gender: new URL(window.location.href).searchParams.get("gender"),
+  // img_url: new URL(window.location.href).searchParams.get("img_url")
 })
 
 $('#editStudentForm').form({
