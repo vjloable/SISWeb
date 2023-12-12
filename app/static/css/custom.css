@@ -12,3 +12,14 @@ input[type=file] {
     width: 100%;
     object-fit: cover;
 }
+
+.gotoButtons:hover {
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+    .single-breakpoint {
+        height: 150px;
+        width: 150px;
+    }
+}
