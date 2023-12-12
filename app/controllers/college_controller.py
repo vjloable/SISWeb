@@ -13,9 +13,11 @@ def create_college():
 @college_blueprint.route('/college/update', methods=['GET'])
 def update_college():
     code = request.args.get('code', None)
+    img_url = request.args.get('img_url', "")
     if code is not None:
         data = {
-            "code": code
+            "code": code,
+            "img_url": img_url
         }
         return CollegeView.renderCreateFormAsView("edit", **data)
     else:

@@ -26,9 +26,11 @@ def create_student():
 @student_blueprint.route('/student/update', methods=['GET','POST'])
 def update_student():
     student_id = request.args.get('student_id', None)
+    img_url = request.args.get('img_url', "")
     if student_id is not None:
         data = {
-            "student_id": student_id
+            "student_id": student_id,
+            "img_url": img_url
         }
         return StudentView.renderCreateFormAsView("edit", **data)
     else:

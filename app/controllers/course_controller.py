@@ -13,9 +13,11 @@ def create_course():
 @course_blueprint.route('/course/update', methods=['GET','POST'])
 def update_course():
     code = request.args.get('code', None)
+    img_url = request.args.get('img_url', "")
     if code is not None:
         data = {
-            "code": code
+            "code": code,
+            "img_url": img_url
         }
         return CourseView.renderCreateFormAsView("edit", **data)
     else:
