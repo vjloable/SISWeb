@@ -74,6 +74,8 @@ $(document).on('click', '.gotoDeleteCollege', function() {
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           success: function (response) {
+            $("#yesConfirmButton").toggleClass("loading disabled");
+            $("#noConfirmButton").toggleClass("disabled");
             let content = '';
             let status = '';
             let icon = '';
@@ -103,16 +105,14 @@ $(document).on('click', '.gotoDeleteCollege', function() {
                 }
               })
               .modal('show');
-          },
-          complete: function () {
-            $("#yesConfirmButton").toggleClass("loading disabled");
-            $("#noConfirmButton").toggleClass("disabled");
           }
-        })
+        });
       });
+      return false;
     }
   })
   .modal('show');
+  return false;
 });
 
 $(document).on('click', '.gotoDeleteCourse', function() {
@@ -135,41 +135,57 @@ $(document).on('click', '.gotoDeleteCourse', function() {
         data: JSON.stringify(data),
         contentType:"application/json; charset=utf-8",
         dataType:"json",
-        success: function(response) {
-          let content = '';
-          let status = '';
-          let icon = '';
-          if(response.success === false){
-            content = response.results;
-            status = 'Error!';
-            icon = 'times circle outline error red'
-          }else{
-            content = "Successfully "+action+"d a Course named "+buttonValue+".";
-            status = 'Success!';
-            icon = 'check circle outline green'
-          }
-          $('#statusAlertModal').text(status);
-          $('#contentAlertModal').text(content);
-          $("#iconAlertModal").toggleClass(icon);
-          $('#row'+buttonValue).remove();
-          $('#alertModal')
-          .modal({
-            closable  : false,
-            onDeny    : function(){},
-            onApprove : function() {
-              var count = $(".cards .card").length;
-              console.log(count);
-              if(count <= 1){
-                window.location.reload();
-              }
-            }
-          })
-          .modal('show');
+        beforeSend: function () {
+          $("#yesConfirmButton").toggleClass("loading disabled");
+          $("#noConfirmButton").toggleClass("disabled");
         },
+      }).done(() => {
+        $.ajax({
+          type: 'POST',
+          url: "/api/course/image_destroy",
+          data: JSON.stringify(data),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (response) {
+            $("#yesConfirmButton").toggleClass("loading disabled");
+            $("#noConfirmButton").toggleClass("disabled");
+            let content = '';
+            let status = '';
+            let icon = '';
+            if (response.success === false) {
+              content = response.results;
+              status = 'Error!';
+              icon = 'times circle outline error red'
+            } else {
+              content = "Successfully " + action + "d a Course named " + buttonValue + ".";
+              status = 'Success!';
+              icon = 'check circle outline green'
+            }
+            $('#statusAlertModal').text(status);
+            $('#contentAlertModal').text(content);
+            $("#iconAlertModal").toggleClass(icon);
+            $('#row' + buttonValue).remove();
+            $('#alertModal')
+              .modal({
+                closable: false,
+                onDeny: function () { },
+                onApprove: function () {
+                  var count = $(".cards .card").length;
+                  console.log(count);
+                  if (count <= 1) {
+                    window.location.reload();
+                  }
+                }
+              })
+              .modal('show');
+          },
+        });
       });
+      return false;
     }
   })
   .modal('show');
+  return false;
 });
 
 $(document).on('click', '.gotoDeleteStudent', function() {
@@ -192,41 +208,57 @@ $(document).on('click', '.gotoDeleteStudent', function() {
         data: JSON.stringify(data),
         contentType:"application/json; charset=utf-8",
         dataType:"json",
-        success: function(response) {
-          let content = '';
-          let status = '';
-          let icon = '';
-          if(response.success === false){
-            content = response.results;
-            status = 'Error!';
-            icon = 'times circle outline error red'
-          }else{
-            content = "Successfully "+action+"d a Student named "+buttonValue+".";
-            status = 'Success!';
-            icon = 'check circle outline green'
-          }
-          $('#statusAlertModal').text(status);
-          $('#contentAlertModal').text(content);
-          $("#iconAlertModal").toggleClass(icon);
-          $('#row'+buttonValue).remove();
-          $('#alertModal')
-          .modal({
-            closable  : false,
-            onDeny    : function(){},
-            onApprove : function() {
-              var count = $(".cards .card").length;
-              console.log(count);
-              if(count <= 1){
-                window.location.reload();
-              }
-            }
-          })
-          .modal('show');
+        beforeSend: function () {
+          $("#yesConfirmButton").toggleClass("loading disabled");
+          $("#noConfirmButton").toggleClass("disabled");
         },
+      }).done(() => {
+        $.ajax({
+          type: 'POST',
+          url: "/api/student/image_destroy",
+          data: JSON.stringify(data),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (response) {
+            $("#yesConfirmButton").toggleClass("loading disabled");
+            $("#noConfirmButton").toggleClass("disabled");
+            let content = '';
+            let status = '';
+            let icon = '';
+            if (response.success === false) {
+              content = response.results;
+              status = 'Error!';
+              icon = 'times circle outline error red'
+            } else {
+              content = "Successfully " + action + "d a Student named " + buttonValue + ".";
+              status = 'Success!';
+              icon = 'check circle outline green'
+            }
+            $('#statusAlertModal').text(status);
+            $('#contentAlertModal').text(content);
+            $("#iconAlertModal").toggleClass(icon);
+            $('#row' + buttonValue).remove();
+            $('#alertModal')
+              .modal({
+                closable: false,
+                onDeny: function () { },
+                onApprove: function () {
+                  var count = $(".cards .card").length;
+                  console.log(count);
+                  if (count <= 1) {
+                    window.location.reload();
+                  }
+                }
+              })
+              .modal('show');
+          },
+        });
       });
+      return false;
     }
   })
   .modal('show');
+  return false;
 });
 
 $(document).on('click', '.gotoEditCollege', function() {
