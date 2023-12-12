@@ -1,5 +1,14 @@
-<form class="ui large form" id="editStudentForm" autocomplete="off">
-    <div class="ui stacked segment">
+<form class="ui large form vertical segments" id="editStudentForm" enctype="multipart/form-data" style="padding: 0;" autocomplete="off">
+    <div class="ui segment" style="position: relative;">
+        <div class="ui placeholder" style="height: 180px; border-radius: 3px;">
+            <img class="ui image" id="imagePreviewStudent" src="{{img_url}}" />
+        </div>
+        <div style="margin: auto; z-index: 1; position: absolute; top: 20px; right: 20px;">
+            <div class="ui inverted green mini button" id="mockFileStudentButton">Upload</div>
+            <input id="realInputStudentButton" type="file" name="image" accept="image/*" onchange="previewImage(event, 'Student')" />
+        </div>
+    </div>
+    <div class="ui segment">
         <h3 class="ui header">Edit Student Form</h3>
         <h5 class="ui left aligned header">Currently editing: {{student_id}}</h5>
         <div class="field">
