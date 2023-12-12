@@ -276,7 +276,8 @@ $(document).on('click', '.gotoEditCollege', function() {
       results = (response.results+"").split(",");
       college_code = results[0];
       college_name = results[1];
-      window.location.href = "/college/update?code="+college_code+"&name="+college_name;
+      college_img_url = results[2];
+      window.location.href = "/college/update?code="+college_code+"&name="+college_name+"&img_url="+college_img_url;
     },
   });
 });
@@ -297,7 +298,8 @@ $(document).on('click', '.gotoEditCourse', function() {
       course_code = results[0];
       course_name = results[1];
       college_code = results[2];
-      window.location.href = "/course/update?code="+course_code+"&name="+course_name+"&college="+college_code;
+      course_img_url = results[3];
+      window.location.href = "/course/update?code="+course_code+"&name="+course_name+"&college="+college_code+"&img_url="+course_img_url;
     },
   });
 });
@@ -321,7 +323,8 @@ $(document).on('click', '.gotoEditStudent', function() {
       course = results[3];
       year = results[4];
       gender = results[5];
-      window.location.href = "/student/update?student_id="+student_id+"&firstname="+firstname+"&lastname="+lastname+"&course="+course+"&year="+year+"&gender="+gender;
+      student_img_url = results[6];
+      window.location.href = "/student/update?student_id="+student_id+"&firstname="+firstname+"&lastname="+lastname+"&course="+course+"&year="+year+"&gender="+gender+"&img_url="+student_img_url;
     },
   });
 });
