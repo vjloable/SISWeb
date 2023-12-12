@@ -10,6 +10,8 @@ index_blueprint = Blueprint('index', __name__)
 def index():
     if not session.get('lastTab'):
         session['lastTab'] = "College"
+    if not session.get('viewmode'):
+        session['viewmode'] = "list"
     return render_template('index.html')
 
 @index_blueprint.route('/last_tab')
