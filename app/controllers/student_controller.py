@@ -125,3 +125,15 @@ def api_upload_students():
             return 'No image provided', 400
     else:
         return StudentView.setPayloadToJSON(400)
+
+
+@student_blueprint.route('/api/student/image_destroy', methods=['POST'])
+def api_image_destroy_students():
+    request_body = request.json
+    if request_body:
+        student_id = str(request_body['student_id'])
+        cloudResponse = CloudService.delete(student_id, "student")
+        results = cloudResponse["results"]
+        return StudentView.setPayloadToJSON(201, payload=results)
+    else:
+        return StudentView.setPayloadToJSON(400)

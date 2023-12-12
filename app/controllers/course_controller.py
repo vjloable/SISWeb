@@ -106,3 +106,15 @@ def api_upload_courses():
             return 'No image provided', 400
     else:
         return CourseView.setPayloadToJSON(400)
+
+
+@course_blueprint.route('/api/course/image_destroy', methods=['POST'])
+def api_image_destroy_courses():
+    request_body = request.json
+    if request_body:
+        code = str(request_body['code'])
+        cloudResponse = CloudService.delete(code, "course")
+        results = cloudResponse["results"]
+        return CourseView.setPayloadToJSON(201, payload=results)
+    else:
+        return CourseView.setPayloadToJSON(400)
