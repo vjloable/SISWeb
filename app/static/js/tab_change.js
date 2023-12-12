@@ -10,7 +10,6 @@ $(document).ready(function () {
     }
   }).done((result) => {
     activeTabName = result.toLowerCase();
-    console.log(result);
     $.ajax({
       type: 'GET',
       url: '/api/' + activeTabName + '/list',
@@ -29,7 +28,6 @@ $(document).ready(function () {
 
 $('.menu .item').tab({
   onVisible: function() {
-    console.log("visible");
     var activeTab = $('.tab.segment.active');
     var activeTabName = activeTab.attr('data-tab');
     $.ajax({
