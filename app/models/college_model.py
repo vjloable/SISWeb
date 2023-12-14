@@ -47,13 +47,13 @@ class CollegeModel:
 
     #Update
     @staticmethod
-    def update(code, new_code, new_name):
+    def update(code, new_code, new_name, img_url):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            UPDATE Colleges SET Code = '{}', Name = '{}' WHERE Code = '{}';
-            """.format(new_code, new_name, code)
+            UPDATE Colleges SET Code = '{}', Name = '{}', ImgURL = '{}' WHERE Code = '{}';
+            """.format(new_code, new_name, code, img_url)
             )
             connection.commit()
             return {'success':True, 'results':"Updated {} into Colleges table successfuly".format(code)}
