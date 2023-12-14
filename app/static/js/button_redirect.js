@@ -1,3 +1,32 @@
+function onclickGenerateTabContent(page, type) {
+  tab = "college"
+  switch (type) {
+    case 1:
+      tab = "college"
+      break;
+    case 2:
+      tab = "course"
+      break;
+    case 3:
+      tab = "student"
+      break;
+    default:
+      tab = "college"
+      break;
+  };
+  
+  $.ajax({
+    type: "GET",
+    url: "/api/"+tab+"/list",
+    data: {"page": page},
+    success: function (results) {
+      $('#' + tab + 'Tab').html(results.content);
+      $('#' + tab + 'TabControls').html(results.buttons);
+    },
+  });
+  return false;
+}
+
 $(document).on('click', '#buttonShowAsList', function () {
   var data = {
     'viewmode': 'list'
