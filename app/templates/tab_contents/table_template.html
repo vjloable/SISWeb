@@ -1,3 +1,16 @@
+{% if button_id == "College" %}
+    {% set type = 1 %}
+{% elif button_id == "Course" %}
+    {% set type = 2 %}
+{% elif button_id == "Student" %}
+    {% set type = 3 %}
+{% endif %}
+
+{% set max_page = rows["max_page"] %}
+{% set curr_page = rows["current_page"] %}
+{% set prev_page = rows["prev_page"] %}
+{% set next_page = rows["next_page"] %}
+
 {% if session.viewmode == "list" %}
     <table class="ui basic padded structured definition selectable table">
         <thead>
@@ -27,7 +40,8 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in rows %}
+            {% for row in rows["results"] %}
+
                 {% if button_id == "College" %}
                     {% set img_url = row[2] %}
                 {% elif button_id == "Course" %}
@@ -35,9 +49,10 @@
                 {% elif button_id == "Student" %}
                     {% set img_url = row[6] %}
                 {% endif %}
+            
                 <tr>
                     <td class="collapsing">
-                        {{loop.index}}
+                        {{loop.index + ((curr_page-1)*11) }}
                     </td>
                     <td>
                         <h4 class="ui image header">
@@ -77,10 +92,10 @@
                     </td>
                     {% endif %}
                     <td class="collapsing">
-                        <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows["results"][loop.index - 1][0]}}">
                             <i class="trash icon"></i>
                         </button>
-                        <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                        <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows["results"][loop.index - 1][0]}}">
                             <i class="pencil alternate icon"></i>
                         </button>
                     </td>
@@ -94,8 +109,31 @@
             </tr>
         </tbody>
     </table>
+    <div class="ui fluid container center aligned" style="margin-top: 20px;">
+        <div class="ui label">
+            Page
+            <div class="detail">{{curr_page}}</div>
+            <div class="detail">of</div>
+            <div class="detail">{{max_page}}</div>
+        </div>
+    </div>
+    <div class="ui fluid container center aligned" style="margin-top: 20px;">
+        <div class="ui pagination menu">
+            <a class="icon item" href="" onclick="{{'return onclickGenerateTabContent('}}{{prev_page}}{{','}}{{type}}{{')'}}">
+                <i class="left chevron icon"></i>
+            </a>
+            {% for page_number in range(1, max_page+1) %}
+            <a class="item" href=""
+                onclick="{{'return onclickGenerateTabContent('}}{{page_number}}{{','}}{{type}}{{')'}}">{{page_number}}</a>
+            {% endfor %}
+            <a class="icon item" href="" onclick="{{'return onclickGenerateTabContent('}}{{next_page}}{{','}}{{type}}{{')'}}">
+                <i class="right chevron icon"></i>
+            </a>
+        </div>
+    </div>
 
 {% else %}
+
     <div class="ui link four stackable cards" style="overflow-y: scroll;">
     <div class="card button" id="gotoAdd{{button_id}}" style="background-color: rgb(169,169,169); padding: 2em;">
         <div class="square image" style="background-color: rgb(169,169,169); margin: auto;">
@@ -107,16 +145,17 @@
             </div>
         </div>
     </div>
-    {% for row in rows %}
-        <div class="card" id="row{{rows[loop.index - 1][0]}}">
-            {% if button_id == "College" %}
-                {% set img_url = row[2] %}
-            {% elif button_id == "Course" %}
-                {% set img_url = row[3] %}
-            {% elif button_id == "Student" %}
-                {% set img_url = row[6] %}
-            {% endif %}
+    {% for row in rows["results"] %}
 
+        {% if button_id == "College" %}
+            {% set img_url = row[2] %}
+        {% elif button_id == "Course" %}
+            {% set img_url = row[3] %}
+        {% elif button_id == "Student" %}
+            {% set img_url = row[6] %}
+        {% endif %}
+
+        <div class="card" id="row{{rows["results"][loop.index - 1][0]}}">
             {% if img_url != "" %}
                 <div class="square image">
                     <img class="ui image single-breakpoint" src="{{img_url}}" style="height: 250px; width: 400px; object-fit: cover; margin: auto;"/>
@@ -127,22 +166,26 @@
                 </div>
             {% endif %}
             <div class="content">
-                <div class="meta">
-                    <a>{{row[0]}}</a>
-                </div>
                 <div class="description">
                     {{row[1]}}
                     {% if button_id == "Student" %}
                         {{row[2]}}
                     {% endif %}
                 </div>
+                <div class="meta">
+                    {% if button_id == "Student" %}
+                        <a>{{button_id}} ID: <br> {{row[0]}}</a>            
+                    {% else %}
+                        <a>{{button_id}} Code: <br> {{row[0]}}</a>
+                    {% endif %}
+                </div>
             </div>
             <div class="extra content">
                 <span class="right floated">
-                    <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                    <button class="ui icon inverted red button gotoDelete{{button_id}}" value="{{rows["results"][loop.index - 1][0]}}">
                         <i class="trash icon"></i>
                     </button>
-                    <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows[loop.index - 1][0]}}">
+                    <button class="ui icon inverted violet button gotoEdit{{button_id}}" value="{{rows["results"][loop.index - 1][0]}}">
                         <i class="pencil alternate icon"></i>
                     </button>
                 </span>
@@ -150,4 +193,27 @@
         </div>
         {% endfor %}
     </div>
+    <div class="ui divider"></div>
+    <div class="ui fluid container center aligned" style="margin-top: 20px;">
+        <div class="ui label">
+            Page
+            <div class="detail">{{curr_page}}</div>
+            <div class="detail">of</div>
+            <div class="detail">{{max_page}}</div>
+        </div>
+    </div>
+    <div class="ui fluid container center aligned" style="margin-top: 20px;">
+        <div class="ui pagination menu">
+            <a class="icon item" href="" onclick="{{'return onclickGenerateTabContent('}}{{prev_page}}{{','}}{{type}}{{')'}}">
+                <i class="left chevron icon"></i>
+            </a>
+            {% for page_number in range(1, max_page + 1) %}
+                <a class="item" href="" onclick="{{'return onclickGenerateTabContent('}}{{page_number}}{{','}}{{type}}{{')'}}">{{page_number}}</a>
+            {% endfor %}
+            <a class="icon item" href="" onclick="{{'return onclickGenerateTabContent('}}{{next_page}}{{','}}{{type}}{{')'}}">
+                <i class="right chevron icon"></i>
+            </a>
+        </div>
+    </div>
+    
 {% endif %}
