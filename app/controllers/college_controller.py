@@ -53,7 +53,8 @@ def api_update_college():
         code = str(request_body['code']) 
         new_code = str(request_body['new_code'])
         new_name = str(request_body['new_name'])
-        model_response = CollegeModel.update(code, new_code, new_name)
+        img_url = str(request_body['img_url'])
+        model_response = CollegeModel.update(code, new_code, new_name, img_url)
         return CollegeView.setPayloadToJSON(201, payload=model_response)
     else:
         return CollegeView.setPayloadToJSON(400)
@@ -125,5 +126,23 @@ def api_image_destroy_colleges():
         cloudResponse = CloudService.delete(code, "college")
         results = cloudResponse["results"]
         return CollegeView.setPayloadToJSON(201, payload=results)
+    else:
+        return CollegeView.setPayloadToJSON(400)
+
+
+@college_blueprint.route('/api/college/image_reupload', methods=['POST'])
+def api_image_reupload_colleges():
+    request_file = request.files
+    request_body = request.form
+    print(request_body)
+    if request_body:
+        new_code = str(request_body['code'])
+        if 'image' in request_file:
+            image = request_file['image']
+            cloudResponse = CloudService.upload(image, new_code, "college")
+            results = cloudResponse["results"]
+            return CollegeView.setPayloadToJSON(201, payload=results)
+        else:
+            return 'No image provided', 400
     else:
         return CollegeView.setPayloadToJSON(400)
