@@ -174,9 +174,16 @@
                 </div>
                 <div class="meta">
                     {% if button_id == "Student" %}
-                        <a>{{button_id}} ID: <br> {{row[0]}}</a>            
+                        <a>ID: {{row[0]}}</a> <br>     
                     {% else %}
-                        <a>{{button_id}} Code: <br> {{row[0]}}</a>
+                        <a>Code: {{row[0]}}</a> <br>
+                    {% endif %}
+                    {% if button_id == "Course" %}
+                        <a>Collge Code: {{row[2]}}</a> <br>
+                    {% elif button_id == "Student" %}
+                        <a>Course Code:{{row[3]}}</a> <br>
+                        <a>Year Level: {{row[4]}} Year</a> <br>
+                        <a>Gender: {{row[5]}}</a> <br>
                     {% endif %}
                 </div>
             </div>
