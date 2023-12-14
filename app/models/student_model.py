@@ -84,31 +84,49 @@ class StudentModel:
 
     # List
     @staticmethod
-    def list_all(query=None):
+    def get_list(offset, query="",):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            if query is None or query == "":
-                cursor.execute("""
-                SELECT * FROM Students;
+            if offset >= 0:
+                if query == "":
+                    cursor.execute(f"""
+                    SELECT * FROM Students
+                    LIMIT 11 
+                    OFFSET {offset};
+                    """)
+                    results = list(cursor.fetchall())
+                    connection.commit()
+                    return {'success': True, 'results': results}
+                else:
+                    cursor.execute(f"""
+                    SELECT * FROM Students 
+                    WHERE StudentId LIKE '%{query}%' OR 
+                    Firstname LIKE '%{query}%' 
+                    OR Lastname LIKE '%{query}%'
+                    OR Course LIKE '%{query}%' 
+                    OR Year LIKE '%{query}%' OR 
+                    Gender LIKE '%{query}%'
+                    LIMIT 11 
+                    OFFSET {offset};
+                    """);
+                    results = list(cursor.fetchall())
+                    success = len(results) > 0
+                    connection.commit()
+                    return {'success': success, 'results': results}
+            else:
+                cursor.execute(f"""
+                SELECT * FROM Students 
+                WHERE StudentId LIKE '%{query}%' OR 
+                Firstname LIKE '%{query}%' 
+                OR Lastname LIKE '%{query}%'
+                OR Course LIKE '%{query}%' 
+                OR Year LIKE '%{query}%' OR 
+                Gender LIKE '%{query}%';
                 """)
                 results = list(cursor.fetchall())
                 connection.commit()
                 return {'success': True, 'results': results}
-            else:
-                cursor.execute("""
-                SELECT * FROM Students 
-                WHERE StudentId LIKE '%{}%' 
-                OR Firstname LIKE '%{}%' 
-                OR Lastname LIKE '%{}%'
-                OR Course LIKE '%{}%' 
-                OR Year LIKE '%{}%' 
-                OR Gender LIKE '%{}%';
-                """.format(query, query, query, query, query, query))
-                results = list(cursor.fetchall())
-                success = len(results) > 0
-                connection.commit()
-                return {'success': success, 'results': results}
         except MySQLError as e:
             return {'success': False, 'results': str(e)}
         finally:
@@ -117,16 +135,30 @@ class StudentModel:
 
     #Count
     @staticmethod
-    def count_rows():
+    def count_rows(query=""):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            cursor.execute("""
-            SELECT COUNT(*) FROM Students;
-            """)
-            results = cursor.fetchone()[0]
-            connection.commit()
-            return {'success':True, 'results':int(results)}
+            if query != "":
+                cursor.execute(f"""
+                SELECT COUNT(*) FROM Students
+                WHERE StudentId LIKE '%{query}%' OR 
+                Firstname LIKE '%{query}%' 
+                OR Lastname LIKE '%{query}%'
+                OR Course LIKE '%{query}%' 
+                OR Year LIKE '%{query}%' OR 
+                Gender LIKE '%{query}%';
+                """)
+                results = cursor.fetchone()[0]
+                connection.commit()
+                return {'success': True, 'results': int(results)}
+            else:
+                cursor.execute("""
+                SELECT COUNT(*) FROM Students;
+                """)
+                results = cursor.fetchone()[0]
+                connection.commit()
+                return {'success':True, 'results':int(results)}
         except MySQLError as e:
             return {'success':False, 'results':str(e)}
         finally:
