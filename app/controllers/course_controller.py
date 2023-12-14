@@ -1,3 +1,5 @@
+import math
+
 from flask import Blueprint, request, session
 from flask_session import Session
 from app.models.course_model import CourseModel
@@ -70,28 +72,35 @@ def api_delete_course():
 
 @course_blueprint.route('/api/course/list', methods=['GET','POST'])
 def api_get_courses():
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        if request.method == 'POST':
-            request_body = request.get_json()
-            if request_body:
-                query = str(request_body['query']).strip()
-                model_response = CourseModel.list_all(query)
-                render_model = model_response['results']
-                return CourseView.renderTableAsJSON(render_model)
-            else:
-                return CourseView.setPayloadToJSON(400)
+    query = str(request.args.get('query', "")).strip()
+    page = int(request.args.get('page', 1))
+    session['lastTab'] = "Course"  # SESSION
+    result_count = CourseModel.count_rows()
+    if page > 0:
+        if result_count['results'] > 0:
+            page = 1 if page < 1 else page
+            page_size = 11
+            page_number = page - 1
+            offset = page_number * page_size
+            model_response = CourseModel.get_list(offset, query)
+            query_count = CourseModel.count_rows(query)
+            max_page = math.ceil(query_count['results'] / 11)
+            max_page = 1 if max_page < 1 else max_page
+            prev_page = page if (page-1) < 1 else page-1
+            next_page = max_page if (page+1) > max_page else page+1
+            render_model = {
+                "results": model_response['results'],
+                "current_page": page,
+                "max_page": max_page,
+                "prev_page": prev_page,
+                "next_page": next_page,
+            }
+            return CourseView.renderTableAsJSON(render_model)
         else:
-            session['lastTab'] = "Course"  # SESSION
-            results = CourseModel.count_rows()
-            if results['results'] > 0:
-                model_response = CourseModel.list_all()
-                render_model = model_response['results']
-                return CourseView.renderTableAsJSON(render_model)
-            else:
-                return CourseView.renderNoDataAsJSON()
+            return CourseView.renderNoDataAsJSON()
     else:
-        return CourseView.setPayloadToJSON(403)
-
+        model_response = CourseModel.get_list(-1, query)
+        return CourseView.setPayloadToJSON(201, payload=model_response)
 
 @course_blueprint.route('/api/course/image_upload', methods=['POST'])
 def api_upload_courses():
