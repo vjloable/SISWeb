@@ -1,3 +1,5 @@
+import math
+
 from flask import Blueprint, request, session
 from flask_session import Session
 from app.models.student_model import StudentModel
@@ -89,28 +91,35 @@ def api_delete_student():
 
 @student_blueprint.route('/api/student/list', methods=['GET', 'POST'])
 def api_get_students():
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        if request.method == 'POST':
-            request_body = request.get_json()
-            if request_body:
-                query = str(request_body['query']).strip()
-                model_response = StudentModel.list_all(query)
-                render_model = model_response['results']
-                return StudentView.renderTableAsJSON(render_model)
-            else:
-                return StudentView.setPayloadToJSON(400)
+    query = str(request.args.get('query', "")).strip()
+    page = int(request.args.get('page', 1))
+    session['lastTab'] = "Student"  # SESSION
+    result_count = StudentModel.count_rows()
+    if page > 0:
+        if result_count['results'] > 0:
+            page = 1 if page < 1 else page
+            page_size = 11
+            page_number = page - 1
+            offset = page_number * page_size
+            model_response = StudentModel.get_list(offset, query)
+            query_count = StudentModel.count_rows(query)
+            max_page = math.ceil(query_count['results'] / 11)
+            max_page = 1 if max_page < 1 else max_page
+            prev_page = page if (page-1) < 1 else page-1
+            next_page = max_page if (page+1) > max_page else page+1
+            render_model = {
+                "results": model_response['results'],
+                "current_page": page,
+                "max_page": max_page,
+                "prev_page": prev_page,
+                "next_page": next_page,
+            }
+            return StudentView.renderTableAsJSON(render_model)
         else:
-            session['lastTab'] = "Student"  # SESSION
-            results = StudentModel.count_rows()
-            if results['results'] > 0:
-                model_response = StudentModel.list_all()
-                render_model = model_response['results']
-                return StudentView.renderTableAsJSON(render_model)
-            else:
-                return StudentView.renderNoDataAsJSON()
+            return StudentView.renderNoDataAsJSON()
     else:
-        return StudentView.setPayloadToJSON(403)
-
+        model_response = StudentModel.get_list(-1, query)
+        return StudentView.setPayloadToJSON(201, payload=model_response)
 
 @student_blueprint.route('/api/student/image_upload', methods=['POST'])
 def api_upload_students():
