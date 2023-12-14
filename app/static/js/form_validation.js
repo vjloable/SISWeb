@@ -44,6 +44,30 @@ function uploadImage(action, category) {
   });
 }
 
+function editImage(action, category) {
+  var formData = new FormData($('#' + action + category + 'Form')[0]);
+  // var imageFile = formData.get("image");
+  return $.ajax({
+    url: '../api/' + String(category).toLowerCase() + '/image_reupload',
+    type: 'POST',
+    data: formData,
+    contentType: false,
+    processData: false,
+    beforeSend: function () {
+      $("#yesConfirmButton").toggleClass("loading disabled");
+      $("#noConfirmButton").toggleClass("disabled");
+    },
+    success: function (response) {
+      console.log("success");
+      return { "loading": false, "url": response.url };
+    },
+    complete: function () {
+      $("#yesConfirmButton").toggleClass("loading disabled");
+      $("#noConfirmButton").toggleClass("disabled");
+    }
+  });
+}
+
 $('#addCollegeForm').form({
   fields: {
     code: {
@@ -381,13 +405,9 @@ $('#editCollegeForm').form({
   },
   onSuccess: function () {
     var allFields = $('#editCollegeForm').form('get values');
-    var data = {
-      "code": new URL(window.location.href).searchParams.get("code"), 
-      "new_code": allFields['code'], 
-      "new_name": allFields['name']
-    }
+    var previousImage = $('#imagePreviewCollege').attr('src');
     let action = 'edit';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+data['code']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+allFields['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -395,39 +415,87 @@ $('#editCollegeForm').form({
       closable  : false,
       onDeny    : function(){},
       onApprove : function() {
-        $.ajax({
-          url: "/api/college/update",
-          type: "POST",
-          data: JSON.stringify(data),
-          contentType:"application/json; charset=utf-8",
-          dataType:"json",
-          success: function(response){
-            let content = '';
-            let status = '';
-            let icon = '';
-            if(response.success === false){
-              content = response.results;
-              status = 'Error!';
-              icon = 'times circle outline error red'
-            }else{
-              content = "Successfully "+action+"ed a College named "+data["name"]+".";
-              status = 'Success!';
-              icon = 'check circle outline green'
-            }
-            $('#statusAlertModal').text(status);
-            $('#contentAlertModal').text(content);
-            $("#iconAlertModal").toggleClass(icon);
-            $('#alertModal')
-            .modal({
-              closable  : false,
-              onDeny    : function(){},
-              onApprove : function() {
-                window.location.href = '/';
+        var data = {
+          "code": new URL(window.location.href).searchParams.get("code"),
+          "new_code": allFields['code'],
+          "new_name": allFields['name'],
+          "img_url": previousImage
+        }
+        if (previousImage.slice(0, 3) != "blob") {
+          editImage(action, "College")
+            .then((uploadResponse) => {
+              console.log(uploadResponse);
+              data.img_url = uploadResponse.url;
+              $.ajax({
+                url: "/api/college/update",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                  let content = '';
+                  let status = '';
+                  let icon = '';
+                  if (response.success === false) {
+                    content = response.results;
+                    status = 'Error!';
+                    icon = 'times circle outline error red'
+                  } else {
+                    content = "Successfully " + action + "ed a College named " + data["name"] + ".";
+                    status = 'Success!';
+                    icon = 'check circle outline green'
+                  }
+                  $('#statusAlertModal').text(status);
+                  $('#contentAlertModal').text(content);
+                  $("#iconAlertModal").toggleClass(icon);
+                  $('#alertModal')
+                    .modal({
+                      closable: false,
+                      onDeny: function () { },
+                      onApprove: function () {
+                        window.location.href = '/';
+                      }
+                    })
+                    .modal('show');
+                }
+              })
+            });
+        } else {
+          $.ajax({
+            url: "/api/college/update",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+              let content = '';
+              let status = '';
+              let icon = '';
+              if (response.success === false) {
+                content = response.results;
+                status = 'Error!';
+                icon = 'times circle outline error red'
+              } else {
+                content = "Successfully " + action + "ed a College named " + data["name"] + ".";
+                status = 'Success!';
+                icon = 'check circle outline green'
               }
-            })
-            .modal('show');
-          }
-        })
+              $('#statusAlertModal').text(status);
+              $('#contentAlertModal').text(content);
+              $("#iconAlertModal").toggleClass(icon);
+              $('#alertModal')
+                .modal({
+                  closable: false,
+                  onDeny: function () { },
+                  onApprove: function () {
+                    window.location.href = '/';
+                  }
+                })
+                .modal('show');
+            }
+          })
+        }
+        return false;
       }
     })
     .modal('show');
