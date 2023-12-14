@@ -1,23 +1,20 @@
 $('#collegeSearch').search({
   apiSettings: {
     url: '/api/college/list',
-    method: 'POST',
+    method: 'GET',
     cache: false,
     saveRemoteData: false,
     beforeSend: function(settings) {
       var query = $("#collegeInputSearch").val();
       if(query.length > 0){
-        console.log(">0");
-        settings.data = JSON.stringify({ query: query });
+        settings.data = { query: query, page: 1 };
       }else{
-        console.log("==0");
-        settings.data = JSON.stringify({ query: "" });
+        settings.data = { query: "", page: 1 };
       }
       settings.contentType = 'application/json';
       return settings;
     },
     onResponse(response) {
-      console.log('response=> '+response);
       $('#collegeTab').html(response.content);
       $('#collegeTabControls').html(response.buttons);  
     }
@@ -30,23 +27,22 @@ $('#collegeSearch').search({
 $('#courseSearch').search({
   apiSettings: {
     url: '/api/course/list',
-    method: 'POST',
+    method: 'GET',
     cache: false,
     saveRemoteData: false,
     beforeSend: function(settings) {
       var query = $("#courseInputSearch").val();
       if(query.length > 0){
-        settings.data = JSON.stringify({ query: query });
+        settings.data = { query: query, page: 1 };
       }else{
-        settings.data = JSON.stringify({ query: "" });
+        settings.data = { query: "", page: 1 };
       }
       settings.contentType = 'application/json';
       return settings;
     },
     onResponse(response) {
-      console.log('response=> '+response);
       $('#courseTab').html(response.content);
-      $('#courseTabControls').html(response.buttons);  
+      $('#courseTabControls').html(response.buttons);
     }
   },
   showNoResults: false,
@@ -57,21 +53,20 @@ $('#courseSearch').search({
 $('#studentSearch').search({
   apiSettings: {
     url: '/api/student/list',
-    method: 'POST',
+    method: 'GET',
     cache: false,
     saveRemoteData: false,
-    beforeSend: function(settings) {
+    beforeSend: function (settings) {
       var query = $("#studentInputSearch").val();
-      if(query.length > 0){
-        settings.data = JSON.stringify({ query: query });
-      }else{
-        settings.data = JSON.stringify({ query: "" });
+      if (query.length > 0) {
+        settings.data = { query: query, page: 1 };
+      } else {
+        settings.data = { query: "", page: 1 };
       }
       settings.contentType = 'application/json';
       return settings;
     },
     onResponse(response) {
-      console.log('response=> '+response);
       $('#studentTab').html(response.content);
       $('#studentTabControls').html(response.buttons);
     }
