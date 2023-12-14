@@ -85,44 +85,72 @@ class CourseModel:
 
     #List
     @staticmethod
-    def list_all(query=None):
+    def get_list(offset, query="",):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            if query is None or query == "":
-                cursor.execute("""
-                SELECT * FROM Courses;
+            if offset >= 0:
+                if query == "":
+                    cursor.execute(f"""
+                    SELECT * FROM Courses
+                    LIMIT 11 
+                    OFFSET {offset};
+                    """)
+                    results = list(cursor.fetchall())
+                    connection.commit()
+                    return {'success': True, 'results': results}
+                else:
+                    cursor.execute(f"""
+                    SELECT * FROM Courses 
+                    WHERE Code LIKE '%{query}%' OR 
+                    Name LIKE '%{query}%' OR 
+                    College LIKE '%{query}%'
+                    LIMIT 11 
+                    OFFSET {offset}
+                    """)
+                    results = list(cursor.fetchall())
+                    success = len(results) > 0
+                    connection.commit()
+                    return {'success': success, 'results': results}
+            else:
+                cursor.execute(f"""
+                SELECT * FROM Courses 
+                WHERE Code LIKE '%{query}%' OR 
+                Name LIKE '%{query}%' OR 
+                College LIKE '%{query}%';
                 """)
                 results = list(cursor.fetchall())
                 connection.commit()
-                return {'success':True, 'results':results}
-            else:
-                cursor.execute("""
-                SELECT * FROM Courses 
-                WHERE Code LIKE '%{}%' OR Name LIKE '%{}%' OR College LIKE '%{}%';
-                """.format(query, query, query))
-                results = list(cursor.fetchall())
-                success = len(results) > 0
-                connection.commit()
-                return {'success':success, 'results':results}
+                return {'success': True, 'results': results}
         except MySQLError as e:
-            return {'success':False, 'results':str(e)}
+            return {'success': False, 'results': str(e)}
         finally:
             cursor.close()
             connection.close()
 
     #Count
     @staticmethod
-    def count_rows():
+    def count_rows(query=""):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
-            cursor.execute("""
-            SELECT COUNT(*) FROM Courses;
-            """)
-            results = cursor.fetchone()[0]
-            connection.commit()
-            return {'success':True, 'results':int(results)}
+            if query != "":
+                cursor.execute(f"""
+                SELECT COUNT(*) FROM Courses
+                WHERE Code LIKE '%{query}%' OR 
+                Name LIKE '%{query}%' OR 
+                College LIKE '%{query}%';
+                """)
+                results = cursor.fetchone()[0]
+                connection.commit()
+                return {'success': True, 'results': int(results)}
+            else:
+                cursor.execute("""
+                SELECT COUNT(*) FROM Courses;
+                """)
+                results = cursor.fetchone()[0]
+                connection.commit()
+                return {'success': True, 'results': int(results)}
         except MySQLError as e:
             return {'success':False, 'results':str(e)}
         finally:
