@@ -91,7 +91,12 @@ class StudentModel:
             if offset >= 0:
                 if query == "":
                     cursor.execute(f"""
-                    SELECT * FROM Students
+                    SELECT Students.*, CollegeQuery.Name FROM Students 
+                    LEFT JOIN (
+                        SELECT Colleges.Name, Courses.College, Courses.Code
+                        FROM Colleges LEFT JOIN Courses On Colleges.Code = Courses.College
+                    ) AS CollegeQuery
+                    ON Students.Course = CollegeQuery.Code
                     LIMIT 11 
                     OFFSET {offset};
                     """)
@@ -100,7 +105,12 @@ class StudentModel:
                     return {'success': True, 'results': results}
                 else:
                     cursor.execute(f"""
-                    SELECT * FROM Students 
+                    SELECT Students.*, CollegeQuery.Name FROM Students 
+                    LEFT JOIN (
+                        SELECT Colleges.Name, Courses.College, Courses.Code
+                        FROM Colleges LEFT JOIN Courses On Colleges.Code = Courses.College
+                    ) AS CollegeQuery
+                    ON Students.Course = CollegeQuery.Code
                     WHERE StudentId LIKE '%{query}%' OR 
                     Firstname LIKE '%{query}%' 
                     OR Lastname LIKE '%{query}%'
@@ -116,7 +126,12 @@ class StudentModel:
                     return {'success': success, 'results': results}
             else:
                 cursor.execute(f"""
-                SELECT * FROM Students 
+                SELECT Students.*, CollegeQuery.Name FROM Students 
+                LEFT JOIN (
+                    SELECT Colleges.Name, Courses.College, Courses.Code
+                    FROM Colleges LEFT JOIN Courses On Colleges.Code = Courses.College
+                ) AS CollegeQuery
+                ON Students.Course = CollegeQuery.Code
                 WHERE StudentId LIKE '%{query}%' OR 
                 Firstname LIKE '%{query}%' 
                 OR Lastname LIKE '%{query}%'
