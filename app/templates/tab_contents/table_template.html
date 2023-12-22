@@ -30,6 +30,9 @@
                     Course Code
                 </th>
                 <th>
+                    College Name
+                </th>
+                <th>
                     Year Level
                 </th>
                 <th>
@@ -49,7 +52,6 @@
                 {% elif button_id == "Student" %}
                     {% set img_url = row[6] %}
                 {% endif %}
-            
                 <tr>
                     <td class="collapsing">
                         {{loop.index + ((curr_page-1)*11) }}
@@ -85,6 +87,9 @@
                         {{row[3]}}
                     </td>
                     <td>
+                        {{row[7]}}
+                    </td>
+                    <td>
                         {{row[4]}} Year
                     </td>
                     <td>
@@ -102,7 +107,7 @@
                 </tr>
             {% endfor %}
             <tr class="gotoButtons" id="gotoAdd{{button_id}}" >
-                <td colspan="6" style="text-align: center;">
+                <td colspan="7" style="text-align: center;">
                     <i class="plus icon"></i>
                     Click to add {{button_id}}
                 </td>
