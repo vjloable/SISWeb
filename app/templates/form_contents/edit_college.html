@@ -7,6 +7,9 @@
             <div class="ui inverted green mini button" id="mockFileCollegeButton">Upload</div>
             <input id="realInputCollegeButton" type="file" name="image" accept="image/*" onchange="previewImage(event, 'College')" />
         </div>
+        <div style="margin: auto; z-index: 1; position: absolute; top: 20px; left: 20px;">
+            <div class="ui inverted red mini button" onclick="removeImage('College')">Remove</div>
+        </div>
     </div>
     <div class="ui segment">
         <h3 class="ui header">Edit College Form</h3>
