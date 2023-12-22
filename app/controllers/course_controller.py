@@ -33,8 +33,7 @@ def api_create_course():
             code = str(request_body['code']) 
             name = str(request_body['name'])
             college = str(request_body['college'])
-            img_url = str(request_body['img_url'])
-            model_response = CourseModel.insert(code, name, college, img_url)
+            model_response = CourseModel.insert(code, name, college)
             return CourseView.setPayloadToJSON(201, payload=model_response)
         else:
             return CourseView.setPayloadToJSON(400)
