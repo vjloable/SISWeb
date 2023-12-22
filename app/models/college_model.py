@@ -5,17 +5,17 @@ class CollegeModel:
 
     #Create
     @staticmethod
-    def insert(code, name, img_url=""):
+    def insert(code, name):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
             INSERT INTO Colleges (Code, Name, ImgURL) 
-            VALUES ("{}", "{}", "{}");
-            """.format(code, name, img_url)
+            VALUES ("{}", "{}", "");
+            """.format(code, name)
             )
             connection.commit()
-            return {'success':True, 'results':"Inserted ({}, {}, {}) into Colleges table successfuly".format(code, name, img_url)}
+            return {'success':True, 'results':"Inserted ({}, {}) into Colleges table successfuly".format(code, name)}
         except MySQLError as e:
             return {'success':False, 'results':str(e)}
         finally:
@@ -47,13 +47,13 @@ class CollegeModel:
 
     #Update
     @staticmethod
-    def update(code, new_code, new_name, img_url):
+    def update(code, new_code, new_name):
         connection = DatabaseService().connect()
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            UPDATE Colleges SET Code = '{}', Name = '{}', ImgURL = '{}' WHERE Code = '{}';
-            """.format(new_code, new_name, code, img_url)
+            UPDATE Colleges SET Code = '{}', Name = '{}' WHERE Code = '{}';
+            """.format(new_code, new_name, code)
             )
             connection.commit()
             return {'success':True, 'results':"Updated {} into Colleges table successfuly".format(code)}

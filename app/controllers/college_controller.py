@@ -32,8 +32,7 @@ def api_create_college():
         if request_body:
             code = str(request_body['code']) 
             name = str(request_body['name'])
-            img_url = str(request_body['img_url'])
-            model_response = CollegeModel.insert(code, name, img_url)
+            model_response = CollegeModel.insert(code, name)
             return CollegeView.setPayloadToJSON(201, payload=model_response)
         else:
             return CollegeView.setPayloadToJSON(400)
@@ -53,8 +52,7 @@ def api_update_college():
         code = str(request_body['code']) 
         new_code = str(request_body['new_code'])
         new_name = str(request_body['new_name'])
-        img_url = str(request_body['img_url'])
-        model_response = CollegeModel.update(code, new_code, new_name, img_url)
+        model_response = CollegeModel.update(code, new_code, new_name)
         return CollegeView.setPayloadToJSON(201, payload=model_response)
     else:
         return CollegeView.setPayloadToJSON(400)
@@ -101,6 +99,17 @@ def api_get_colleges():
         model_response = CollegeModel.get_list(-1, query)
         return CollegeView.setPayloadToJSON(201, payload=model_response)
         
+
+@college_blueprint.route('/api/college/image_url_set', methods=['POST'])
+def api_image_url_colleges():
+    request_body = request.get_json()
+    if request_body:
+        code = str(request_body['code'])
+        url = str(request_body['url'])
+        model_response = CollegeModel.upload_image_url(code, url)
+        return CollegeView.setPayloadToJSON(201, payload=model_response)
+    else:
+        return CollegeView.setPayloadToJSON(400)
 
 @college_blueprint.route('/api/college/image_upload', methods=['POST'])
 def api_image_upload_colleges():
