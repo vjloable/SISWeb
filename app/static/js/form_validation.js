@@ -12,7 +12,7 @@ function previewImage(event, category) {
   try {
     var file = event.target.files[0];
     if (ALLOWED_EXTENSIONS.includes(file.type)) {
-      if (ALLOWED_SIZE <= file.size) {
+      if (ALLOWED_SIZE >= file.size) {
         output.src = URL.createObjectURL(file);
         output.onload = function () {
           URL.revokeObjectURL(output.src);
