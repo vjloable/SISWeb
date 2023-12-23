@@ -120,6 +120,18 @@ def api_get_students():
         model_response = StudentModel.get_list(-1, query)
         return StudentView.setPayloadToJSON(201, payload=model_response)
 
+
+@student_blueprint.route('/api/student/image_url_set', methods=['POST'])
+def api_image_url_students():
+    request_body = request.get_json()
+    if request_body:
+        student_id = str(request_body['student_id'])
+        url = str(request_body['url'])
+        model_response = StudentModel.upload_image_url(student_id, url)
+        return StudentView.setPayloadToJSON(201, payload=model_response)
+    else:
+        return StudentView.setPayloadToJSON(400)
+
 @student_blueprint.route('/api/student/image_upload', methods=['POST'])
 def api_upload_students():
     request_file = request.files
