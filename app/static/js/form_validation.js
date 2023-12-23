@@ -641,31 +641,43 @@ $('#editCollegeForm').form({
                   });
                 });
               } else {
-                var data = {
-                  "code": allFields['code'],
-                  "url": previousImage
+                var data_rename = {
+                  "code": new URL(window.location.href).searchParams.get("code"),
+                  "new_code": allFields['code'],
                 }
                 $.ajax({
                   type: "POST",
-                  url: '../api/college/image_url_set',
-                  data: JSON.stringify(data),
+                  url: '../api/college/image_rename',
+                  data: JSON.stringify(data_rename),
                   contentType: "application/json; charset=utf-8",
-                  dataType: "json",
-                  complete: function () {
-                    $("#yesConfirmButton").toggleClass("loading disabled");
-                    $("#noConfirmButton").toggleClass("disabled");
-                    $('#statusAlertModal').text(status);
-                    $('#contentAlertModal').text(content);
-                    $("#iconAlertModal").toggleClass(icon);
-                    $('#alertModal').modal({
-                      closable: false,
-                      onDeny: function () { },
-                      onApprove: function () {
-                        window.location.href = '/';
-                      }
-                    }).modal('show');
-                    return false;
+                  dataType: "json"
+                }).done((response) => {
+                  var data = {
+                    "code": allFields['code'],
+                    "url": response.url
                   }
+                  $.ajax({
+                    type: "POST",
+                    url: '../api/college/image_url_set',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    complete: function () {
+                      $("#yesConfirmButton").toggleClass("loading disabled");
+                      $("#noConfirmButton").toggleClass("disabled");
+                      $('#statusAlertModal').text(status);
+                      $('#contentAlertModal').text(content);
+                      $("#iconAlertModal").toggleClass(icon);
+                      $('#alertModal').modal({
+                        closable: false,
+                        onDeny: function () { },
+                        onApprove: function () {
+                          window.location.href = '/';
+                        }
+                      }).modal('show');
+                      return false;
+                    }
+                  });
                 });
               }
             }
@@ -857,31 +869,43 @@ $('#editCourseForm').form({
                   });
                 });
               } else {
-                var data = {
-                  "code": allFields['code'],
-                  "url": previousImage
+                var data_rename = {
+                  "code": new URL(window.location.href).searchParams.get("code"),
+                  "new_code": allFields['code'],
                 }
                 $.ajax({
                   type: "POST",
-                  url: '../api/course/image_url_set',
-                  data: JSON.stringify(data),
+                  url: '../api/course/image_rename',
+                  data: JSON.stringify(data_rename),
                   contentType: "application/json; charset=utf-8",
-                  dataType: "json",
-                  complete: function () {
-                    $("#yesConfirmButton").toggleClass("loading disabled");
-                    $("#noConfirmButton").toggleClass("disabled");
-                    $('#statusAlertModal').text(status);
-                    $('#contentAlertModal').text(content);
-                    $("#iconAlertModal").toggleClass(icon);
-                    $('#alertModal').modal({
-                      closable: false,
-                      onDeny: function () { },
-                      onApprove: function () {
-                        window.location.href = '/';
-                      }
-                    }).modal('show');
-                    return false;
+                  dataType: "json"
+                }).done((response) => {
+                  var data = {
+                    "code": allFields['code'],
+                    "url": response.url
                   }
+                  $.ajax({
+                    type: "POST",
+                    url: '../api/course/image_url_set',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    complete: function () {
+                      $("#yesConfirmButton").toggleClass("loading disabled");
+                      $("#noConfirmButton").toggleClass("disabled");
+                      $('#statusAlertModal').text(status);
+                      $('#contentAlertModal').text(content);
+                      $("#iconAlertModal").toggleClass(icon);
+                      $('#alertModal').modal({
+                        closable: false,
+                        onDeny: function () { },
+                        onApprove: function () {
+                          window.location.href = '/';
+                        }
+                      }).modal('show');
+                      return false;
+                    }
+                  });
                 });
               }
             }
@@ -1108,31 +1132,43 @@ $('#editStudentForm').form({
                   });
                 });
               } else {
-                var data = {
-                  "student_id": allFields['student_id'],
-                  "url": previousImage
+                var data_rename = {
+                  "new_student_id": allFields['student_id'],
+                  "student_id": new URL(window.location.href).searchParams.get("student_id")
                 }
                 $.ajax({
                   type: "POST",
-                  url: '../api/student/image_url_set',
-                  data: JSON.stringify(data),
+                  url: '../api/student/image_rename',
+                  data: JSON.stringify(data_rename),
                   contentType: "application/json; charset=utf-8",
-                  dataType: "json",
-                  complete: function () {
-                    $("#yesConfirmButton").toggleClass("loading disabled");
-                    $("#noConfirmButton").toggleClass("disabled");
-                    $('#statusAlertModal').text(status);
-                    $('#contentAlertModal').text(content);
-                    $("#iconAlertModal").toggleClass(icon);
-                    $('#alertModal').modal({
-                      closable: false,
-                      onDeny: function () { },
-                      onApprove: function () {
-                        window.location.href = '/';
-                      }
-                    }).modal('show');
-                    return false;
+                  dataType: "json"
+                }).done((response) => {
+                  var data = {
+                    "student_id": allFields['student_id'],
+                    "url": response.url
                   }
+                  $.ajax({
+                    type: "POST",
+                    url: '../api/student/image_url_set',
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    complete: function () {
+                      $("#yesConfirmButton").toggleClass("loading disabled");
+                      $("#noConfirmButton").toggleClass("disabled");
+                      $('#statusAlertModal').text(status);
+                      $('#contentAlertModal').text(content);
+                      $("#iconAlertModal").toggleClass(icon);
+                      $('#alertModal').modal({
+                        closable: false,
+                        onDeny: function () { },
+                        onApprove: function () {
+                          window.location.href = '/';
+                        }
+                      }).modal('show');
+                      return false;
+                    }
+                  });
                 });
               }
             }
