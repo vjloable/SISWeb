@@ -30,8 +30,10 @@ class CourseModel:
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            SELECT * FROM Courses 
-            WHERE Code = '{}';
+            SELECT Courses.Code, Courses.Name, Colleges.Name, Courses.ImgURL FROM Courses 
+            LEFT JOIN Colleges
+            ON Colleges.Code = Courses.College
+            WHERE Courses.Code = '{}';
             """.format(str(code))
             )
             results = []
