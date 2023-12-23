@@ -56,3 +56,14 @@ class CloudService:
             response = {'success': False, 'results': "No file deleted"}
         finally:
             return response
+
+    @staticmethod
+    def rename(old_uid, new_uid, category):
+        response = {}
+        try:
+            result = cloudinary.uploader.rename(f"sisweb/{category}/{old_uid}", f"sisweb/{category}/{new_uid}", invalidate = True)
+            response = {'success': True, 'results': {"url": result["url"]}}
+        except:
+            response = {'success': False, 'results': {"url": ""}}
+        finally:
+            return response
