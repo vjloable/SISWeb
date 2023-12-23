@@ -140,3 +140,16 @@ def api_image_destroy_courses():
         return CourseView.setPayloadToJSON(201, payload=results)
     else:
         return CourseView.setPayloadToJSON(400)
+
+
+@course_blueprint.route('/api/course/image_rename', methods=['POST'])
+def api_image_rename_courses():
+    request_body = request.json
+    if request_body:
+        code = str(request_body['code'])
+        new_code = str(request_body['new_code'])
+        cloudResponse = CloudService.rename(code, new_code, "course")
+        results = cloudResponse["results"]
+        return CourseView.setPayloadToJSON(201, payload=results)
+    else:
+        return CourseView.setPayloadToJSON(400)

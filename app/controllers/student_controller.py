@@ -159,3 +159,16 @@ def api_image_destroy_students():
         return StudentView.setPayloadToJSON(201, payload=results)
     else:
         return StudentView.setPayloadToJSON(400)
+
+
+@student_blueprint.route('/api/student/image_rename', methods=['POST'])
+def api_image_rename_students():
+    request_body = request.json
+    if request_body:
+        student_id = str(request_body['student_id'])
+        new_student_id = str(request_body['new_student_id'])
+        cloudResponse = CloudService.rename(student_id, new_student_id, "student")
+        results = cloudResponse["results"]
+        return StudentView.setPayloadToJSON(201, payload=results)
+    else:
+        return StudentView.setPayloadToJSON(400)

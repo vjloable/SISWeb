@@ -138,19 +138,14 @@ def api_image_destroy_colleges():
     else:
         return CollegeView.setPayloadToJSON(400)
 
-# @college_blueprint.route('/api/college/image_reupload', methods=['POST'])
-# def api_image_reupload_colleges():
-#     request_file = request.files
-#     request_body = request.form
-#     print(request_body)
-#     if request_body:
-#         new_code = str(request_body['code'])
-#         if 'image' in request_file:
-#             image = request_file['image']
-#             cloudResponse = CloudService.upload(image, new_code, "college")
-#             results = cloudResponse["results"]
-#             return CollegeView.setPayloadToJSON(201, payload=results)
-#         else:
-#             return 'No image provided', 400
-#     else:
-#         return CollegeView.setPayloadToJSON(400)
+@college_blueprint.route('/api/college/image_rename', methods=['POST'])
+def api_image_rename_colleges():
+    request_body = request.json
+    if request_body:
+        code = str(request_body['code'])
+        new_code = str(request_body['new_code'])
+        cloudResponse = CloudService.rename(code, new_code, "college")
+        results = cloudResponse["results"]
+        return CollegeView.setPayloadToJSON(201, payload=results)
+    else:
+        return CollegeView.setPayloadToJSON(400)
