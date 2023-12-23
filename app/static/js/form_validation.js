@@ -487,7 +487,7 @@ $('#editCollegeForm').form({
   onSuccess: function () {
     var allFields = $('#editCollegeForm').form('get values');
     let action = 'edit';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+allFields['code']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a college code of '+ allFields['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -533,7 +533,6 @@ $('#editCollegeForm').form({
               return false;
             } else {
               var previousImage = $('#imagePreviewCollege').attr('src');
-              alert(previousImage);
               content = "Successfully " + action + "ed a College named " + allFields['name'] + ".";
               status = 'Success!';
               icon = 'check circle outline green';
@@ -703,7 +702,7 @@ $('#editCourseForm').form({
   onSuccess: function () {
     var allFields = $('#editCourseForm').form('get values');
     let action = 'edit';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a course code of '+data["new_code"]+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a course code of '+ allFields['code']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -750,7 +749,6 @@ $('#editCourseForm').form({
               return false;
             } else {
               var previousImage = $('#imagePreviewCourse').attr('src');
-              alert(previousImage);
               content = "Successfully " + action + "ed a Course named " + allFields['name'] + ".";
               status = 'Success!';
               icon = 'check circle outline green';
@@ -769,7 +767,7 @@ $('#editCourseForm').form({
                   // - upload new image
                   $("#yesConfirmButton").toggleClass("loading disabled");
                   $("#noConfirmButton").toggleClass("disabled");
-                  uploadImage(action, "College")
+                  uploadImage(action, "Course")
                     .then((uploadResponse) => {
                       var data = {
                         "code": allFields['code'],
@@ -952,7 +950,7 @@ $('#editStudentForm').form({
   onSuccess: function () {
     var allFields = $('#editStudentForm').form('get values');
     let action = 'edit';
-    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a student id of '+data['student_id']+'?');
+    $('#headerConfirmationModal').text('Are you sure you want to '+action+' a record with a student id of '+allFields['student_id']+'?');
     $('#contentConfirmationModal').text('By confirming to '+action+', any changes made are permanent and irreversible. Hit Yes if you are sure to '+action+' and No if not.');
     $('#iconConfirmationModal').toggleClass('question circle outline');
     $('#confirmationModal')
@@ -1002,7 +1000,6 @@ $('#editStudentForm').form({
               return false;
             } else {
               var previousImage = $('#imagePreviewStudent').attr('src');
-              alert(previousImage);
               content = "Successfully " + action + "ed a Student named " + allFields['name'] + ".";
               status = 'Success!';
               icon = 'check circle outline green';
