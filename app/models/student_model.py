@@ -93,12 +93,12 @@ class StudentModel:
             if offset >= 0:
                 if query == "":
                     cursor.execute(f"""
-                    SELECT Students.*, CollegeQuery.Name FROM Students 
+                    SELECT Students.*, CollegeQuery.CollegeName FROM Students 
                     LEFT JOIN (
-                        SELECT Colleges.Name, Courses.College, Courses.Code
-                        FROM Colleges LEFT JOIN Courses On Colleges.Code = Courses.College
+                        SELECT Colleges.Code AS CollegeCode, Colleges.Name AS CollegeName, Courses.College AS CourseCollege, Courses.Code AS CourseCode
+                        FROM Colleges LEFT JOIN Courses ON Colleges.Code = Courses.College
                     ) AS CollegeQuery
-                    ON Students.Course = CollegeQuery.Code
+                    ON Students.Course = CollegeQuery.CourseCode
                     LIMIT 11 
                     OFFSET {offset};
                     """)
@@ -107,18 +107,20 @@ class StudentModel:
                     return {'success': True, 'results': results}
                 else:
                     cursor.execute(f"""
-                    SELECT Students.*, CollegeQuery.Name FROM Students 
+                    SELECT Students.*, CollegeQuery.CollegeName FROM Students 
                     LEFT JOIN (
-                        SELECT Colleges.Name, Courses.College, Courses.Code
-                        FROM Colleges LEFT JOIN Courses On Colleges.Code = Courses.College
+                        SELECT Colleges.Code AS CollegeCode, Colleges.Name AS CollegeName, Courses.College AS CourseCollege, Courses.Code AS CourseCode
+                        FROM Colleges LEFT JOIN Courses ON Colleges.Code = Courses.College
                     ) AS CollegeQuery
-                    ON Students.Course = CollegeQuery.Code
-                    WHERE StudentId LIKE '%{query}%' OR 
-                    Firstname LIKE '%{query}%' 
-                    OR Lastname LIKE '%{query}%'
-                    OR Course LIKE '%{query}%' 
-                    OR Year LIKE '%{query}%' OR 
-                    Gender LIKE '%{query}%'
+                    ON Students.Course = CollegeQuery.CourseCode
+                    WHERE Students.StudentId LIKE '%{query}%' 
+                    OR Students.Firstname LIKE '%{query}%' 
+                    OR Students.Lastname LIKE '%{query}%'
+                    OR Students.Course LIKE '%{query}%' 
+                    OR Students.Year LIKE '%{query}%' 
+                    OR Students.Gender LIKE '%{query}%'
+                    OR CollegeQuery.CollegeName LIKE '%{query}%' 
+                    OR CollegeQuery.CollegeCode LIKE '%{query}%' 
                     LIMIT 11 
                     OFFSET {offset};
                     """);
@@ -128,18 +130,20 @@ class StudentModel:
                     return {'success': success, 'results': results}
             else:
                 cursor.execute(f"""
-                SELECT Students.*, CollegeQuery.Name FROM Students 
+                SELECT Students.*, CollegeQuery.CollegeName FROM Students 
                 LEFT JOIN (
-                    SELECT Colleges.Name, Courses.College, Courses.Code
-                    FROM Colleges LEFT JOIN Courses On Colleges.Code = Courses.College
+                    SELECT Colleges.Code AS CollegeCode, Colleges.Name AS CollegeName, Courses.College AS CourseCollege, Courses.Code AS CourseCode
+                    FROM Colleges LEFT JOIN Courses ON Colleges.Code = Courses.College
                 ) AS CollegeQuery
-                ON Students.Course = CollegeQuery.Code
-                WHERE StudentId LIKE '%{query}%' OR 
-                Firstname LIKE '%{query}%' 
-                OR Lastname LIKE '%{query}%'
-                OR Course LIKE '%{query}%' 
-                OR Year LIKE '%{query}%' OR 
-                Gender LIKE '%{query}%';
+                ON Students.Course = CollegeQuery.CourseCode
+                WHERE Students.StudentId LIKE '%{query}%' 
+                OR Students.Firstname LIKE '%{query}%' 
+                OR Students.Lastname LIKE '%{query}%'
+                OR Students.Course LIKE '%{query}%' 
+                OR Students.Year LIKE '%{query}%' 
+                OR Students.Gender LIKE '%{query}%'
+                OR CollegeQuery.CollegeName LIKE '%{query}%' 
+                OR CollegeQuery.CollegeCode LIKE '%{query}%';
                 """)
                 results = list(cursor.fetchall())
                 connection.commit()
@@ -159,12 +163,12 @@ class StudentModel:
             if query != "":
                 cursor.execute(f"""
                 SELECT COUNT(*) FROM Students
-                WHERE StudentId LIKE '%{query}%' OR 
-                Firstname LIKE '%{query}%' 
+                WHERE StudentId LIKE '%{query}%' 
+                OR Firstname LIKE '%{query}%' 
                 OR Lastname LIKE '%{query}%'
                 OR Course LIKE '%{query}%' 
-                OR Year LIKE '%{query}%' OR 
-                Gender LIKE '%{query}%';
+                OR Year LIKE '%{query}%' 
+                OR Gender LIKE '%{query}%';
                 """)
                 results = cursor.fetchone()[0]
                 connection.commit()
