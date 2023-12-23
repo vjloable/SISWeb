@@ -30,7 +30,7 @@ class CourseModel:
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            SELECT Courses.Code, Courses.Name, Colleges.Name, Courses.ImgURL FROM Courses 
+            SELECT Courses.Code, Courses.Name, Colleges.Name, Colleges.Code, Courses.ImgURL FROM Courses 
             LEFT JOIN Colleges
             ON Colleges.Code = Courses.College
             WHERE Courses.Code = '{}';
