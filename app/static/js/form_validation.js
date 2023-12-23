@@ -432,7 +432,7 @@ $('#addStudentForm').form({
               uploadImage(action, "Student")
                 .then((uploadResponse) => {
                   var data = {
-                    "code": allFields['student_id'],
+                    "student_id": allFields['student_id'],
                     "url": uploadResponse.url
                   }
 
@@ -1015,7 +1015,7 @@ $('#editStudentForm').form({
               return false;
             } else {
               var previousImage = $('#imagePreviewStudent').attr('src');
-              content = "Successfully " + action + "ed a Student named " + allFields['name'] + ".";
+              content = "Successfully " + action + "ed a Student named " + allFields["firstname"] + " " + allFields["lastname"] + ".";
               status = 'Success!';
               icon = 'check circle outline green';
               if (previousImage.slice(0, 4) == "blob") {
@@ -1036,7 +1036,7 @@ $('#editStudentForm').form({
                   uploadImage(action, "Student")
                     .then((uploadResponse) => {
                       var data = {
-                        "code": allFields['code'],
+                        "student_id": allFields['student_id'],
                         "url": uploadResponse.url
                       }
                       // - set the new image url
@@ -1065,7 +1065,7 @@ $('#editStudentForm').form({
                     });
                 });
               } else if (previousImage == "") {
-                content = "Successfully " + action + "ed a Student named " + allFields['name'] + ".";
+                content = "Successfully " + action + "ed a Student named " + allFields["firstname"] + " " + allFields["lastname"] + ".";
                 status = 'Success!';
                 icon = 'check circle outline green'
                 // - delete the original
