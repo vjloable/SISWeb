@@ -35,7 +35,10 @@ $('#dropdownMenuAddCollege').dropdown({
     },
 });
 
-$('#dropdownMenuEditCollege').dropdown({
+$('#dropdownMenuEditCollege')
+.dropdown('set value', new URL(window.location.href).searchParams.get("college_code"))
+.dropdown('set text', new URL(window.location.href).searchParams.get("college"))
+.dropdown({
     clearable: true,
     apiSettings: {
         url: '/api/college/list',
@@ -66,9 +69,7 @@ $('#dropdownMenuEditCollege').dropdown({
             console.log("error");
         },
     },
-})
-.dropdown('set value', new URL(window.location.href).searchParams.get("college"))
-.dropdown('set text', new URL(window.location.href).searchParams.get("college"));
+});
 
 $('#dropdownMenuAddCourse').dropdown({
     clearable: true,
@@ -103,7 +104,10 @@ $('#dropdownMenuAddCourse').dropdown({
     },
 });
 
-$('#dropdownMenuEditCourse').dropdown({
+$('#dropdownMenuEditCourse')
+.dropdown('set value', new URL(window.location.href).searchParams.get("course_code"))
+.dropdown('set text', new URL(window.location.href).searchParams.get("course"))
+.dropdown({
     clearable: true,
     apiSettings: {
         url: '/api/course/list',
@@ -134,6 +138,4 @@ $('#dropdownMenuEditCourse').dropdown({
             console.log("error");
         },
     },
-})
-.dropdown('set value', new URL(window.location.href).searchParams.get("course"))
-.dropdown('set text', new URL(window.location.href).searchParams.get("course"));
+});
