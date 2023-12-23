@@ -326,9 +326,9 @@ $(document).on('click', '.gotoEditCourse', function() {
       results = (response.results+"").split(",");
       course_code = results[0];
       course_name = results[1];
-      college_code = results[2];
+      college = results[2];
       course_img_url = results[3];
-      window.location.href = "/course/update?code="+course_code+"&name="+course_name+"&college="+college_code+"&img_url="+course_img_url;
+      window.location.href = "/course/update?code="+course_code+"&name="+course_name+"&college="+college+"&img_url="+course_img_url;
     },
   });
 });
