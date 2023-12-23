@@ -92,9 +92,9 @@ def api_delete_student():
 def api_get_students():
     query = str(request.args.get('query', "")).strip()
     page = int(request.args.get('page', 1))
-    session['lastTab'] = "Student"  # SESSION
-    result_count = StudentModel.count_rows()
     if page > 0:
+        session['lastTab'] = "Student"  # SESSION
+        result_count = StudentModel.count_rows()
         if result_count['results'] > 0:
             page = 1 if page < 1 else page
             page_size = 11

@@ -71,8 +71,8 @@ def api_delete_college():
 def api_get_colleges():
     query = str(request.args.get('query', "")).strip()
     page = int(request.args.get('page', 1))
-    session['lastTab'] = "College" #SESSION
     if page > 0:
+        session['lastTab'] = "College"  # SESSION
         result_count = CollegeModel.count_rows()
         if result_count['results'] > 0:
             page = 1 if page < 1 else page
