@@ -8,13 +8,28 @@ $('.coupled.modal')
 function previewImage(event, category) {
   var output = document.getElementById('imagePreview' + category);
   const ALLOWED_EXTENSIONS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+  const ALLOWED_SIZE = 1000000;
   try {
     var file = event.target.files[0];
     if (ALLOWED_EXTENSIONS.includes(file.type)) {
-      output.src = URL.createObjectURL(file);
-      output.onload = function () {
-        URL.revokeObjectURL(output.src);
-        $('#imagePreview' + category).removeClass('hidden');
+      if (ALLOWED_SIZE <= file.size) {
+        output.src = URL.createObjectURL(file);
+        output.onload = function () {
+          URL.revokeObjectURL(output.src);
+          $('#imagePreview' + category).removeClass('hidden');
+        }
+      } else {
+        var status = "Warning!";
+        var content = "The submitted image exceeds 1MB file size limit. Please select another image.";
+        var icon = "exclamation triangle yellow";
+        $('#statusAlertModal').text(status);
+        $('#contentAlertModal').text(content);
+        $("#iconAlertModal").toggleClass(icon);
+        $('#alertModal').modal({
+          closable: false,
+          onDeny: function () { },
+          onApprove: function () { }
+        }).modal('show');  
       }
     } else {
       var status = "Warning!";
