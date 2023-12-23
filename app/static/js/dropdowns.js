@@ -10,7 +10,7 @@ $('#dropdownMenuAddCollege').dropdown({
         cache: false,
         saveRemoteData: false,
         beforeSend: function(settings) {
-            const query = $('#dropdownMenuCollege input.search').val().trim();
+            const query = $('#dropdownMenuAddCollege input.search').val();
             settings.data = {query: query, page: -1};
             settings.contentType = 'application/json';
             return settings;
@@ -43,7 +43,7 @@ $('#dropdownMenuEditCollege').dropdown({
         cache: false,
         saveRemoteData: false,
         beforeSend: function(settings) {
-            const query = $('#dropdownMenuCollege input.search').val().trim();
+            const query = $('#dropdownMenuEditCollege input.search').val();
             settings.data = {query: query, page: -1};
             settings.contentType = 'application/json';
             return settings;
@@ -78,7 +78,7 @@ $('#dropdownMenuAddCourse').dropdown({
         cache: false,
         saveRemoteData: false,
         beforeSend: function(settings) {
-            const query = $('#dropdownMenuCourse input.search').val().trim();
+            const query = $('#dropdownMenuAddCourse input.search').val();
             settings.data = { query: query, page: -1 };
             settings.contentType = 'application/json';
             return settings;
@@ -111,7 +111,7 @@ $('#dropdownMenuEditCourse').dropdown({
         cache: false,
         saveRemoteData: false,
         beforeSend: function(settings) {
-            const query = $('#dropdownMenuCourse input.search').val().trim();
+            const query = $('#dropdownMenuEditCourse input.search').val();
             settings.data = { query: query, page: -1 };
             settings.contentType = 'application/json';
             return settings;
