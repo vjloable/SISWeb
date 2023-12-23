@@ -327,8 +327,9 @@ $(document).on('click', '.gotoEditCourse', function() {
       course_code = results[0];
       course_name = results[1];
       college = results[2];
-      course_img_url = results[3];
-      window.location.href = "/course/update?code="+course_code+"&name="+course_name+"&college="+college+"&img_url="+course_img_url;
+      college_code = results[3];
+      course_img_url = results[4];
+      window.location.href = "/course/update?code="+course_code+"&name="+course_name+"&college="+college+"&college_code="+college_code+"&img_url="+course_img_url;
     },
   });
 });
@@ -349,11 +350,12 @@ $(document).on('click', '.gotoEditStudent', function() {
       student_id = results[0]; 
       firstname = results[1];
       lastname = results[2];
-      course = results[3];
-      year = results[4];
-      gender = results[5];
-      student_img_url = results[6];
-      window.location.href = "/student/update?student_id="+student_id+"&firstname="+firstname+"&lastname="+lastname+"&course="+course+"&year="+year+"&gender="+gender+"&img_url="+student_img_url;
+      year = results[3];
+      gender = results[4];
+      course = results[5];
+      course_code = results[6];
+      student_img_url = results[7];
+      window.location.href = "/student/update?student_id="+student_id+"&firstname="+firstname+"&lastname="+lastname+"&year="+year+"&gender="+gender+"&course="+course+"&course_code="+course_code+"&img_url="+student_img_url;
     },
   });
 });
