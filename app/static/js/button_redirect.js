@@ -14,11 +14,11 @@ function onclickGenerateTabContent(page, type) {
       tab = "college"
       break;
   };
-  
+  var query = $("#"+tab+"InputSearch").val();
   $.ajax({
     type: "GET",
     url: "/api/"+tab+"/list",
-    data: {"page": page},
+    data: {"query": query, "page": page},
     success: function (results) {
       $('#' + tab + 'Tab').html(results.content);
       $('#' + tab + 'TabControls').html(results.buttons);
