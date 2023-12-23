@@ -101,6 +101,18 @@ def api_get_courses():
         model_response = CourseModel.get_list(-1, query)
         return CourseView.setPayloadToJSON(201, payload=model_response)
 
+
+@course_blueprint.route('/api/course/image_url_set', methods=['POST'])
+def api_image_url_courses():
+    request_body = request.get_json()
+    if request_body:
+        code = str(request_body['code'])
+        url = str(request_body['url'])
+        model_response = CourseModel.upload_image_url(code, url)
+        return CourseView.setPayloadToJSON(201, payload=model_response)
+    else:
+        return CourseView.setPayloadToJSON(400)
+
 @course_blueprint.route('/api/course/image_upload', methods=['POST'])
 def api_upload_courses():
     request_file = request.files
