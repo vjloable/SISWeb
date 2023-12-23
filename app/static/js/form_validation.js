@@ -147,7 +147,7 @@ $('#addCollegeForm').form({
                   }
                   
                   if (uploadResponse.url == "") {
-                    content += "\nUnfortunately, the image was not uploaded.";
+                    content += "\nWith no image was uploaded.";
                   } else {
                     $.ajax({
                       type: "POST",
@@ -269,7 +269,7 @@ $('#addCourseForm').form({
                   }
 
                   if (uploadResponse.url == "") {
-                    content += "\nUnfortunately, the image was not uploaded.";
+                    content += "\nWith no image was uploaded.";
                   } else {
                     $.ajax({
                       type: "POST",
@@ -422,7 +422,7 @@ $('#addStudentForm').form({
                   }
 
                   if (uploadResponse.url == "") {
-                    content += "\nUnfortunately, the image was not uploaded.";
+                    content += "\nWith no image was uploaded.";
                   } else {
                     $.ajax({
                       type: "POST",
