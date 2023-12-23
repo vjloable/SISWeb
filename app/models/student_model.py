@@ -11,7 +11,7 @@ class StudentModel:
         cursor = connection.cursor()
         try:
             cursor.execute("""
-            INSERT INTO Students (StudentId, Firstname, Lastname, Course, Year, Gender)
+            INSERT INTO Students (StudentId, Firstname, Lastname, Course, Year, Gender, ImgURL)
             VALUES ("{}", "{}", "{}", "{}", "{}", "{}", "");
             """.format(student_id, firstname, lastname, course, year, gender)
             )
