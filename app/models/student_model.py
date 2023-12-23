@@ -109,7 +109,7 @@ class StudentModel:
                     cursor.execute(f"""
                     SELECT Students.*, CollegeQuery.CollegeName FROM Students 
                     LEFT JOIN (
-                        SELECT Colleges.Code AS CollegeCode, Colleges.Name AS CollegeName, Courses.College AS CourseCollege, Courses.Code AS CourseCode
+                        SELECT Colleges.Code AS CollegeCode, Colleges.Name AS CollegeName, Courses.College AS CourseCollege, Courses.Name AS CourseName, Courses.Code AS CourseCode
                         FROM Colleges LEFT JOIN Courses ON Colleges.Code = Courses.College
                     ) AS CollegeQuery
                     ON Students.Course = CollegeQuery.CourseCode
@@ -119,6 +119,7 @@ class StudentModel:
                     OR Students.Course LIKE '%{query}%' 
                     OR Students.Year LIKE '%{query}%' 
                     OR Students.Gender LIKE '%{query}%'
+                    OR CollegeQuery.CourseName LIKE '%{query}%' 
                     OR CollegeQuery.CollegeName LIKE '%{query}%' 
                     OR CollegeQuery.CollegeCode LIKE '%{query}%' 
                     LIMIT 11 
@@ -142,6 +143,7 @@ class StudentModel:
                 OR Students.Course LIKE '%{query}%' 
                 OR Students.Year LIKE '%{query}%' 
                 OR Students.Gender LIKE '%{query}%'
+                OR CollegeQuery.CourseName LIKE '%{query}%' 
                 OR CollegeQuery.CollegeName LIKE '%{query}%' 
                 OR CollegeQuery.CollegeCode LIKE '%{query}%';
                 """)
