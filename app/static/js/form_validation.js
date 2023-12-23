@@ -666,7 +666,7 @@ $('#editCollegeForm').form({
 
 $('#editCourseForm').form('set values', {
   code: new URL(window.location.href).searchParams.get("code"),
-  name: new URL(window.location.href).searchParams.get("name"),
+  name: new URL(window.location.href).searchParams.get("name")
 })
 
 $('#editCourseForm').form({
